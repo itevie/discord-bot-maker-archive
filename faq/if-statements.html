@@ -1,0 +1,46 @@
+<h1>If Statements</h1>
+<p>If statements are a crucial thing to make your bot, they are able to check if a certain condition matches a criteria, if it doesn't you can have it run some other actions instead.</p>
+<p>For example:</p>
+<code>
+    If {{message:content}} is hello<br>
+    &nbsp;reply-to-authors-message Hello!<br>
+    If {{message:content}} is bye<br>
+    &nbsp;reply-to-authors-message Bye!<br>
+</code>
+<p>Obviously, this won't work as it is not in action form.</p>
+<p>But what happens here is, it first checks if the message content is "hello",
+    <br>&nbsp;If it is: it'll respond with "hello!" and continue to the next action
+    <br>&nbsp;If it isn't: it'll skip the action after the if (reply-to-authors-message Hello!) and continue after that
+</p>
+<p>After this it'll do the same with the second if.</p>
+<h2>One action if's</h2>
+<p>At the moment, full ifs do not exist so one action ifs exist, these check a condition and only execute or skip the action after this
+    <br>(you can see this visually as there is an indent in the action creator.)
+</p>
+<h2>The types</h2>
+<table>
+    <tr>
+        <th>Type</th>
+        <th>What it does</th>
+    </tr>
+    <tr>
+        <td>Equals</td>
+        <td>Runs the next action only if statement 1 IS statement 2</td>
+    </tr>
+    <tr>
+        <td>Not Equals</td>
+        <td>Runs only if statement 1 IS NOT statement 2</td>
+    </tr>
+    <tr>
+        <td>Starts With</td>
+        <td>Runs only if statement 1 STARTS WITH statement 2</td>
+    </tr>
+    <tr>
+        <td>Ends With</td>
+        <td>Runs only if statement 1 ENDS WITH statement 2</td>
+    </tr>
+    <tr>
+        <td>Includes</td>
+        <td>Runs only if statement 1 CONTAINS statement 2</td>
+    </tr>
+</table>

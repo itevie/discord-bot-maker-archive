@@ -1,0 +1,27 @@
+<h1>How to use the Database</h1>
+<p>The databse is used to store bot-wide variables that can be used at any time and are saved permanently</p>
+<p>Unlike command variables, these never auto-delete after it is done. Unlike variables defined by you, they can be changed and deleted within a command's actions.</p>
+<h2>Using the Database UI</h2>
+<p>In the Database page, there is a couple buttons to add new ones, search etc.
+    <br>
+    There are also a list of all database keys below.
+</p>
+<h2>Using the Database within commands</h2>
+<p>You can get values, change values and delete keys within the command's actions</p>
+<h3>Fetching a value</h3>
+<p>To fetch a value in your database, create a new action and set it to "Fetch Database Item" and in the ID section, put in the name of the key</p>
+<p>After this, it will be set to the {{answer}} variable for you to use later</p>
+<p>You can also use {{db:<i>key</i>}} anywhere to, where <i>key</i> is the key name</p>
+<h3>Updating a value</h3>
+<p>To update a value, you must create a new action and set it to "Update Database Item", put the ID section as the key name, and the content section as to what to set it to.</p>
+<h3>Deleting a value</h3>
+<p>To delete a value, you must create a new action and set it to "Delete Databsae Item", put the ID section as the key name and you're done.</p>
+<h2>Naming Convention</h2>
+<p>As this database does not have subkeys, you must work around this.</p>
+<p>For saving data in guilds, I recommend the following scheme: <code>Guild ID_Settings</code>, a few examples are:</p>
+<ol>
+    <li><code>db:972599308966846506_prefix</code> - The guild's prefix</li>
+    <li><code>db:972599308966846506_users_957418858866683925_xp</code> - A user in the guild's XP</li>
+    <li><code>db:{{message:guildId}}_users_{{message:author:id}}_xp</code> - Same as above but the IDs depend on who ran it</li>
+</ol>
+<p>Obviously, you do not have to follow this, though it is recommended.</p>

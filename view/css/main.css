@@ -1,0 +1,57 @@
+.main {
+    margin-left: 120px;
+    position: absolute;
+}
+
+.main>div {
+    display: none;
+}
+
+.sidebar {
+    width: 100px;
+    height: 100%;
+    position: fixed;
+    background-color: #1c1d20;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sidebar-bottom {
+    bottom: 5px;
+    left: 0;
+    position: absolute;
+}
+
+
+.sidebar>button,
+.sidebar>div>button {
+    border-radius: 5px;
+    border-style: none;
+    border-width: 0;
+    margin: 3px;
+    width: calc(100% - 16px);
+    margin-left: 8px;
+    background-color: inherit;
+}
+
+.sidebar>button:hover,
+.sidebar>div>button:hover {
+    background-color: #a0a5b8;
+}
+
+.sidebar>div>label {
+    padding: 10px;
+}
+
+.footer {
+    bottom: 0;
+    left: 100px;
+    width: 100vw;
+    position: fixed;
+    background-color: #222;
+}
+
+.footer>p {
+    margin: 5px;
+}

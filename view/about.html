@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About</title>
+    <link rel="stylesheet" href="css/about.css">
+</head>
+
+<body>
+    <div class="center">
+        <h1>About</h1>
+        <div>
+            <label id="name">name</label>
+            &nbsp;-&nbsp;
+            <label id="version">version</label>
+            <div class="fullCenter">
+                <label id="electron"></label><br>
+                <label id="node"></label>
+                <br><br>
+                <b>--- Credits ---</b><br><br>
+                <label>Embed Builder: <a class="link"
+                        onclick="window.electron.openExternalLink('https:\/\/github.com/Glitchii/embedbuilder')">glitchii
+                        embedbuilder</a></label>
+            </div>
+            <div class="bottom">
+                <img src="image/discord-logo.svg"
+                    onclick="window.electron.openExternalLink('https:\/\/discord.gg/rz4SGAFzEj')">
+            </div>
+            <div class="bottomCenter">
+                <label>Created by Evie#9775</label>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        let config = window.electron.getConfig();
+
+        document.getElementById("name").innerHTML = config.name;
+        document.getElementById("version").innerHTML = config.version;
+        document.getElementById("electron").innerHTML = "Running on Electron v" + config.electron;
+        document.getElementById("node").innerHTML = "Node " + config.node;
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key == "Escape") window.electron.closeAbout();
+    })
+</script>
+
+</html>

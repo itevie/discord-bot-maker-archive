@@ -1,0 +1,60 @@
+.tooltip-icon {
+    margin: 0;
+    padding: 0;
+    width: 10px;
+}
+
+.warning-alert {
+    width: 100%;
+    background-color: #0000FF55;
+    border-color: #5555FF55;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px;
+}
+
+.danger {
+    background-color: #FF000055;
+    border-color: #FF555555;
+}
+
+.contentDiv {
+    margin: 10px;
+    padding: 10px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 10px;
+    background-color: #333;
+    box-shadow: black 2px 2px;
+    max-width: 300px;
+}
+
+.contentDiv>* {
+    margin: 5px;
+}
+
+.strikethrough {
+    transition: 0.3s;
+}
+
+.strikethrough:hover {
+    text-decoration: line-through;
+    color: red;
+    margin-left: 5px;
+}
+
+.pfp {
+    max-width: 48px;
+    border-radius: 10px;
+    margin: 3px;
+}
+
+.noselect, img {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }

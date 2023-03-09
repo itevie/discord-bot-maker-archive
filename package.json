@@ -1,0 +1,40 @@
+{
+  "name": "discord-bot-maker",
+  "version": "1.0.3",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "build": {
+    "appId": "com.itevie.discordbotmaker",
+    "productName": "Discord Bot Maker",
+    "win": {
+      "publisherName": "itevie",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "keywords": [],
+  "author": "evie",
+  "license": "ISC",
+  "description": "Discord bot maker",
+  "dependencies": {
+    "discord.js": "^14.7.1",
+    "esbuild": "0.17.11",
+    "minimist": "^1.2.8",
+    "ms-prettify": "^1.4.0",
+    "uuid": "^9.0.0",
+    "yargs": "^17.7.1"
+  },
+  "devDependencies": {
+    "electron": "^23.0.0"
+  }
+}

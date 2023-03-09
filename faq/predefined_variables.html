@@ -1,0 +1,45 @@
+<h1>How predefined variables work</h1>
+<p>First of all, these variables are all enclosed in {{ }} just like your own variables, they can be used in any input in the command creator</p>
+<p>Predefined variables are variables that are automatically created in certain circumstances</p>
+<h2>Arguments</h2>
+<p>These are parts of a command, for example: <code>!ban @john hello</code> the arguments (or args) in this example are @john and "hello"</p>
+<p>Each arg has its own variable assigned: {{argn}} where n is the index in which it appears</p>
+<h3>Example</h3>
+<code>!ban @john "spamming too much"</code>
+<p>The variables that will be assigned in the following example are: </p>
+<ol>
+    <li>{{arg1}} - John's User ID</li>
+    <li>{{arg2}} - "Spamming too much"</li>
+</ol>
+<h3>After Args</h3>
+<p>These work similar to args, but they give everything after a certain argument, for example:</p>
+<p>If I ran: <code>!ban @john Not enough fun</code></p>
+<p>And my code was:<br><code>ban {{arg1}} {{afterarg1}}</code></p>
+<p>{{arg1}} would be "@john" and {{afterarg1}} would be "Not enough fun"</p>
+<div class="warning-alert" id="botManager-noBots-alert" >
+    <b>Information</b>
+    <p>The argument types are ONLY defined when the command type uses a prefix, not if it just checks if the message contains some string.</p>
+</div>
+<h2>Message Variables</h2>
+<p>All of these variables start with <code>message:</code> for example: {{message:id}}</p>
+<p>A list of common ones are:</p>
+<ul>
+    <li>{{message:id}}</li>
+    <li>{{message:content}}</li>
+    <li>{{message:reference:messageId}} - If the message replies to another message it will give that message's ID</li>
+    <li>{{message:author:id}} - The ID of the person who created the message</li>
+</ul>
+<h2>Result Variable</h2>
+<p>This is a crucial variable to be able to do mostly anything, it is accessed using {{result}} anywhere</p>
+<p>It is set to the result of the previous ran action. For example:</p>
+<code>add 2 2</code>
+<p>There is absolutely no way to access the result from the above except {{result}}: </p>
+<code>add 2 2<br>set-variable x {{result}}<br>message-author-reply {{x}}</code>
+<p>This would work, obviously in the action UI form</p>
+<h2>Misc variables</h2>
+<ul>
+    <li>{{uptime}} - Your bot's uptime in milliseconds</li>
+    <li>{{prefix}} - The bot's prefix</li>
+    <li>{{ping}} - The bot's ping</li>
+    <li>{{api_ping}} - The bot's ping to discord.com</li>
+</ul>

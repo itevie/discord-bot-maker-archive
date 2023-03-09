@@ -1,0 +1,51 @@
+
+
+.strikethrough:active {
+    opacity: 0;
+}
+
+.actionListContainer {
+    margin: 10px;
+    width: auto;
+}
+
+.action {
+    padding: 10px;
+    width: 400px;;
+}
+
+.action>b {
+    color: gray;
+    text-decoration:wavy;
+}
+
+
+.newCommand-editAction-inputs {
+    padding: 10px;
+}
+
+.newCommand-editAction-inputs>div {
+    padding: 3px;
+}
+
+.inline-comment {
+    padding: 10px;
+    margin: 5px;
+    border-left-color: white;
+    border-left-style: solid;
+}
+
+.action-movement {
+    margin-right: 0;   
+}
+
+.actionLog {
+    border-color: black;
+    border-style: solid;
+    border-width: 5px;
+    border-radius: 10px;
+    overflow: auto;
+    font-family: monospace;
+    width: 80vw;
+    height: 60vh;
+}

@@ -1,0 +1,13 @@
+<h1>The Command Types</h1>
+<p>There are a few ways to trigger a command, each have their own differences.</p>
+<h2>The Prefix Type</h2>
+<p>This one is only ran when the message content starts with your predefined prefix
+    <br>
+    e.g. if your prefix is <code>!</code> then <code>!help</code> would run it
+</p>
+<p>This is the only command type that has {{arg}} variables, learn more <button onclick="showFAQ('predefined_variables');">here</button></p>
+<h2>The Contains Type</h2>
+<p>This is ran if the message content contains a specific keyword<br>e.g. if your looking for "hello", and I type "Hello world!", your command would run</p>
+<p>These do NOT have {{arg}} variables</p>
+<h2>Message Sent</h2>
+<p>Ran when a message is sent.</p>

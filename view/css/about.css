@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #3d3f46;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    animation: fadeIn 0.3s;
+}
+
+.center {
+    text-align: center;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.fullCenter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 70%;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.bottom {
+    bottom: 0;
+    position: fixed;
+    margin: 16px;
+}
+
+.bottomCenter {
+    bottom: 0;
+    position: fixed;
+    margin: 16px;
+    width: 100%;
+}
+
+.bottom>img {
+    width: 32px;
+    cursor: pointer;
+}
+
+.link {
+    text-decoration: underline;
+    color: lightblue;
+    cursor: pointer;
+}

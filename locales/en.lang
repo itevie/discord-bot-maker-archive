@@ -1,0 +1,37 @@
+LANG_NAME=en
+
+sidebar.home=Home
+sidebar.settings=Settngs
+sidebar.bots=Bots
+sidebar.log=Log
+sidebar.bot.actions=Actions
+sidebar.bot.commands=Commands
+sidebar.bot.variables=Variables
+sidebar.bot.resources=Resources
+sidebar.bot.database=Database
+sidebar.bot.permissions=Permissions
+sidebar.bot.settings=Settings
+sidebar.bot.details=Details
+
+button.here=Here
+
+database.info=Store key-value data here, learn more 
+
+settings.header=App Settings
+settings.informational-alerts=Show informational alerts
+settings.notifications=Show notifications
+settings.example=Example
+settings.restart=Restart
+settings.force-enable-buttons=Force Enable Buttons
+settings.about=About
+
+log.header=All Of Your Bot's Log
+log.select=Select what you want to see:
+log.type.general=General log (blue)
+log.type.bot-events=Bot Events (orange)
+log.type.bot-debug=Bot Debug (green)
+log.button.clear-log=Clear Log
+
+commands.header=Command Manager
+commands.create-command=Create Command
+commands.header.commandList=Command List
