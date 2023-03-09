@@ -31,6 +31,9 @@ let actions = {
     }
 }
 
+let modulesList = [];
+module.exports.modulesList = modulesList;
+
 let webActions = {};
 module.exports.webActions = webActions;
 
@@ -53,6 +56,7 @@ for (let i in moduleList) {
     let module = require(moduleList[i]);
     let ac = module.actions;
     let details = module.details;
+    modulesList.push(details.name);
     let moduleName = details.name.toLowerCase();
 
     for (let a in ac) {
@@ -192,10 +196,6 @@ module.exports.execute = async (options) => {
             return;
         }
         data.variables = variables;
-
-        for (let i in data.action) {
-            data.action[i] = parse(data.action[i], variables, client, botId);
-        }
 
         if (type == "variables:set-variable") {
             variables[data.action.id] = parse(data.action.content, variables, client, botId);

@@ -5,7 +5,13 @@ let {
 const execute = require(__dirname + "/../utils/execute.js").execute;
 
 module.exports.init = (client, id) => {
-    let botData = JSON.parse(JSON.stringify(botManager.data.bots[id]));
+    try {
+        var botData = JSON.parse(JSON.stringify(botManager.data.bots[id]));
+    } catch (err) {
+        return global.sendError("Failed to start bot, your bot's data may be corrupt or missing: " + err.toString());
+    }
+
+    if (!botData) return;
 
     // DEFAULT FUNCTIONS
     function sendInfo(text) {

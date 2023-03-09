@@ -4,7 +4,6 @@ const {
 } = require('electron');
 const botManager = require(__dirname + "/../botManager");
 const botRunner = require(__dirname + "/../botRunner.js");
-const logger = require(__dirname + "/../logger");
 
 // Create event, returns success
 ipcMain.on("createEvent", (event, data) => {

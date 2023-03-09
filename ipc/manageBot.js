@@ -7,8 +7,6 @@ const {
 const fs = require("fs");
 const botManager = require(__dirname + "/../botManager");
 const botRunner = require(__dirname + "/../botRunner.js");
-const logger = require(__dirname + "/../logger");
-
 // Start the bot
 ipcMain.on("startBot", (event, id) => {
     if (botManager.validate(id) == false) return;

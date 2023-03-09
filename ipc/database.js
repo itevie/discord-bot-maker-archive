@@ -5,7 +5,6 @@ const {
 } = require('electron');
 const botManager = require(__dirname + "/../botManager");
 const { log, clearLog } = require(__dirname + "/../ipc.js");
-const logger = require(__dirname + "/../logger");
 const botRunner = require(__dirname + "/../botRunner.js");
 const fs = require("fs");
 

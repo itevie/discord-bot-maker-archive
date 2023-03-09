@@ -120,4 +120,22 @@ module.exports.actions = {
             });
         }
     },
+
+    "random": {
+        allowedEvents: ["*"],
+        name: "Random",
+        inputs: {
+            "number1": {
+                name: "minimum"
+            },
+            "number2": {
+                name: "maximum"
+            }
+        },
+        execute: (data) => {
+            return new Promise((resolve, reject) => {
+                resolve(Math.floor(Math.random() * (data.action.number1 - data.action.number2)) + data.action.number1);
+            });
+        }
+    }
 }

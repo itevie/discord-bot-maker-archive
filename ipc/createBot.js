@@ -4,7 +4,6 @@ const {
 } = require('electron');
 const Discord = require("discord.js");
 const botManager = require(__dirname + "/../botManager");
-const logger = require(__dirname + "/../logger");
 
 // Create bot, checks token etc.
 ipcMain.on("createBot", (event, data) => {

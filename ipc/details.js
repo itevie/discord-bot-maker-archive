@@ -5,7 +5,6 @@ const {
 } = require('electron');
 const botManager = require(__dirname + "/../botManager");
 const { log, clearLog } = require(__dirname + "/../ipc.js");
-const logger = require(__dirname + "/../logger");
 const botRunner = require(__dirname + "/../botRunner.js");
 const fs = require("fs");
 
@@ -38,7 +37,7 @@ ipcMain.on("getFAQ", (event, id) => {
 
 // Get the full bot list
 ipcMain.on("get-bot-list", (event, data) => {
-    logger.log("get-bot-list", "ipc");
+    global.sendLog("get-bot-list", "ipc");
     event.returnValue = Object.keys(botManager.data.bots);
 });
 

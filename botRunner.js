@@ -1,4 +1,3 @@
-const logger = require("./logger");
 const botManager = require("./botManager");
 const getAllFiles = require("./getAllFiles");
 const pms = require('ms-prettify').default;
@@ -8,9 +7,13 @@ const Discord = require("discord.js");
 const running = {};
 let possiblyRunning = [];
 
-module.exports.getList = () => {
-    let toSend = {};
+module.exports.getList = (onlyId) => {
+    let toSend = onlyId ? [] : {};
     for (let i in running) {
+        if (onlyId) {
+            toSend.push(i);
+            continue
+        }
         toSend[i] = {
             id: i,
             pendingRestart: botManager.data.bots[i].pendingRestart,
@@ -68,8 +71,6 @@ module.exports.run = (id) => {
         botManager.data.bots[id].profile = {
             pfp: data
         }
-
-        botManager.save();
     });
 
     running[id].on("debug", d => {
@@ -110,7 +111,7 @@ module.exports.stopAll = () => {
 }
 
 function sendInfo(msg, type) {
-    logger.log(msg, "bot-runner");
+    global.sendLog(msg, "bot-runner");
     global?.mainWindow?.webContents?.send("info", {
         type: type,
         msg: msg

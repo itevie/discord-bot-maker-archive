@@ -6,13 +6,12 @@ const fs = require("fs");
 const botManager = require("./botManager");
 const botRunner = require("./botRunner");
 const Discord = require("discord.js");
-const logger = require("./logger");
 const getAllFiles = require("./getAllFiles");
 
 module.exports.init = () => {
     let files = getAllFiles(__dirname + "/ipc");
     for (let i in files) {
-        logger.log("Init IPC: " + files[i]);
+        global.sendLog("Init IPC: " + files[i], "ipc");
         require(files[i]);
     }
 }
@@ -33,6 +32,15 @@ global.sendLog = (text, type, loader = false) => {
     });
 
     console.log("[" + type + "] " + text);
+}
+
+global.sendError = (text) => {
+    global.sendLog(text, "error");
+    global.mainWindow.webContents.send("error", {
+        type: "alert",
+        force: true,
+        msg: text
+    });
 }
 
 global.sendNotification = (title, icon = "info", desc = "") => {

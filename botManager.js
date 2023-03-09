@@ -1,5 +1,4 @@
 const fs = require("fs");
-const logger = require("./logger");
 const {
     app
 } = require("electron");
@@ -11,7 +10,7 @@ let thisSession = uuid.v4();
 if (!fs.existsSync(path + "/data.json")) {
     fs.writeFileSync(path + "/data.json", JSON.stringify({
         "selected": null,
-        "generalLog": false,
+        "generalLog": true,
         "botEvents": true,
         "botDebug": true,
         "showInformationalAlerts": false,
@@ -25,10 +24,12 @@ data.currentEditor = thisSession;
 const botRunner = require("./botRunner");
 
 if ((Object.keys(data.bots).length != 0 && data.selected == null) || !data.bots[data.selected]) {
+    global.sendLog("Selected bot not found, selecting first bot in list", "bot-manager");
     data.selected = Object.keys(data.bots)[0];
 }
 
 if (data.selected && !data.bots[data.selected]) {
+    global.sendLog("No bot found for selected", "bot-manager");
     data.selected = null;
 }
 
@@ -73,7 +74,7 @@ let newBot = {
 }
 
 module.exports.addBot = (d) => {
-    logger.log("Add bot", "bot-manager");
+    global.sendLog("Add bot", "bot-manager");
 
     data.bots[d.id] = JSON.parse(JSON.stringify(newBot));
     data.bots[d.id].id = d.id;
@@ -146,7 +147,6 @@ let x = setInterval(() => {
     if (cskip == true) {
         module.exports.save();
         cskip = false;
-        botRunner.run("reddit");
     }
 
     let d = JSON.parse(fs.readFileSync(path + "/data.json", "utf-8"));

@@ -5,7 +5,6 @@ const {
     app
 } = require('electron');
 const botManager = require(__dirname + "/../botManager");
-const logger = require(__dirname + "/../logger");
 const path = require("path");
 const config = require(__dirname + "/../config.js");
 const langs = require(__dirname + "/../langParser.js");

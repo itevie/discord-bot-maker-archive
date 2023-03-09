@@ -3,14 +3,13 @@ const {
     ipcRenderer
 } = require('electron');
 const botManager = require(__dirname + "/../botManager");
-const logger = require(__dirname + "/../logger");
 
 // Create command, does return something,
 ipcMain.on("createCommand", (event, data) => {
     botManager.data.bots[botManager.data.selected].commands[data.name] = data;
     botManager.data.bots[botManager.data.selected].pendingRestart = true;
 
-    logger.log("Command Created", "ipc");aaaaaaaaaaaaaa
+    global.sendLog("Command Created", "ipc");
     event.returnValue = true;
 });
 
@@ -21,9 +20,9 @@ ipcMain.on("deleteCommand", (event, id) => {
         delete botManager.data.bots[botManager.data.selected].commands[id];
         botManager.data.bots[botManager.data.selected].pendingRestart = true;
     } else {
-        logger.log("Command " + id + " did not exist, nothing happened.", "ipc:deleteCommand");
+        global.sendLog("Command " + id + " did not exist, nothing happened.", "ipc:deleteCommand");
     }
     
-    logger.log("Command Deleted", "ipc:deleteCommand");
+    global.sendLog("Command Deleted", "ipc:deleteCommand");
     event.returnValue = true;
 })
