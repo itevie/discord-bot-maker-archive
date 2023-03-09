@@ -10,7 +10,7 @@ ipcMain.on("createCommand", (event, data) => {
     botManager.data.bots[botManager.data.selected].commands[data.name] = data;
     botManager.data.bots[botManager.data.selected].pendingRestart = true;
 
-    logger.log("Command Created", "ipc");
+    logger.log("Command Created", "ipc");aaaaaaaaaaaaaa
     event.returnValue = true;
 });
 
