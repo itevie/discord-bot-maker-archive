@@ -38,6 +38,7 @@
         <img src="image/icon/article.png" data-onsidebar data-div-change="faqList">
         <img src="image/icon/bot.png" data-onsidebar data-div-change="changeBot">
         <img src="image/icon/analytics.png" data-onsidebar data-div-change="log">
+        <img src="image/icon/error.png" data-onsidebar data-div-change="errors">
 
         <div style="display: none;">
             <button data-lang="sidebar.home" data-onsidebar data-div-change="home">Home</button>
@@ -138,6 +139,9 @@
                         <td><button data-lang="settings.example"
                                 onclick="notification('Example Notification');">Example</button></td>
                     </tr>
+                    <tr>
+                        <td><input type="checkbox"><label>Remember last page you was on</label></td>
+                    </tr>
                 </table>
             </div>
             <br>
@@ -147,9 +151,6 @@
                 data-tooltip="Sometimes when your doing actions such as starting or stopping a bot, all buttons will be disabled so that things have a less chance of breaking.<br><br>Sometimes though, this itself may break, so this button will enable all buttons despite being disabled."
                 data-lang="settings.force-enable-buttons" data-nodisable onclick="enableAll()">Force Enable
                 Buttons</button>
-            <br><br>
-            <label data-lang="settings.about" id="appSettings-version"></label><button
-                onclick="window.electron.showAbout()">About</button>
             <h2>Performance</h2>
             <input type="checkbox"><label>Disable unnecessary features to help with RAM/CPU usage</label><br><br>
             <table>
@@ -163,7 +164,10 @@
                     <td><progress id="appSettngs-globalRam"></progress></td>
                     <td><label id="appSettings-globalRam-text"></label></td>
                 </tr>
-            </table>
+            </table><br>
+            <h2>About</h2>
+            <label data-lang="settings.about" id="appSettings-version"></label><button
+                onclick="window.electron.showAbout()">About</button>
         </div>
 
         <div data-div-id="log">
@@ -291,7 +295,7 @@
             <h1>Events</h1>
             <p>These are like commands but they are ran when a certain thing happens in a server. For example when a
                 message is edited, a role is created etc.</p>
-            <div id="eventList"></div>
+            <table iv id="eventList"></table>
         </div>
 
         <div class="modal" style="display: none;" id="editAction">

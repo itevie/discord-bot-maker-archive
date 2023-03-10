@@ -75,6 +75,14 @@ module.exports.actions = {
             }
         }
     },
+    "one-action-if-exists": {
+        name: "One Action If Includes",
+        inputs: {
+            what: {
+                name: "what"
+            }
+        }
+    },
     "else": {
         name: "Else"
     },

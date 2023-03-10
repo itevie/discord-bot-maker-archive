@@ -43,21 +43,30 @@ for (let i in moduleList) {
 }
 
 // Load external modules
+global.sendLog("Finding external modules...", "module-manager");
 let path = app.getPath("userData");
 if (fs.existsSync(path + "/modules")) {
     let externalModules = fs.readdirSync(path + "/modules");
     for (let i in externalModules) {
+        global.sendLog("Found external module: " + path + "/modules/" + externalModules[i], "module-manager");
         moduleList.push(path + "/modules/" + externalModules[i]);
     }
 }
 
+let moduleNames = [];
+
 for (let i in moduleList) {
+    global.sendLog("Activating module: " + moduleList[i], "module-manager");
     if (!moduleList[i].endsWith(".js")) continue;
     let module = require(moduleList[i]);
     let ac = module.actions;
     let details = module.details;
-    modulesList.push(details.name);
+    if (moduleNames.includes(details.name.toLowerCase())) {
+        require(__dirname + "/../../errorManager.js").fatalError(new Error("Module already imported: " + details.name + " (" + moduleList[i] + ")"));
+    }
+    modulesList.push(details.name.toLowerCase());
     let moduleName = details.name.toLowerCase();
+    moduleNames.push(moduleName);
 
     for (let a in ac) {
         let name = moduleName + ":" + a;
@@ -79,7 +88,10 @@ for (let i in actions) {
         description: actions[i].description || ""
     }
 
+    global.sendLog("Loaded action " + i, "module-manager");
 }
+
+global.sendLog("Loaded " + Object.keys(actions).length + " actions!", "module-manager");
 
 module.exports.execute = async (options) => {
     let botData = options.botData;
@@ -235,6 +247,13 @@ module.exports.execute = async (options) => {
         } else if (type == "conditional:one-action-if-includes") {
             let val = true;
             if (data.action.statement1.includes(data.action.statement2) == false) {
+                skipNext = true;
+                val = false;
+            }
+            return nextOne(val);
+        } else if (type == "conditional:one-action-if-exists") {
+            let val = true;
+            if (data.action.what != undefined || data.action.what != null || data.action.what != NaN) {
                 skipNext = true;
                 val = false;
             }

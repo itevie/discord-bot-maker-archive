@@ -1,18 +1,19 @@
 let eventList = {
     "messageCreate": "A Message Is Sent",
     "messageDelete": "A Message Is Deleted",
-    "messageEdited": "A Message Is Edited"
+    "messageEdited": "A Message Is Edited",
+    "error": "An Error Occurs"
 }
 
 let editingEvent = "";
 
 let eventTemplate = `
-<b style="color: %setup%">%name%</b><button onclick="setupEvent('%id%')">%btnsetup%</button>
+<td><b style="color: %setup%">%name%</b></td><td><img src="image/icon/edit.png" onclick="setupEvent('%id%')" class="icon"</td>
 `;
 
 document.addEventListener("DOMContentLoaded", () => {
     for (let i in eventList) {
-        let div = document.createElement("div");
+        let div = document.createElement("tr");
         let n = eventTemplate
             .replace(/%id%/g, i)
             .replace(/%name%/g, eventList[i])

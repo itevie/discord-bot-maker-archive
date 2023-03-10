@@ -1,7 +1,7 @@
 const botManager = require(__dirname + "/../../botManager.js");
 
 module.exports.details = {
-    name: "Moderation"
+    name: "moderation"
 }
 
 module.exports.actions = {

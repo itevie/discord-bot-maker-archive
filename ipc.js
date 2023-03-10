@@ -25,18 +25,22 @@ global.sendLog = (text, type, loader = false) => {
         showLoader: loader
     });
 
-    global?.mainWindow?.webContents?.send("log", {
-        msg: text,
-        type: type,
-        showLoader: loader
-    });
+    try {
+        global?.mainWindow?.webContents?.send("log", {
+            msg: text,
+            type: type,
+            showLoader: loader
+        });
+    } catch (err) {
+
+    }
 
     console.log("[" + type + "] " + text);
 }
 
 global.sendError = (text) => {
     global.sendLog(text, "error");
-    global.mainWindow.webContents.send("error", {
+    global?.mainWindow?.webContents?.send("error", {
         type: "alert",
         force: true,
         msg: text

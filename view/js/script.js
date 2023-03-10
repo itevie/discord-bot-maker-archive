@@ -78,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let toRun = dataDivChangers[i].onclick;
 
         let x = () => {
+            let shown = false;
+
             for (let e in dataDivIDs) {
                 if (typeof dataDivIDs[e] != "object") continue;
                 let id = dataDivIDs[e].getAttribute("data-div-id");
@@ -86,10 +88,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     setDivHistory(id);
                     dataDivIDs[e].style.display = "block";
                     dataDivIDs[e].classList.add("fadeIn");
+                    shown = true;
                 } else {
                     dataDivIDs[e].style.display = "none";
                     dataDivIDs[e].classList.remove("fadeIn");
                 }
+            }
+
+            if (shown == false) {
+                Swal.fire("Oops", "Looks like this feature has not been implemented yet", "info");
             }
 
             currentDiv = change;
@@ -195,13 +202,20 @@ function showFAQ(faq) {
 
 function showDiv(sid) {
     let dataDivIDs = document.querySelectorAll("[data-div-id]");
-
+    let shown = false;
     for (let e in dataDivIDs) {
         if (typeof dataDivIDs[e] != "object") continue;
         let id = dataDivIDs[e].getAttribute("data-div-id");
 
-        if (sid == id) dataDivIDs[e].style.display = "block";
+        if (sid == id) {
+            dataDivIDs[e].style.display = "block";
+            shown = true;
+        }
         else dataDivIDs[e].style.display = "none";
+    }
+
+    if (shown == false) {
+        Swal.fire("Oops", "Looks like this feature has not been implemented yet", "information");
     }
 }
 

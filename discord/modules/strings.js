@@ -2,7 +2,7 @@ const botManager = require(__dirname + "/../../botManager.js");
 const parse = require(__dirname + "/../utils/parser.js").parse;
 
 module.exports.details = {
-    name: "Strings"
+    name: "strings"
 }
 
 module.exports.actions = {
@@ -69,6 +69,25 @@ module.exports.actions = {
         execute: (data) => {
             return new Promise((resolve, reject) => {
                 resolve(data.action.content.length.toString());
+            });
+        }
+    },
+
+    "repeat": {
+        allowedEvents: ["*"],
+        name: "Repeat content",
+        description: "Repeats a string multiple times",
+        inputs: {
+            content: {
+                name: "content"
+            },
+            amount: {
+                name: "amount"
+            }
+        },
+        execute: (data) => {
+            return new Promise((resolve, reject) => {
+                resolve(data.action.content.repeat(data.action.amount));
             });
         }
     },

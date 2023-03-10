@@ -2,7 +2,7 @@ const botManager = require(__dirname + "/../../botManager.js");
 const parse = require(__dirname + "/../utils/parser.js").parse;
 
 module.exports.details = {
-    name: "Database"
+    name: "database"
 }
 
 module.exports.actions = {
