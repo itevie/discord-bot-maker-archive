@@ -15,10 +15,14 @@ let actionTemplate = `
 <div class="action" onmouseover="document.getElementById('action-button-%id%').style.display = 'block';" onmouseleave="document.getElementById('action-button-%id%').style.display = 'none';">
     <b>%indent%#%index%</b>&nbsp;<label>%type%</label>
     <div style="float: right; display: none;" id="action-button-%id%">
-        <button class="action-movement" onclick="moveActionUp(%id%);">^</button>
-        <button class="action-movement" onclick="moveActionDown(%id%);">v</button>
-        <button onclick="deleteAction(%id%)" class="dangerButton">Delete</button>
-        <button onclick="editAction(%id%);">Edt</button>
+        <table>
+            <tr>
+                <td><img src="image/icon/up.png" onclick="moveActionUp(%id%)" class="icon"></td>
+                <td><img src="image/icon/down.png" onclick="moveActionDown(%id%)" class="icon"></td>
+                <td><img src="image/icon/edit.png" onclick="editAction(%id%)" class="icon"></td>
+                <td><img src="image/icon/delete.png" onclick="deleteAction(%id%)" class="icon danger-icon"></td>
+            </tr>
+        </table>
     </div>
 </div>
 `;
@@ -98,6 +102,8 @@ function updateEditActionSelection(data = {}) {
     let id = type.options[type.selectedIndex].getAttribute("data-action-id");
     let action = selectActions[id];
     document.getElementById("editAction-inputs").innerHTML = "";
+
+    document.getElementById("editAction-details").innerHTML = action.description || "";
 
     for (let i in action.inputs) {
         let input = action.inputs[i];

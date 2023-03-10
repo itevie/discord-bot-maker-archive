@@ -42,7 +42,8 @@ module.exports.run = (id) => {
         intents: [
             Discord.GatewayIntentBits.GuildMessages,
             Discord.GatewayIntentBits.MessageContent,
-            Discord.GatewayIntentBits.Guilds
+            Discord.GatewayIntentBits.Guilds,
+            Discord.GatewayIntentBits.GuildVoiceStates
         ]
     });
 

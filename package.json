@@ -27,8 +27,11 @@
   "license": "ISC",
   "description": "Discord bot maker",
   "dependencies": {
+    "@discordjs/voice": "^0.14.0",
     "discord.js": "^14.7.1",
     "esbuild": "0.17.11",
+    "ffmpeg-static": "^5.1.0",
+    "libsodium-wrappers": "^0.7.11",
     "minimist": "^1.2.8",
     "ms-prettify": "^1.4.0",
     "uuid": "^9.0.0",

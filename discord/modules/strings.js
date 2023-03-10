@@ -9,6 +9,7 @@ module.exports.actions = {
     "lowercase": {
         allowedEvents: ["*"],
         name: "lowercase",
+        description: "Converts text to lowercase.",
         inputs: {
             content: {
                 name: "content"
@@ -24,6 +25,7 @@ module.exports.actions = {
     "uppercase": {
         allowedEvents: ["*"],
         name: "UPPERCASE",
+        description: "Converts text to uppercase.",
         inputs: {
             content: {
                 name: "content"
@@ -39,6 +41,7 @@ module.exports.actions = {
     "randomcase": {
         allowedEvents: ["*"],
         name: "RaNDoMCaSE",
+        description: "Converts text to randomcase.",
         inputs: {
             content: {
                 name: "content"
@@ -57,6 +60,7 @@ module.exports.actions = {
     "length": {
         allowedEvents: ["*"],
         name: "Length",
+        description: "Returns the length (amount of chars) of the content.",
         inputs: {
             content: {
                 name: "content"

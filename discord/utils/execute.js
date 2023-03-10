@@ -75,7 +75,8 @@ for (let i in actions) {
 
     webActions[moduleName][orig] = {
         name: actions[i].name,
-        inputs: actions[i].inputs || {}
+        inputs: actions[i].inputs || {},
+        description: actions[i].description || ""
     }
 
 }
@@ -249,7 +250,7 @@ module.exports.execute = async (options) => {
         actions[type].execute(data).then(res => {
             return nextOne(res);
         }).catch(err => {
-            error(err + "\n" + err.stack.toString().replace(/\n/g, "<br>"));
+            error(err + "\n" + err.stack?.toString().replace(/\n/g, "<br>"));
             return;
         });
     }

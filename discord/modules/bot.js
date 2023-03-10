@@ -33,6 +33,7 @@ module.exports.actions = {
     "pause": {
         allowedEvents: ["*"],
         name: "Wait X Seconds",
+        description: "Waits X seconds before continuing the next action.",
         inputs: {
             seconds: {
                 name: "Seconds",

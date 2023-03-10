@@ -14,8 +14,8 @@ let commandItemTemplate = `
                 <label>%comment%</label>
             </div>
         </div>
-        <button onclick="editCommand('%id%')">Edit</button>
-        <button onclick="deleteCommand('%id%')" class="dangerButton">Delete</button>
+        <img src="image/icon/edit.png" onclick="editCommand('%id%')" class="icon">
+        <img src="image/icon/delete.png" onclick="deleteCommand('%id%')" class="icon danger-icon">
     </div>
 `;
 
@@ -33,7 +33,13 @@ function fetchBot() {
         document.getElementById("botManager-noBots-alert").style.display = "block";
         showDiv("changeBot");
     } else {
-        document.getElementById("sideBar-botID").innerHTML = currentBotName;
+        document.getElementById("sideBar-botID").innerHTML = cropText(currentBotName, 10);
+        /*tippy(document.getElementById("sideBar-botID"), {
+            content: currentBotName,
+            allowHTML: true,
+            animation: "shift-away",
+            interactive: true
+        });*/
         document.getElementById("settings-prefix").value = currentBotData.prefix;
         document.getElementById("settings-token").value = currentBotData.token;
 
@@ -302,7 +308,18 @@ function deleteBot(id) {
     });
 }
 
-let botManagerBotListTemplate = `<tr><td>{{id}}</td><td><button onclick="selectBot('{{id}}');">Select</button><button class="goodButton" onclick="startSpecific('{{id}}');">Start</button><button class="dangerButton" onclick="deleteBot('{{id}}')">Delete</button></td></tr>`
+let botManagerBotListTemplate = `
+<tr>
+    <td>{{id}}</td>
+    <td>
+        <img src="image/icon/open.png" onclick="selectBot('{{id}}');" class="icon">
+        <img src="image/icon/play.png" onclick="startSpecific('{{id}}');" class="icon">
+        <img src="image/icon/delete.png" onclick="deleteBot('{{id}}')" class="icon danger-icon">
+        <!--<button onclick="selectBot('{{id}}');">Select</button>
+        <button class="goodButton" onclick="startSpecific('{{id}}');">Start</button>
+        <button class="dangerButton" onclick="deleteBot('{{id}}')">Delete</button>-->
+    </td>
+</tr>`
 
 function loadBotList() {
     let data = window.electron.getBotList();

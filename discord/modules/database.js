@@ -9,6 +9,7 @@ module.exports.actions = {
     "fetch-database-item": {
         allowedEvents: ["*"],
         name: "Fetch Database Item",
+        description: "Fetches an item in the databse.",
         inputs: {
             key: {
                 name: "key",
@@ -89,6 +90,7 @@ module.exports.actions = {
     "db-item-not-exist": {
         allowedEvents: ["*"],
         name: "If Database Item Does Not Exist, Set It To",
+        description: "If a database item does not exist, set it to the content",
         inputs: {
             key: {
                 name: "key",

@@ -1,5 +1,9 @@
+:root {
+    --sidebar-size: 40px;
+}
+
 .main {
-    margin-left: 120px;
+    margin-left: calc(var(--sidebar-size) + 20px);
     position: absolute;
 }
 
@@ -7,22 +11,74 @@
     display: none;
 }
 
+.tippy-box {
+    z-index: 1000000000000;
+}
+
 .sidebar {
-    width: 100px;
+    width: var(--sidebar-size);
     height: 100%;
     position: fixed;
     background-color: #1c1d20;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    box-shadow: 3px 0 10px 1px black;
+    z-index: 1000;
+}
+.sidebar::-webkit-scrollbar { 
+    display: none;  /* Safari and Chrome */
 }
 
 .sidebar-bottom {
     bottom: 5px;
     left: 0;
     position: absolute;
+    background-color: #e3e2df;;
 }
 
+.icon {
+    filter: invert(1);
+    width: 28px;
+    padding: 2px;
+    transition: 0.3s;
+    border-radius: 10px;
+}
+
+.icon:hover {
+    filter: invert(0);
+    background-color: gray;
+}
+
+.icon:active {
+    padding: 5px;
+    width: 22px;
+}
+
+.danger-icon:hover {
+    filter: invert(0);
+    background-color: red;
+}
+
+.sidebar>img,
+.sidebar>div>img {
+    filter: invert(1);
+    width: calc(calc(var(--sidebar-size) - 10px));
+    margin: 2px;
+    margin-left: 4px;
+    margin-right: 0px;
+    transition: 0.3s;
+}
+
+.sidebar>img:hover,
+.sidebar>div>img:hover {
+    background-color: gray;
+    filter: invert(0);
+    border-radius: 10px;
+}
 
 .sidebar>button,
 .sidebar>div>button {
@@ -46,12 +102,54 @@
 
 .footer {
     bottom: 0;
-    left: 100px;
+    left: var(--sidebar-size);
     width: 100vw;
     position: fixed;
     background-color: #222;
+    box-shadow: 0px -1px 10px 3px black;
 }
 
 .footer>p {
     margin: 5px;
+}
+.marquee {
+    position: relative;
+    overflow: hidden;
+    --offset: 20vw;
+    --move-initial: calc(-25% + var(--offset));
+    --move-final: calc(-50% + var(--offset));
+}
+
+.marquee__inner {
+    width: fit-content;
+    display: flex;
+    position: relative;
+    transform: translate3d(var(--move-initial), 0, 0);
+    animation: marquee 5s linear infinite;
+    animation-play-state: paused;
+}
+
+.marquee span {
+    font-size: 10vw;
+    padding: 0 2vw;
+}
+
+.marquee:hover .marquee__inner {
+    animation-play-state: running;
+}
+
+@keyframes marquee {
+    0% {
+        transform: translate3d(var(--move-initial), 0, 0);
+    }
+
+    100% {
+        transform: translate3d(var(--move-final), 0, 0);
+    }
+}
+
+.botLabelSidebar {
+    max-width: var(--sidebar-size);
+    height: 32px;
+    overflow: hidden;
 }

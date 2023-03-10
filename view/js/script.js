@@ -59,14 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    let images = document.querySelectorAll("img");
+    /*let images = document.querySelectorAll("img");
     for (let i in images) {
         if (typeof images[i] != "object") continue;
         images[i].onclick = () => {
             document.getElementById("image-viewer-img").src = images[i].src;
             document.getElementById("image-viewer").style.display = "block";
         }
-    }
+    }*/
 
     let dataDivChangers = document.querySelectorAll("[data-div-change]");
     let dataDivIDs = document.querySelectorAll("[data-div-id]");
@@ -271,8 +271,10 @@ let runningBotList = `
         </table>
         <p>Uptime: %uptime%</p>
         <i style="display: %pendingRestart%; color: yellow;">Pending restart</i>
-        <button onclick="stopSpecific('%id%')" class="dangerButton">Stop</button>
-        <button onclick="restartSpecific('%id%')">Restart</button>
+        <img onclick="stopSpecific('%id%')" src="image/icon/close.png" class="icon danger-icon">
+        <img onclick="restartSpecific('%id%')" src="image/icon/restart.png" class="icon">
+        <!--<button onclick="stopSpecific('%id%')" class="dangerButton">Stop</button>
+        <button onclick="restartSpecific('%id%')">Restart</button>-->
     </div>
 `;
 
@@ -293,7 +295,13 @@ function reloadTo(divID) {
 }
 
 function disableAll() {
-    const buttons = document.getElementsByTagName("button");
+    let buttons = document.getElementsByTagName("button");
+    let imgs = document.getElementsByName("img");
+    for (const button of buttons) {
+        if (button.hasAttribute("data-onsidebar") || button.hasAttribute("data-nodisable")) continue;
+        button.disabled = true;
+    }
+
     for (const button of buttons) {
         if (button.hasAttribute("data-onsidebar") || button.hasAttribute("data-nodisable")) continue;
         button.disabled = true;
@@ -301,10 +309,16 @@ function disableAll() {
 }
 
 function enableAll() {
-    const buttons = document.getElementsByTagName("button");
+    let buttons = document.getElementsByTagName("button");
+    let imgs = document.getElementsByName("img");
     for (const button of buttons) {
         if (button.hasAttribute("data-onsidebar")) continue;
         button.disabled = false;
+    }
+
+    for (const img of imgs) {
+        if (img.hasAttribute("data-onsidebar") || img.hasAttribute("data-nodisable")) continue;
+        img.disabled = true;
     }
 }
 
@@ -317,3 +331,14 @@ function notification(title, icon = "info", desc = "") {
         });
     }
 }
+
+function cropText(s, len) {
+    if (s.length - 3 > len) {
+        s = s.substring(0, s.length - (s.length - len));
+        showDiv += "...";
+    }
+
+    console.log(s)
+
+    return s;
+} 
