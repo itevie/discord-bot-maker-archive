@@ -32,7 +32,7 @@ global.sendLog = (text, type, loader = false) => {
             showLoader: loader
         });
     } catch (err) {
-
+        console.log(err)
     }
 
     console.log("[" + type + "] " + text);

@@ -36,8 +36,8 @@ OS: ${require("os").platform()}
 Version: ${require("os").version()}
 
 --- ERROR ---
-${err.toString()}
-STACK: ${err.stack.toString()}
+${err?.toString() || "No error; log created by user"}
+STACK: ${err?.stack.toString() || "No stack; log created by user"}
 
 --- DETAILS --- 
 
@@ -71,8 +71,10 @@ App Version: ${require("./package.json").version}
     if (fatal) {
         dialog.showMessageBoxSync({
             title: "Error",
-            message: "A fatal error has occurred:\n\n" + err.toString() + "\n\nPlease check your log folder (" + path + "/logs/" + logName + ")"
+            message: "A fatal error has occurred:\n\n" + err?.toString() + "\n\nPlease check your log folder (" + path + "/logs/" + logName + ")"
         });
         process.exit(0);
     }
 }
+
+module.exports.createLog = newLog;

@@ -9,6 +9,7 @@ const path = require("path");
 const config = require(__dirname + "/../config.js");
 const langs = require(__dirname + "/../langParser.js");
 const execute = require(__dirname + "/../discord/utils/execute.js");
+const errorManager = require(__dirname + "/../errorManager");
 const fs = require("fs");
 const os = require('os');
 
@@ -101,3 +102,7 @@ ipcMain.on("backup", (event, id) => {
         force: true
     });
 });
+
+ipcMain.on("createLogFile", () => {
+    errorManager.createLog();
+})

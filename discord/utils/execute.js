@@ -125,37 +125,6 @@ module.exports.execute = async (options) => {
     if (["messageCreate"].includes(eventType)) {
         variables.ping = Date.now() - options.message.createdTimestamp;
 
-        // Add all keys from options.message
-        /*for (let i in options.message) {
-            if (["number", "string", "boolean"].includes(typeof options.message[i])) {
-                variables["message:" + i] = options.message[i];
-            }
-        }
-
-        // Add all keys from options.message.refernce
-        for (let i in options.message.reference) {
-            if (["number", "string", "boolean"].includes(typeof options.message.reference[i])) {
-                variables["message:reference:" + i] = options.message.reference[i];
-            }
-        }
-
-        // Add all keys from options.message.author
-        for (let i in options.message.author) {
-            if (["number", "string", "boolean"].includes(typeof options.message.author[i])) {
-                variables["message:author:" + i] = options.message.author[i];
-            }
-        }
-
-        // Add al keys from options.message.channel
-        for (let i in options.message.channel) {
-            if (
-                ["nsfw", "guildId", "parentId", "id", "topic", "lastMessageId"]
-                    .includes(i)
-            ) {
-                variables["message:channel:" + i] = options.message.channel[i];
-            }
-        }*/
-
         variables.message = options.message;
 
         data.message = options.message;

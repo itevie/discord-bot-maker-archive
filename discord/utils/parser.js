@@ -59,6 +59,7 @@ function parseRecursive(data, variables, client, id) {
 module.exports.parseRecursive = parseRecursive;
 
 module.exports.travelJSON = (path, json) => {
+    console.log(json)
     let keys = path.split(":");
 
     for (let i in keys) {

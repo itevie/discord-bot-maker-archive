@@ -151,6 +151,7 @@
                 data-tooltip="Sometimes when your doing actions such as starting or stopping a bot, all buttons will be disabled so that things have a less chance of breaking.<br><br>Sometimes though, this itself may break, so this button will enable all buttons despite being disabled."
                 data-lang="settings.force-enable-buttons" data-nodisable onclick="enableAll()">Force Enable
                 Buttons</button>
+            <button onclick="window.electron.createLogFile()">Create Log</button>
             <h2>Performance</h2>
             <input type="checkbox"><label>Disable unnecessary features to help with RAM/CPU usage</label><br><br>
             <table>
@@ -164,7 +165,7 @@
                     <td><progress id="appSettngs-globalRam"></progress></td>
                     <td><label id="appSettings-globalRam-text"></label></td>
                 </tr>
-            </table><br>
+            </table>
             <h2>About</h2>
             <label data-lang="settings.about" id="appSettings-version"></label><button
                 onclick="window.electron.showAbout()">About</button>

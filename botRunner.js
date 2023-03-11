@@ -87,6 +87,11 @@ module.exports.run = (id) => {
         }
     });
 
+    running[id].on("error", d => {
+        global.sendLog(d, "bot:" + id, showLoader);
+        showLoader = false;
+    })
+
     running[id].login(botManager.data.bots[id].token).catch((err) => {
         return sendInfo("ERROR: Failed to start: " + err.toString());
     });
