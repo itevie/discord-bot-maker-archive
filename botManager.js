@@ -3,7 +3,10 @@ const {
     app
 } = require("electron");
 const uuid = require("uuid");
-let path = app.getPath("userData");
+const cli = require("./cli");
+console.log(cli)
+let path = cli.getFlag("data", app.getPath("userData"));
+global.sendLog("Data path: " + path, "bot-manager");
 
 let thisSession = uuid.v4();
 
@@ -92,6 +95,7 @@ module.exports.validate = (id) => {
 
     let botData = data.bots[id];
     if (typeof id == "object") botData = id;
+    if (!botData) return false;
 
     for (let i in keys) {
         if (!botData.hasOwnProperty(keys[i])) errors.push("Missing key: " + keys[i] + " at bot " + id + " root");
@@ -145,6 +149,7 @@ let cskip = true;
 // Auto saver
 let x = setInterval(() => {
     if (cskip == true) {
+        global.sendLog("First save", "bot-manager")
         module.exports.save();
         cskip = false;
     }

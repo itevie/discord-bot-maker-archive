@@ -107,7 +107,7 @@ module.exports.stop = (id) => {
     delete running[id];
 
     global.sendLog("Bot stopped:  " + id, "bot-runner");
-    global.mainWindow.webContents.send("botStopped");
+    global?.mainWindow?.webContents?.send("botStopped");
 }
 
 module.exports.stopAll = () => {

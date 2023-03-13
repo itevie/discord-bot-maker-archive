@@ -155,6 +155,7 @@ function reloadAllData() {
 
     loadRunningList();
     reloadSettings();
+    loadExternal();
 
     db = window.electron.fetchDatabase();
     if (db) {
@@ -246,6 +247,10 @@ function stopBot() {
 
 function stopSpecific(id) {
     disableAll();
+    if (id.startsWith("ext:")) {
+        alert(id)
+        window.electron.stopBotExternal(id.replace("ext:", ""));
+    }
     window.electron.stopBot(id);
     reloadAllData();
 }
@@ -261,10 +266,16 @@ function restartBot() {
 
 function restartSpecific(id) {
     disableAll();
-    window.electron.stopBot(id);
+    if (id.startsWith("ext:")) {
+        window.electron.stopBotExternal(id.replace("ext:", ""));
+    }
+    else window.electron.stopBot(id);
     reloadAllData();
     setTimeout(() => {
-        startSpecific(id);
+        if (id.startsWith("ext:")) {
+            window.electron.startOnExternalHost(id.replace("ext:", ""));
+        }
+        else startSpecific(id);
     }, 200);
 }
 
@@ -314,9 +325,11 @@ let botManagerBotListTemplate = `
     <td>
         <img src="image/icon/open.png" onclick="selectBot('{{id}}');" class="icon">
         <img src="image/icon/play.png" onclick="startSpecific('{{id}}');" class="icon">
+        <img src="image/icon/globe.png" onclick="startExternal('{{id}}');" class="icon">
         <img src="image/icon/delete.png" onclick="deleteBot('{{id}}')" class="icon danger-icon">
         <!--<button onclick="selectBot('{{id}}');">Select</button>
         <button class="goodButton" onclick="startSpecific('{{id}}');">Start</button>
+       
         <button class="dangerButton" onclick="deleteBot('{{id}}')">Delete</button>-->
     </td>
 </tr>`

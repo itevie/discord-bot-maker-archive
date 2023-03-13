@@ -10,8 +10,13 @@ const config = require(__dirname + "/../config.js");
 const langs = require(__dirname + "/../langParser.js");
 const execute = require(__dirname + "/../discord/utils/execute.js");
 const errorManager = require(__dirname + "/../errorManager");
+const ipc = require(__dirname + "/../ipc.js");
 const fs = require("fs");
 const os = require('os');
+
+ipcMain.on("getFullLog", (event) => {
+    event.returnValue = ipc.log;
+})
 
 // Open an external link in a browser
 ipcMain.on("openExternalLink", (event, url) => {

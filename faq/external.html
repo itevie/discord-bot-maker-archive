@@ -1,0 +1,42 @@
+<h1>Hosting a bot on an external host</h1>
+<p>Of course, you can do this normally by just copying the bot's data to another computer and using the CLI, but this way is a lot more convienient for you.</p>
+<h2>Getting started</h2>
+<p>To get started, install Discord Bot Maker on whichever computer you want to (make sure you install the right OS version too)</p>
+<p>Next test if it has installed correctly by running<br><br>
+<code>
+    (appname) --version
+</code><br><br>
+But replacing (appname) with your app's name:
+<code><br><br>
+    botMaker.exe --version
+</code><br>
+</p>
+<h2>Creating the server</h2>
+<p>This can be done in 1 command:
+    <br><br>
+    <code>(appname) --server=(port)</code><br><br>
+    But replacing (appname) with the app's name and (port) with the port you want the server to run on (this does not matter much):<br><br>
+    <code>botMaker.exe --server=8080</code>
+</p>
+<div class="warning-alert" id="botManager-noBots-alert">
+    <b>Information</b>
+    <p>The versions of the server and the current app your running needs to be the same, otherwise the server will refuse to run any bots you give it.</p>
+</div>
+<h2>Connecting to your server</h2>
+<p>Next, you need to find the IP of the computer to connect to, botMaker cannot get this so you need to find it yourself.</p>
+<p>Don't know how? Either search on the internet: "How to get IP address of (OS name)", or use a service like NGROK and run:<br><br>
+<code>
+    ngrok http (port you used) 
+</code></p>
+<p>Next, copy down the IP and port you got, go to the web tab in Discord Bot Maker and write the IP and port into the appropiate text boxes, run "Check" and your done!</p>
+<h2>Starting bots on my server</h2>
+<p>To start a bot on your server, all you need to do is go to the "Bots" tab, and click the globe icon next to the bot you want to start.</p>
+<h2>Troubleshooting</h2>
+<h3>Error: connect ECONNREFUSED (url)</h3>
+<p>This means that the app failed to connect to the server, solutions:</p>
+<ul>
+    <li>Start the server</li>
+    <li>Check the URL and port are correct</li>
+    <li>Navigate to the server settings on the sidebar and select "stop trying to connect"</li>
+</ul>
+<p>If above fail, please report the error</p>

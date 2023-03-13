@@ -27,7 +27,7 @@ global.sendLog = (text, type, loader = false) => {
 
     try {
         global?.mainWindow?.webContents?.send("log", {
-            msg: text,
+            msg: text.toString(),
             type: type,
             showLoader: loader
         });
@@ -40,11 +40,15 @@ global.sendLog = (text, type, loader = false) => {
 
 global.sendError = (text) => {
     global.sendLog(text, "error");
-    global?.mainWindow?.webContents?.send("error", {
-        type: "alert",
-        force: true,
-        msg: text
-    });
+    try {
+        global?.mainWindow?.webContents?.send("error", {
+            type: "alert",
+            force: true,
+            msg: text.toString()
+        });
+    } catch (err) {
+        global.sendLog(err.toString());
+    }
 }
 
 global.sendNotification = (title, icon = "info", desc = "") => {

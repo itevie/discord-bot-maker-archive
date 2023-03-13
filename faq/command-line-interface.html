@@ -1,6 +1,7 @@
 <h1>The Command Line Interface</h1>
 <p>Don't want to use the UI? Well you can do some simple things with 1 line in your terminal</p>
 <p>At the moment, it's very basic</p>
+<p>Note: every flag must be split by a space</p>
 <div class="warning-alert danger" >
     <b>Important</b>
     <p>The CLI is NOT tested, errors may occur, use this at your own risk
@@ -11,12 +12,36 @@
 
 <h2>Starting a bot</h2>
 <p>To start a bot, just remember it's name, open a termianl and do:</p>
-<code>
-    botMaker.exe bot_name
+<code class="box">
+    botMaker.exe --bot=bot_name
 </code>
 <p>Replace "botMaker.exe" with whatever this application is called on your computer and "bot_name" with the name of your bot</p>
 <p>For example:</p>
-<code>
-    botMaker.exe myAmazingBot
+<code class="box">
+    botMaker.exe --bot=myAmazingBot
+</code>
+<p>You can run as many bot's as you want by repeating <code>--bot</code> example:</p>
+<code class="box">
+    botMaker.exe --bot=myAmazingBot --bot=myAmazingImageBot --bot=mee6clone
 </code>
 <p>Note: do NOT ever open 2 instances of this application, it WILL break your data.</p>
+<h2>Changing where data is stored</h2>
+<p>Changing where your data is stored is useful if:</p>
+<ul>
+    <li>You want multiple instances of the app</li>
+    <li>Your storing the bot on another server (<a class="link" onclick="showFAQ('external')">external hosts</a>)</li>
+</ul>
+<p>To do this use the <code>--data</code> flag:</p>
+<code class="box">
+    botMaker --data=(directory)
+</code>
+<p>But replacing (directory) with which folder you want the data to be stored in:</p>
+<code class="box">
+    botMaker --data=./
+</code>
+<p>This will store data.json in the same folder as the app was started in.</p>
+<h2>Force open UI</h2>
+<p>Want the UI (window) open whilst running bots using <code>--bot</code>?</p>
+<p>Use <code>--force-window</code>, that's all</p>
+<h2>Example with all of the above:</h2>
+<code class="box">botMaker --bot=mee6 --bot=mee7 --force-window --data=./data/</code>

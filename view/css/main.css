@@ -19,7 +19,8 @@
     width: var(--sidebar-size);
     height: 100%;
     position: fixed;
-    background-color: #1c1d20;
+    /*background-color: #1c1d20;*/
+    background-color: #1E1F22;
     -webkit-user-select: none;
     -ms-user-select: none;
     user-select: none;

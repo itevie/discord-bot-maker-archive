@@ -18,6 +18,9 @@ contextBridge.exposeInMainWorld('electron', {
     createBotFromJSON: (data) => ipcRenderer.sendSync("createBotFromJSON", data),
     startBot: (data) => ipcRenderer.send("startBot", data),
     stopBot: (data) => ipcRenderer.send("stopBot", data),
+    startOnExternalHost: id => ipcRenderer.send("startOnExternalHost", id),
+    loadExternal: () => ipcRenderer.sendSync("loadExternal", null),
+    stopBotExternal: (id) => ipcRenderer.send("stopBotExternal", id),
 
     createCommand: (data) => ipcRenderer.sendSync("createCommand", data),
     deleteCommand: (id) => ipcRenderer.sendSync("deleteCommand", id),
@@ -42,6 +45,8 @@ contextBridge.exposeInMainWorld('electron', {
     clearLog: () => ipcRenderer.send("clearLog", null),
     restartApp: () => ipcRenderer.send("restartApp", null),
     renameBot: (data) => ipcRenderer.send("renameBot", data),
+    getConfig: () => ipcRenderer.sendSync("getConfig", null),
+    setExternal: (url) => ipcRenderer.sendSync("setExternal", url),
 
     fetchFaqList: () => ipcRenderer.sendSync("fetchFaqList", null),
     getProcessData: () => ipcRenderer.sendSync("getProcessData", null),
@@ -73,6 +78,7 @@ contextBridge.exposeInMainWorld('electron', {
 });
 
 let logMessageTemplate = `<label style="color: %color%">%type% @ %time% %loader%</label><br>&nbsp;&nbsp;%msg%<br>`
+
 ipcRenderer.on("log", (event, message) => {
     addLogItem(message);
 });
@@ -116,6 +122,7 @@ ipcRenderer.on("success", (event, message) => {
 
 
 function addLogItem(message) {
+    if (!message.type) message.type = "info";
     let settings = ipcRenderer.sendSync("fetchSettings", null);
 
     let valid = false;
@@ -129,7 +136,7 @@ function addLogItem(message) {
     let c = 0;
     if (message.type.startsWith("bot:")) c = "#00FF00";
     else if (message.type.startsWith("event:")) c = "#FFFF00";
-    else if (message.type.startsWith("error:")) c = "#FF4444";
+    else if (message.type.startsWith("error:") || message.type == "error") c = "#FF4444";
     else c = "lightblue";
 
     let t = logMessageTemplate.replace(/%color%/g, c).replace(/%type%/g, message.type).replace(/%time%/g, new Date().toLocaleString()).replace(/%msg%/g, message.msg);

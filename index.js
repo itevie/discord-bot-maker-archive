@@ -1,4 +1,8 @@
 // Require dependencies
+global.sendLog = (text, type) => {    
+    console.log("[" + type + "] " + text);
+}
+
 const Discord = require("discord.js");
 const {
     app,
@@ -9,9 +13,12 @@ const path = require("path");
 const ipc = require("./ipc.js");
 const botManager = require("./botManager");
 const botRunner = require("./botRunner");
+const external = require("./externalManager");
 const fs = require("fs");
 const config = require("./config");
 require("./langParser");
+
+external.validate();
 
 // Load main window
 const loadMainWindow = () => {
@@ -37,17 +44,8 @@ const loadMainWindow = () => {
 
 //Runs once app has loaded
 app.on("ready", () => {
-    if (process.argv[2]) {
-        if (botManager.data.bots[process.argv[2]]) {
-            console.log("Starting bot!");
-            botRunner.run(process.argv[2]);
-        } else {
-            console.log("Bot " + (process.argv[2]) + " not found!");
-            process.exit(0);
-        }
-    } else {
-        loadMainWindow();
-    }
+    let run = require("./cli.js").run;
+    run(loadMainWindow);
 });
 
 //Runs once all windows have closed and the current OS doesnt close

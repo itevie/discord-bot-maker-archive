@@ -292,11 +292,12 @@ let runningBotList = `
     </div>
 `;
 
-function loadRunningList() {
-    let running = window.electron.fetchRunningList();
-    document.getElementById("runningBots").innerHTML = "";
+function loadRunningList(botList, divId) {
+    let running = botList || window.electron.fetchRunningList();
+    console.log(running, divId)
+    document.getElementById(divId || "runningBots").innerHTML = "";
     for (let i in running) {
-        document.getElementById("runningBots").innerHTML += runningBotList.replace(/%id%/g, running[i].id)
+        document.getElementById(divId || "runningBots").innerHTML += runningBotList.replace(/%id%/g, (botList ? "ext:" : "") + running[i].id)
             .replace(/%uptime%/g, running[i].uptime)
             .replace(/%pendingRestart%/g, running[i].pendingRestart == true ? "block" : "none")
             .replace(/%pfp%/g, `<img class="pfp" src="${running[i].profile?.pfp || "image/noPfp.png"}">`);

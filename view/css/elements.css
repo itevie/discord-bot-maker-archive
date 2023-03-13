@@ -1,7 +1,8 @@
 body {
     margin: 0;
     padding: 0;
-    background-color: #3d3f46;
+    /*background-color: #3d3f46;*/
+    background-color: #313338;
     color: white;
     font-family: Arial, Helvetica, sans-serif;
     animation: fadeIn 0.3s;
@@ -72,4 +73,22 @@ a {
 
 a:hover {
     color: blue;
+}
+
+code {
+    border-color: #1E1F22;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: #2B2D31;
+    color: white;
+}
+
+code.box {
+    padding: 10px;
+    margin: 5px;
+}
+
+code:not(.box) {
+    padding: 3px;
 }

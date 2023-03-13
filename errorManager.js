@@ -20,6 +20,9 @@ process.on("uncaughtException", (err) => {
 })
 
 function newLog(err, fatal) {
+    console.log(err, err.stack, err.toString())
+    if (err.toString().toLowerCase().includes("manager was destroyed")) return;
+
     let logName = Date.now().toString() + ".txt";
     let path = app.getPath("userData");
     if (!fs.existsSync(path + "/logs/")) fs.mkdirSync(path + "/logs");

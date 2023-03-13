@@ -16,7 +16,11 @@ ipcMain.on("runningBotList", (event, data) => {
 
 // Get the current log
 ipcMain.on("fetchLog", (event) => {
-    event.returnValue = log;
+    try {
+        event.returnValue = log;
+    } catch (err) {
+        event.returnValue = [];
+    }
 });
 
 // Clear the log

@@ -19,6 +19,7 @@
     <script src="js/eventManager.js"></script>
     <script src="js/resourceManager.js"></script>
     <script src="js/ctxmenu.js"></script>
+    <script src="js/externalManager.js"></script>
     <!-- STYLE SHEETS -->
     <link rel="stylesheet" href="sw/sweetalert2.css">
     <link rel="stylesheet" href="css/actions.css">
@@ -37,6 +38,7 @@
         <img src="image/icon/settings.png" data-onsidebar data-div-change="appSettings">
         <img src="image/icon/article.png" data-onsidebar data-div-change="faqList">
         <img src="image/icon/bot.png" data-onsidebar data-div-change="changeBot">
+        <img src="image/icon/globe.png" data-onsidebar data-div-change="external">
         <img src="image/icon/analytics.png" data-onsidebar data-div-change="log">
         <img src="image/icon/error.png" data-onsidebar data-div-change="errors">
 
@@ -204,6 +206,49 @@
                 <h2>Bot Statuses</h2>
                 <p id="runningBots"></p>
             </div>
+            <h2 id="changeBot-external-header" style="display: none">External</h2>
+            <p id="external-runningBots"></p>
+        </div>
+
+        <div data-div-id="external">
+            <h1>External Server</h1>
+            <p>Host your bot on an external server, such as a different computer of yours.</p>
+            <p>This feature is so your personal computer does not have to be on 24/7 for your bot to be online, so why
+                not host it on some old computer or VPS?</p>
+            <p>Click <button onclick="showFAQ('external')">here</button> to learn how to set it up.</p>
+            <h2>Details</h2>
+            <table>
+                <tr>
+                    <td>
+                        <label>IP:</label>
+                    </td>
+                    <td>
+
+                        <input type="url" id="external-url">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Port:</label>
+                    </td>
+                    <td>
+                        <input type="text" id="external-port">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="checkbox" id="external-https" checked>
+                    </td>
+                    <td>
+                        <label>Use HTTPS?</label>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <button onclick="checkExternal()">Check</button><button onclick="saveExternal()">Save</button><br>
+            <p id="external-info"></p>
+            <h2>Quick</h2>
+            <button onclick="toggleExternalFetcher()" id="external-toggle-fetcher">Stop Tying To Connect</button>
         </div>
 
         <div data-div-id="settings">

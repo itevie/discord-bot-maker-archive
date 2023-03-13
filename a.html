@@ -1,0 +1,5 @@
+<script>
+    fetch("http://localhost:8080/information").then(async res => {
+        document.write(await res.text());
+    })
+</script>
