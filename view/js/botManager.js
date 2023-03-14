@@ -325,7 +325,7 @@ let botManagerBotListTemplate = `
     <td>
         <img src="image/icon/open.png" onclick="selectBot('{{id}}');" class="icon">
         <img src="image/icon/play.png" onclick="startSpecific('{{id}}');" class="icon">
-        <img src="image/icon/globe.png" onclick="startExternal('{{id}}');" class="icon">
+        <img src="image/icon/globe.png" onclick="startExternal('{{id}}');" style="display: %showExt%" class="icon">
         <img src="image/icon/delete.png" onclick="deleteBot('{{id}}')" class="icon danger-icon">
         <!--<button onclick="selectBot('{{id}}');">Select</button>
         <button class="goodButton" onclick="startSpecific('{{id}}');">Start</button>
@@ -341,7 +341,8 @@ function loadBotList() {
     let text = "<table>";
 
     for (let i in data) {
-        text += botManagerBotListTemplate.replace(/\{\{\id}\}/g, data[i]);
+        text += botManagerBotListTemplate.replace(/\{\{\id}\}/g, data[i])
+            .replace(/%showExt%/g, externalFetcherEnabled == true ? "inline-block" : "none");
     }
 
     text += "</table>";

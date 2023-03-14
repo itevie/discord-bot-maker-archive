@@ -40,6 +40,9 @@ function saveExternal() {
     checkExternal().then((url) => {
         let a = window.electron.setExternal(url);
         document.getElementById("external-info").innerHTML = "Saved!";
+        externalFetcherEnabled = true;
+        loadExternal();
+        loadBotList();
     });
 }
 
@@ -51,7 +54,13 @@ function loadExternal() {
     if (!appSettings.external || !appSettings.external) {
         externalFetcherEnabled = false;
         document.getElementById("external-toggle-fetcher").innerHTML = "Start Trying To Connect";
+        document.getElementById("sidebar-sync").style.display = "none";
+        document.getElementById("external-delete").style.display = "none";
         return;
+    } else {
+        externalFetcherEnabled = true;
+        document.getElementById("sidebar-sync").style.display = "block";
+        document.getElementById("external-delete").style.display = "inline-block";
     }
 
     if (externalFetcherEnabled) {
@@ -61,6 +70,13 @@ function loadExternal() {
         if (Object.keys(data).length != 0) document.getElementById("changeBot-external-header").style.display = "block";
         else document.getElementById("changeBot-external-header").style.display = "none";
     }
+}
+
+function deleteExternal() {
+    window.electron.deleteExternal();
+    externalFetcherEnabled = false;
+    loadExternal();
+    loadBotList();
 }
 
 function toggleExternalFetcher() {

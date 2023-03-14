@@ -27,6 +27,10 @@ module.exports.startWs = (port) => {
                     global.sendError("WS fail: " + err.toString(), "external:ws");
                 });
 
+                wsConnection.on("close", (err) => {
+                    global.sendLog("WS Connection terminated", "external:ws");
+                });
+
                 wsConnection.on('open', function open() {
                     global.sendLog("Successfully opened WS connection", "external:ws");
                 });

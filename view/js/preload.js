@@ -47,6 +47,7 @@ contextBridge.exposeInMainWorld('electron', {
     renameBot: (data) => ipcRenderer.send("renameBot", data),
     getConfig: () => ipcRenderer.sendSync("getConfig", null),
     setExternal: (url) => ipcRenderer.sendSync("setExternal", url),
+    deleteExternal: () => ipcRenderer.send("deleteExternal", null),
 
     fetchFaqList: () => ipcRenderer.sendSync("fetchFaqList", null),
     getProcessData: () => ipcRenderer.sendSync("getProcessData", null),

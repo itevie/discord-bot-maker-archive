@@ -93,6 +93,15 @@ module.exports.run = (id) => {
     })
 
     running[id].login(botManager.data.bots[id].token).catch((err) => {
+        if (err.toString().includes("An invalid token was provided")) {
+            global.sendLog("The token for bot " + id + " is invalid and needs to be re-set");
+            global?.mainWindow?.webContents?.send("error", {
+                type: "alert",
+                "msg": "Your token for the bot " + id + " seems to be invalid, please reset it in the bot's settings"
+            });
+        }
+        running[id].destroy();
+        delete running[id];
         return sendInfo("ERROR: Failed to start: " + err.toString());
     });
 }

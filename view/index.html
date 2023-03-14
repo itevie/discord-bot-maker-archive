@@ -40,6 +40,7 @@
         <img src="image/icon/bot.png" data-onsidebar data-div-change="changeBot">
         <img src="image/icon/globe.png" data-onsidebar data-div-change="external">
         <img src="image/icon/analytics.png" data-onsidebar data-div-change="log">
+        <img src="image/icon/insights.png" data-onsidebar data-div-change="insights">
         <img src="image/icon/error.png" data-onsidebar data-div-change="errors">
 
         <div style="display: none;">
@@ -57,6 +58,7 @@
                 <b style="font-size: 12px;" id="sideBar-botID">Bot Stuff</b>
             </center><br>
             <img src="image/icon/actions.png" data-onsidebar data-div-change="actions">
+            <img src="image/icon/sync.png" id="sidebar-sync" data-onsidebar data-div-change="sync">
             <img src="image/icon/terminal.png" data-onsidebar data-div-change="botCommads">
             <img src="image/icon/event.png" data-onsidebar data-div-change="events">
             <img src="image/icon/variables.png" data-onsidebar data-div-change="botVariables">
@@ -245,7 +247,8 @@
                 </tr>
             </table>
             <br>
-            <button onclick="checkExternal()">Check</button><button onclick="saveExternal()">Save</button><br>
+            <button onclick="checkExternal()">Check</button><button onclick="saveExternal()">Save</button>
+            <button onclick="deleteExternal()" class="dangerButton" id="external-delete">Delete</button><br>
             <p id="external-info"></p>
             <h2>Quick</h2>
             <button onclick="toggleExternalFetcher()" id="external-toggle-fetcher">Stop Tying To Connect</button>
@@ -313,6 +316,63 @@
             <button onclick="addDatabaseItem()">New Item</button>
             <h2>The List</h2>
             <div id="database-list"></div>
+        </div>
+
+        <div data-div-id="sync">
+            <h1>Sync settings with external host</h1>
+            <p>Select the following settings you would like to sync with the external server</p>
+            <table>
+                <tr>
+                    <th>Transfer data</th>
+                    <th>Choose what is transferred when "run on external" is pressed</th>
+                </tr>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <th>To Server</th>
+                                <th>From Server</th>
+                            </tr>
+                            <tr>
+                                <td><button>Database</button></td>
+                                <td><button>Database</button></td>
+                            </tr>
+                            <tr>
+                                <td><button>Commands</button></td>
+                                <td><button>Commands</button></td>
+                            </tr>
+                            <tr>
+                                <td><button>Resources</button></td>
+                                <td><button>Resources</button></td>
+                            </tr>
+                            <tr>
+                                <td><button>Events</button></td>
+                                <td><button>Events</button></td>
+                            </tr>
+                            <tr>
+                                <td><button>All Data</button></td>
+                                <td><button>All Data</button></td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td><input type="checkbox" checked><label>Commands</label></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" checked><label>Events</label></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" checked><label>Resources</label></td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox"><label>Database</label></td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div data-div-id="resources">

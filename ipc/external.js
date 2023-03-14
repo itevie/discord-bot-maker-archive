@@ -48,3 +48,14 @@ ipcMain.on("stopBotExternal", (event, id) => {
         event.returnValue = {}
     });
 });
+
+ipcMain.on("deleteExternal", (event) => {
+    if (botManager.data.external) {
+        delete botManager.data.external;
+    }
+
+    if (external.wsConnection) {
+        external.wsConnection.close();
+        external.wsConnection = null;
+    }
+});

@@ -6,14 +6,6 @@ let toast = null;
 let divHistory = [null, null];
 
 setInterval(() => {
-    if (divHistory[divHistory.length - 2]) {
-        document.getElementById("sidebar-back").innerHTML = divHistory[divHistory.length - 2] || "Back";
-    } else {
-        document.getElementById("sidebar-back").innerHTML = "<i>No History</i>";
-    }
-}, 100);
-
-setInterval(() => {
     let data = window.electron.getProcessData();
     let processRam = document.getElementById("appSettngs-processRam");
     processRam.value = data.memory.process.heapUsed;
@@ -294,7 +286,6 @@ let runningBotList = `
 
 function loadRunningList(botList, divId) {
     let running = botList || window.electron.fetchRunningList();
-    console.log(running, divId)
     document.getElementById(divId || "runningBots").innerHTML = "";
     for (let i in running) {
         document.getElementById(divId || "runningBots").innerHTML += runningBotList.replace(/%id%/g, (botList ? "ext:" : "") + running[i].id)
