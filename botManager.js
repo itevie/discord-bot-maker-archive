@@ -1,12 +1,11 @@
 const fs = require("fs");
 const {
-    app
+    app, globalShortcut
 } = require("electron");
 const uuid = require("uuid");
 const cli = require("./cli");
-console.log(cli)
 let path = cli.getFlag("data", app.getPath("userData"));
-global.sendLog("Data path: " + path, "bot-manager");
+global.dbm.log("Data path: " + path, "bot-manager");
 
 let thisSession = uuid.v4();
 
@@ -27,12 +26,12 @@ data.currentEditor = thisSession;
 const botRunner = require("./botRunner");
 
 if ((Object.keys(data.bots).length != 0 && data.selected == null) || !data.bots[data.selected]) {
-    global.sendLog("Selected bot not found, selecting first bot in list", "bot-manager");
+    global.dbm.log("Selected bot not found, selecting first bot in list", "bot-manager");
     data.selected = Object.keys(data.bots)[0];
 }
 
 if (data.selected && !data.bots[data.selected]) {
-    global.sendLog("No bot found for selected", "bot-manager");
+    global.dbm.log("No bot found for selected", "bot-manager");
     data.selected = null;
 }
 
@@ -58,7 +57,7 @@ let newBot = {
             type: "prefix",
             ignoreBots: true,
             actions: [{
-                type: "messages:send-author-message",
+                type: "built-in:messages:send-author-message",
                 content: "Welldone! You ran the example command {{embed:first-embed}}"
             }]
         }
@@ -66,7 +65,7 @@ let newBot = {
     events: {
         "messageDelete": {
             actions: [{
-                type: "log",
+                type: "built-in:x:log",
                 content: "A message was deleted!"
             }]
         }
@@ -77,7 +76,7 @@ let newBot = {
 }
 
 module.exports.addBot = (d) => {
-    global.sendLog("Add bot", "bot-manager");
+    global.dbm.log("Add bot", "bot-manager");
 
     data.bots[d.id] = JSON.parse(JSON.stringify(newBot));
     data.bots[d.id].id = d.id;
@@ -104,7 +103,7 @@ module.exports.validate = (id) => {
     if (!botData.token) errors.push("Invaid token for bot " + id);
 
     for (let i in errors) {
-        global.sendLog(errors[i], "error:database-checker");
+        global.dbm.log(errors[i], "error:database-checker");
     }
 
     if (errors.length > 0) {
@@ -120,11 +119,11 @@ module.exports.validate = (id) => {
 }
 
 module.exports.deleteBot = (id) => {
-    global.sendLog("Deleting bot " + id, "delete-bot");
+    global.dbm.log("Deleting bot " + id, "delete-bot");
 
     if (botRunner.isRunning(id)) {
         botRunner.stop(id);
-        global.sendLog("Bot was running, stopped", "delete-bot");
+        global.dbm.log("Bot was running, stopped", "delete-bot");
     }
 
     delete data.bots[id];
@@ -134,7 +133,7 @@ module.exports.deleteBot = (id) => {
         data.selected = Object.keys(data.bots)[0];
     }
 
-    global.sendLog("Deleted bot " + id, "delete-bot");
+    global.dbm.log("Deleted bot " + id, "delete-bot");
     module.exports.save();
     return;
 }
@@ -149,7 +148,7 @@ let cskip = true;
 // Auto saver
 let x = setInterval(() => {
     if (cskip == true) {
-        global.sendLog("First save", "bot-manager")
+        global.dbm.log("First save", "bot-manager")
         module.exports.save();
         cskip = false;
     }
@@ -158,11 +157,8 @@ let x = setInterval(() => {
 
     if (d.currentEditor != thisSession) {
         clearInterval(x);
-        global.mainWindow?.webContents?.send("error", {
-            type: "alert",
-            force: true,
-            msg: "Discord Bot Maker has detected that there are more than 1 instace of this app open.<br><br>For your bot's data's safety, the app will quit to prevent potential data loss.<br><br>Do NOT open multiple instances of Discord Bot Maker at the same time."
-        });
+
+        global.dbm.error("Discord Bot Maker detected that there are more than 1 instance of this app open. Do not do this as data may be lost, the application will now exit.");
 
         setTimeout(() => {
             app.quit();

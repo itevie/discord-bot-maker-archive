@@ -20,7 +20,7 @@ ipcMain.on("getFullLog", (event) => {
 
 // Open an external link in a browser
 ipcMain.on("openExternalLink", (event, url) => {
-    global.sendLog("Opening external link: " + url, "ipc");
+    global.dbm.log("Opening external link: " + url, "ipc");
 
     // Check if it is safe
     if (!url.startsWith("https://")) return;
@@ -35,7 +35,7 @@ ipcMain.on("showAbout", (event) => {
     aboutWindow = new BrowserWindow({
         width: 500,
         height: 500,
-        parent: global.mainWindow,
+        parent: global.dbm.mainWindow,
         modal: true,
         title: "About",
         resizable: false,
@@ -101,7 +101,7 @@ ipcMain.on("backup", (event, id) => {
     fs.writeFileSync(path + "/backups/bots/" + id + "-" + (Date.now()).toString() + ".json", JSON.stringify(botData, null, 2));
     let bPath = path + "/backups/bots/" + id + "-" + (Date.now()).toString() + ".json";
 
-    global.mainWindow.webContents.send("success", {
+    global.dbm.mainWindow.webContents.send("success", {
         type: "alert",
         msg: "Created backup at: " + bPath,
         force: true

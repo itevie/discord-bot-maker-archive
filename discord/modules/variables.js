@@ -6,11 +6,39 @@ module.exports.details = {
 }
 
 module.exports.actions = {
+    "create-variable": {
+        name: "Create Variable",
+        description: "A more advanced set variable",
+        inputs: {
+            id: {
+                name: "id",
+                allowEmpty: false
+            },
+            content: {
+                name: "content"
+            },
+            type: {
+                name: "type",
+                type: "select",
+                options: {
+                    "String": "string",
+                    "Number": "number",
+                    "JSON": "json",
+                    "Boolean": "boolean"
+                }
+            },
+            forceType: {
+                name: "enforce types",
+                type: "checkbox"
+            }
+        }
+    },
     "set-variable": {
         name: "Set Variable To",
         inputs: {
             id: {
-                name: "id"
+                name: "id",
+                allowEmpty: false
             },
             content: {
                 name: "content"
@@ -21,7 +49,8 @@ module.exports.actions = {
         name: "Delete Variable",
         inputs: {
             id: {
-                name: "id"
+                name: "id",
+                allowEmpty: false
             }
         }
     }

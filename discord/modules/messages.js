@@ -13,8 +13,7 @@ module.exports.actions = {
             content: {
                 name: "content",
                 type: "textarea",
-                validator: /.+/,
-                validatorMessage: "Cannot be empty"
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -38,8 +37,7 @@ module.exports.actions = {
             content: {
                 name: "content",
                 type: "textarea",
-                validator: /.+/,
-                validatorMessage: "Cannot be empty"
+                allowEmpty: false
             },
             id: {
                 name: "channel id"
@@ -71,8 +69,7 @@ module.exports.actions = {
             content: {
                 name: "content",
                 type: "textarea",
-                validator: /.+/,
-                validatorMessage: "Cannot be empty"
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -96,8 +93,7 @@ module.exports.actions = {
             content: {
                 name: "content",
                 type: "textarea",
-                validator: /.+/,
-                validatorMessage: "Cannot be empty"
+                allowEmpty: false
             },
             id: {
                 name: "message id"
@@ -141,7 +137,8 @@ module.exports.actions = {
         name: "Delete Message",
         inputs: {
             id: {
-                name: "message id"
+                name: "message id",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -180,7 +177,8 @@ module.exports.actions = {
         name: "Pin Message",
         inputs: {
             id: {
-                name: "message id"
+                name: "message id",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -205,7 +203,8 @@ module.exports.actions = {
         name: "Unpin Message",
         inputs: {
             id: {
-                name: "message id"
+                name: "message id",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -232,8 +231,7 @@ module.exports.actions = {
             emoji: {
                 name: "emoji",
                 type: "text",
-                validator: /.+/,
-                validatorMessage: "Cannot be empty"
+                allowEmpty: false
             }
         },
         execute: (data) => {

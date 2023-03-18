@@ -417,8 +417,160 @@
       "profile": {
         "pfp": "https://cdn.discordapp.com/avatars/957678973771477022/d613e3de17b3410e8546b4effac35e63.webp"
       }
+    },
+    "asd": {
+      "id": "asd",
+      "token": "OTcyODI5NzA5OTkxODI1NDk4.Gq1qM-.-nYgeIN9riUcWFk9nPIzjOTXlHKq5T_Gzh8bOo",
+      "prefix": "!",
+      "pendingRestart": true,
+      "resources": {
+        "embeds": {
+          "first-embed": [
+            {
+              "title": "My first embed",
+              "description": "This is an amazing Embed!"
+            }
+          ],
+          "embed": [
+            {
+              "title": "HELLO THIS IS SO COOL WTF",
+              "description": "My awesome embed!",
+              "fields": [
+                {
+                  "name": "Field name",
+                  "value": "Field value",
+                  "inline": false
+                }
+              ],
+              "color": 15879747
+            }
+          ]
+        }
+      },
+      "commands": {
+        "test": {
+          "type": "prefix",
+          "name": "test",
+          "ignoreBots": true,
+          "actions": [
+            {
+              "type": "variables:set-variable",
+              "id": "json",
+              "content": "{\"a\":{\"b\":{\"c\":1}}}"
+            },
+            {
+              "type": "types:set-variable-to-json",
+              "id": "json"
+            },
+            {
+              "type": "messages:reply-to-author-message",
+              "content": "{{json:a:b:c}}"
+            }
+          ],
+          "comment": ""
+        },
+        "hello": {
+          "type": "prefix",
+          "name": "hello",
+          "ignoreBots": true,
+          "actions": [
+            {
+              "type": "messages:reply-to-author-message",
+              "content": "Hello there, {{message:author:username}}"
+            }
+          ],
+          "comment": ""
+        },
+        "embed": {
+          "type": "prefix",
+          "name": "embed",
+          "ignoreBots": true,
+          "actions": [
+            {
+              "type": "messages:reply-to-author-message",
+              "content": "{{embed:embed}}"
+            }
+          ],
+          "comment": ""
+        },
+        "asd": {
+          "type": "prefix",
+          "name": "asd",
+          "ignoreBots": true,
+          "actions": [
+            {
+              "type": "String",
+              "id": "asd",
+              "content": "asd",
+              "forceType": "on"
+            }
+          ],
+          "comment": ""
+        }
+      },
+      "events": {
+        "messageDelete": {
+          "actions": [
+            {
+              "type": "log",
+              "content": "A message was deleted!"
+            }
+          ]
+        }
+      },
+      "database": {
+        "greetings": "Hello World!"
+      },
+      "profile": {
+        "pfp": "https://cdn.discordapp.com/avatars/972829709991825498/1f40d7174b88b2366a610156b7b6c100.webp"
+      }
+    },
+    "asdasdasd": {
+      "id": "asdasdasd",
+      "token": "OTcyODI5NzA5OTkxODI1NDk4.Gq1qM-.-nYgeIN9riUcWFk9nPIzjOTXlHKq5T_Gzh8bOo",
+      "prefix": "!",
+      "pendingRestart": false,
+      "resources": {
+        "embeds": {
+          "first-embed": [
+            {
+              "title": "My first embed",
+              "description": "This is an amazing Embed!"
+            }
+          ]
+        }
+      },
+      "commands": {
+        "example": {
+          "comment": "An example command, start the bot and run !example to see it work!",
+          "type": "prefix",
+          "ignoreBots": true,
+          "actions": [
+            {
+              "type": "messages:send-author-message",
+              "content": "Welldone! You ran the example command {{embed:first-embed}}"
+            }
+          ]
+        }
+      },
+      "events": {
+        "messageDelete": {
+          "actions": [
+            {
+              "type": "log",
+              "content": "A message was deleted!"
+            }
+          ]
+        }
+      },
+      "database": {
+        "greetings": "Hello World!"
+      },
+      "profile": {
+        "pfp": "https://cdn.discordapp.com/avatars/972829709991825498/1f40d7174b88b2366a610156b7b6c100.webp"
+      }
     }
   },
-  "currentEditor": "ae06ae05-fbbc-4a0b-8ec2-cc913b70225e",
+  "currentEditor": "06b135d3-b720-4067-86aa-38f9adcb136e",
   "selected": "reddit"
 }

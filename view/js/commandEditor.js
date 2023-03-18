@@ -109,46 +109,41 @@ function updateEditActionSelection(data = {}) {
         let input = action.inputs[i];
         let div = document.createElement("div");
         let label = document.createElement("label");
-        let inp = document.createElement("input");
+        let inp = document.createElement(input.type == "select" ? "select" : "input");
+
+        let type = input.type || "text";
 
         let tag = input.name;
-        if (tag.trim().endsWith(":") == false) tag = tag.trim() + ": ";
+        if (type != "checkbox") {
+            if (tag.trim().endsWith(":") == false) tag = tag.trim() + ": ";
+        }
 
         label.innerHTML = prettify(tag);
-        inp.type = input.type || "text";
+
+        if (type == "select") {
+            for (let i in input.options) {
+                let option = document.createElement("option");
+                option.innerHTML = input.options[i];
+                option.value = i;
+                inp.options.add(option);
+            }
+        } else {
+            inp.type = input.type || "text";
+        }
         inp.id = "editAction-inputs-" + i;
 
         if (data != {} && data[i]) inp.value = data[i];
 
-        div.appendChild(label);
-        div.appendChild(inp);
+        if (type == "checkbox") {
+            div.appendChild(inp);
+            div.appendChild(label);
+        } else {
+            div.appendChild(label);
+            div.appendChild(inp);
+        }
 
         document.getElementById("editAction-inputs").appendChild(div);
     }
-
-    /*if (type.options[type.selectedIndex].hasAttribute("data-needs-content")) {
-        document.getElementById("editAction-content").style.display = "block";
-    } else document.getElementById("editAction-content").style.display = "none";
-
-    if (type.options[type.selectedIndex].hasAttribute("data-needs-id")) {
-        document.getElementById("editAction-contentId").style.display = "block";
-    } else document.getElementById("editAction-contentId").style.display = "none";
-
-    if (type.options[type.selectedIndex].hasAttribute("data-needs-content2")) {
-        document.getElementById("editAction-content2").style.display = "block";
-    } else document.getElementById("editAction-content2").style.display = "none";
-
-    if (type.options[type.selectedIndex].hasAttribute("data-inputs-content")) {
-        document.getElementById("editAction-content-label").innerHTML = type.options[type.selectedIndex].getAttribute("data-inputs-content");
-    }
-
-    if (type.options[type.selectedIndex].hasAttribute("data-inputs-content2")) {
-        document.getElementById("editAction-content2-label").innerHTML = type.options[type.selectedIndex].getAttribute("data-inputs-content2");
-    }
-
-    if (type.options[type.selectedIndex].hasAttribute("data-inputs-id")) {
-        document.getElementById("editAction-contentId-label").innerHTML = type.options[type.selectedIndex].getAttribute("data-inputs-id");
-    }*/
 }
 
 function addAnotherAction() {
@@ -180,10 +175,15 @@ function saveAction() {
 
     for (let i in action.inputs) {
         let el = document.getElementById("editAction-inputs-" + i);
-        if (action.inputs[i].validator && !el.value.match(action.inputs[i].validator)) {
+        let value = action.inputs[i].type == "select" ? el.options[el.selectedIndex].value : el.value;
+
+        if (action.inputs[i].validator && !value.match(action.inputs[i].validator)) {
             return document.getElementById("editAction-input-error").innerHTML = prettify(action.inputs[i].name) + ": " + (action.inputs[i].validatorMessage || "Invalid inputs");
-        }
-        current[editing][i] = el.value;
+        } else if (action.inputs[i].allowEmpty == false && value.trim() == "") {
+            return document.getElementById("editAction-input-error").innerHTML = prettify(action.inputs[i].name) + ": This field cannot be empty!"; 
+        } 
+
+        current[editing][i] = value;
     }
 
     document.getElementById("editAction-input-error").innerHTML = "";

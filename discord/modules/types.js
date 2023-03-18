@@ -8,11 +8,13 @@ module.exports.actions = {
         description: "Converts variable text to a JSON object.",
         inputs: {
             id: {
-                name: "variable id"
+                name: "variable id",
+                allowEmpty: false
             }
         },
         execute: async (data) => {
             return new Promise(async (resolve, reject) => {
+                global.sendLog(data.variables[data.action.id]);
                 if (data.variables[data.action.id]) {
                     data.variables[data.action.id] = JSON.parse(data.variables[data.action.id]);
                     resolve();
@@ -25,7 +27,8 @@ module.exports.actions = {
         description: "Converts variable text to a number.",
         inputs: {
             id: {
-                name: "variable id"
+                name: "variable id",
+                allowEmpty: false
             }
         },
         execute: async (data) => {
@@ -42,7 +45,8 @@ module.exports.actions = {
         description: "Converts variable text to string",
         inputs: {
             id: {
-                name: "variable id"
+                name: "variable id",
+                allowEmpty: false
             }
         },
         execute: async (data) => {

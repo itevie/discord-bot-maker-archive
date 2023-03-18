@@ -64,7 +64,7 @@ module.exports.travelJSON = (path, json) => {
 
     for (let i in keys) {
         if (json[keys[i]] == null || json[keys[i]] == undefined) {
-            global.sendLog("Key not found: " + keys[i] + " whilst looking for " + path, "error");
+            global.dbm.log("Key not found: " + keys[i] + " whilst looking for " + path, "error");
             return undefined;
         }
 

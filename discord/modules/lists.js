@@ -8,7 +8,8 @@ module.exports.actions = {
         description: "Creates a new, empty list at the specified variable name",
         inputs: {
             variable: {
-                name: "variable name"
+                name: "variable name",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -23,7 +24,8 @@ module.exports.actions = {
         description: "Adds a new item to a list",
         inputs: {
             variable: {
-                name: "variable name"
+                name: "variable name",
+                allowEmpty: false
             },
             content: {
                 name: "Content"
@@ -49,7 +51,8 @@ module.exports.actions = {
         description: "Removes the first item of a list, returns the removed variable as {{result}}",
         inputs: {
             variable: {
-                name: "variable name"
+                name: "variable name",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -72,7 +75,8 @@ module.exports.actions = {
         description: "Removes the last item of a list, returns the removed variable as {{result}}",
         inputs: {
             variable: {
-                name: "variable name"
+                name: "variable name",
+                allowEmpty: false
             }
         },
         execute: (data) => {

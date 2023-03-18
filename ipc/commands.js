@@ -9,7 +9,7 @@ ipcMain.on("createCommand", (event, data) => {
     botManager.data.bots[botManager.data.selected].commands[data.name] = data;
     botManager.data.bots[botManager.data.selected].pendingRestart = true;
 
-    global.sendLog("Command Created", "ipc");
+    global.dbm.log("Command Created", "ipc");
     event.returnValue = true;
 });
 
@@ -20,9 +20,9 @@ ipcMain.on("deleteCommand", (event, id) => {
         delete botManager.data.bots[botManager.data.selected].commands[id];
         botManager.data.bots[botManager.data.selected].pendingRestart = true;
     } else {
-        global.sendLog("Command " + id + " did not exist, nothing happened.", "ipc:deleteCommand");
+        global.dbm.log("Command " + id + " did not exist, nothing happened.", "ipc:deleteCommand");
     }
     
-    global.sendLog("Command Deleted", "ipc:deleteCommand");
+    global.dbm.log("Command Deleted", "ipc:deleteCommand");
     event.returnValue = true;
 })

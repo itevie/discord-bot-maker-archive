@@ -14,8 +14,7 @@ module.exports.actions = {
             key: {
                 name: "key",
                 type: "text",
-                validator: /^([a-zA-Z_0-9\-]{1,})$/,
-                validatorMessage: "Invalid key name"
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -38,8 +37,7 @@ module.exports.actions = {
             key: {
                 name: "key",
                 type: "text",
-                validator: /^([a-zA-Z_0-9\-]{1,})$/,
-                validatorMessage: "Invalid key name"
+                allowEmpty: false
             },
             content: {
                 name: "content",
@@ -69,7 +67,8 @@ module.exports.actions = {
         inputs: {
             key: {
                 name: "key",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -94,7 +93,8 @@ module.exports.actions = {
         inputs: {
             key: {
                 name: "key",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             },
             content: {
                 name: "content",

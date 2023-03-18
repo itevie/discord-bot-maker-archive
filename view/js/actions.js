@@ -60,6 +60,56 @@ let selectActions = {
     }
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    let packages = window.electron.fetchWebActions();
+    let editActionSelect = document.getElementById("editAction-type");
+
+    // Loop through packages
+    for (let package in packages) {
+        if (package == "information") continue;
+
+        // Loop through modules
+        for (let module in packages[package]) {
+            if (module == "information") continue;
+            
+            selectActions["c" + module] = {
+                name: " --- " + prettify(module) + " --- ",
+                disable: true
+            }
+
+            // Loop through actions
+            for (let action in packages[package][module]) {
+                selectActions[action] = packages[package][module][action];
+            }
+        }
+    }
+
+    for (let i in selectActions) {
+        // Create and setup the option menu
+        let option = document.createElement("option");
+        option.text = prettify(selectActions[i].name);
+        option.value = i;
+
+        option.setAttribute("data-action-id", i);
+
+
+        // If it needs to be disabled (like a category), do so
+        if (selectActions[i].disable) {
+            option.disabled = true;
+            option.style["text-align"] = "center";
+        }
+
+        // If it should be auto selected (the very top categoric option)
+        if (selectActions[i].selected) {
+            option.selected = true;
+        }
+
+        // Add it
+        editActionSelect.add(option);
+    }
+});
+
+/*
 // On load, load all the actions from ipc
 document.addEventListener("DOMContentLoaded", () => {
     let webActions = window.electron.fetchWebActions(); // Load list
@@ -88,22 +138,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         option.setAttribute("data-action-id", i);
 
-        // Loop through all the inputs it needs
-        /*for (let x in selectActions[i].needs) {
-            //option.setAttribute("data-needs-" + selectActions[i].needs[x], "");
-            option.setAttribute("data-action-id", )
-            if (selectActions[i].inputs && selectActions[i].inputs[selectActions[i].needs[x]]) {
-                let l = selectActions[i].inputs[selectActions[i].needs[x]];
-                // Add the : at the ened of the custom input name if it isnt there.
-                if (l.trim().endsWith(":") == false) {
-                    l = l.trim();
-                    l += ": ";
-                }
-
-                // Set the name
-                option.setAttribute("data-inputs-" + selectActions[i].needs[x], prettify(l));
-            }
-        }*/
 
         // If it needs to be disabled (like a category), do so
         if (selectActions[i].disable) {
@@ -119,4 +153,4 @@ document.addEventListener("DOMContentLoaded", () => {
         // Add it
         editActionSelect.add(option);
     }
-});
+});*/

@@ -1,0 +1,61 @@
+manifest_version = 0
+
+[information]
+name = "built-in"
+description = "Built in modules for Discord Bot Maker"
+version = "0.0"
+author = "Discord Bot Maker"
+
+[list]
+module_list = [
+    "bot", "conditional", "database", "lists", "maths", "messages", "misc",
+    "strings", "types", "users", "variables", "voice"
+]
+
+[bot]
+name = "bot"
+description = "Manage your bot"
+
+[conditional]
+name = "conditional"
+description = "Run actions based of conditional statements"
+
+[database]
+name = "database"
+description = "Manager your bot's database"
+
+[lists]
+name = "lists"
+description = "Store multiple variables in a list"
+
+[maths]
+name = "maths"
+description = "Do maths"
+
+[messages]
+name = "messages"
+description = "Manage messages"
+
+[misc]
+name = "misc"
+description = "Actions which don't have a category"
+
+[strings]
+name = "strings"
+description = "Fun with strings"
+
+[types]
+name = "types"
+description = "Types..."
+
+[users]
+name = "users"
+description = "Actions based on users"
+
+[variables]
+name = "variables"
+description = "Store data in variables for use later"
+
+[voice]
+name = "voice"
+description = "Connect and play audio in voice chats"

@@ -75,7 +75,7 @@ a:hover {
     color: blue;
 }
 
-code {
+.code {
     border-color: #1E1F22;
     border-width: 1px;
     border-style: solid;
@@ -84,11 +84,12 @@ code {
     color: white;
 }
 
-code.box {
+.code.box {
     padding: 10px;
     margin: 5px;
 }
 
-code:not(.box) {
+.code:not(.box) {
     padding: 3px;
+    display: inline-block;
 }

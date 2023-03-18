@@ -10,7 +10,7 @@ let lastTry = 0;
 module.exports.wsConnection = wsConnection;
 
 module.exports.start = (port) => {
-    global.sendLog("Starting server on port " + port, "server");
+    global.dbm.log("Starting server on port " + port, "server");
     init(port);
 }
 
@@ -20,19 +20,19 @@ module.exports.startWs = (port) => {
             module.exports.validate(function () {
                 let url = botManager.data.external.url;
                 let wsUrl = url.replace(/http/, "ws");
-                global.sendLog("Connecting to WS server: " + wsUrl, "external:ws");
+                global.dbm.log("Connecting to WS server: " + wsUrl, "external:ws");
                 wsConnection = new WebSocket(wsUrl);
 
                 wsConnection.on("error", (err) => {
-                    global.sendError("WS fail: " + err.toString(), "external:ws");
+                    global.dbm.error("WS fail: " + err.toString(), "external:ws");
                 });
 
                 wsConnection.on("close", (err) => {
-                    global.sendLog("WS Connection terminated", "external:ws");
+                    global.dbm.log("WS Connection terminated", "external:ws");
                 });
 
                 wsConnection.on('open', function open() {
-                    global.sendLog("Successfully opened WS connection", "external:ws");
+                    global.dbm.log("Successfully opened WS connection", "external:ws");
                 });
 
                 wsConnection.on('message', function message(data) {
@@ -40,32 +40,32 @@ module.exports.startWs = (port) => {
 
                     switch (data.type) {
                         case "log":
-                            global.sendLog(data.data.text, "external:ws(" + data.data.type + ")", data.data.loader);
+                            global.dbm.log(data.data.text, "external:ws(" + data.data.type + ")", data.data.loader);
                             break;
                     }
                 });
             });
         } catch (err) {
-            global.sendLog("Failed to connect to WS: " + err, "external")
+            global.dbm.log("Failed to connect to WS: " + err, "external")
         }
     }
 }
 
 module.exports.validate = async (cb, ncb) => {
-    global.sendLog("Validing external host", "debug:external");
+    global.dbm.log("Validing external host", "debug:external");
 
     let url = botManager.data?.external?.url;
     if (!url) {
         if (ncb) ncb();
-        return global.sendError("The external host URL is undefined.");
+        return global.dbm.error("The external host URL is undefined.");
     }
 
-    global.sendLog("External host URL is " + url, "debug:external");
+    global.dbm.log("External host URL is " + url, "debug:external");
 
     axios.get(url + "/information").then(res => {
         let data = res.data;
         if (data.version != config.version) {
-            global.sendError("External host: invalid version (app=" + config.version + ",server=" + data.version + ")", "error:external");
+            global.dbm.error("External host: invalid version (app=" + config.version + ",server=" + data.version + ")", "error:external");
             if (ncb) ncb();
         } else {
             if (cb) cb();
@@ -75,33 +75,33 @@ module.exports.validate = async (cb, ncb) => {
             }
         }
     }).catch(err => {
-        global.sendLog("Failed to fetch external host: " + err.toString(), "debug:external");
-        global.sendError(err.toString());
+        global.dbm.log("Failed to fetch external host: " + err.toString(), "debug:external");
+        global.dbm.error(err.toString());
         if (ncb) ncb();
     });
 }
 
 module.exports.startBot = (id) => {
-    global.sendLog("Starting bot " + id + " on external host", "external");
+    global.dbm.log("Starting bot " + id + " on external host", "external");
 
     if (!botManager.data.bots[id]) {
-        return global.sendError("The bot: " + id + " does not exist!");
+        return global.dbm.error("The bot: " + id + " does not exist!");
     }
 
     let botData = botManager.data.bots[id];
     module.exports.validate(function () {
-        global.sendLog("External host validated", "external");
+        global.dbm.log("External host validated", "external");
         let url = botManager.data.external.url;
 
         axios.post(url + "/bots/start", botData).then(res => {
-            global.sendLog("Bot " + id + " successfully started on external host!", "external");
+            global.dbm.log("Bot " + id + " successfully started on external host!", "external");
         }).catch(err => {
             if (err?.response?.data?.message) {
-                global.sendError("Failed to start bot " + id + ": " + err.response.data.message, "external");
+                global.dbm.error("Failed to start bot " + id + ": " + err.response.data.message, "external");
                 return;
             }
 
-            global.sendError("Failed to start bot " + id + ": " + err, "external");
+            global.dbm.error("Failed to start bot " + id + ": " + err, "external");
         });
     });
 }

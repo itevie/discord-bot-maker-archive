@@ -6,9 +6,6 @@ module.exports.actions = {
     "typing": {
         name: "Start Typing Indicator",
         allowedEvents: ["*"],
-        inputs: {
-
-        },
         execute: async (data) => {
             return new Promise(async (resolve, reject) => {
                 data.message.channel.startTyping().then(() => {
@@ -22,9 +19,6 @@ module.exports.actions = {
     "stop-typing": {
         name: "Stop Typing Indicator",
         allowedEvents: ["*"],
-        inputs: {
-
-        },
         execute: async (data) => {
             return new Promise(async (resolve, reject) => {
                 data.message.channel.stopTyping().then(() => {

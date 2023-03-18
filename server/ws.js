@@ -5,8 +5,8 @@ let clients = {
 
 }
 module.exports.init = (server) => {
-    let oldSendLog = global.sendLog;
-    global.sendLog = (text, type, loader = false) => {
+    let oldSendLog = global.dbm.log;
+    global.dbm.log = (text, type, loader = false) => {
         for (let i in clients) {
             clients[i].send(JSON.stringify(
                 {
@@ -31,10 +31,10 @@ module.exports.init = (server) => {
         let id = uuid.v4();
         clients[id] = socket;
 
-        global.sendLog("New WS connection: " + id, "ws");
+        global.dbm.log("New WS connection: " + id, "ws");
 
         socket.on("close", () => {
-            global.sendLog("WS connection deleted: " + id, "ws");
+            global.dbm.log("WS connection deleted: " + id, "ws");
             delete clients[id];
         });
     });

@@ -20,6 +20,7 @@
     <script src="js/resourceManager.js"></script>
     <script src="js/ctxmenu.js"></script>
     <script src="js/externalManager.js"></script>
+    <script src="js/packages.js"></script>
     <!-- STYLE SHEETS -->
     <link rel="stylesheet" href="sw/sweetalert2.css">
     <link rel="stylesheet" href="css/actions.css">
@@ -40,6 +41,7 @@
         <img src="image/icon/bot.png" data-onsidebar data-div-change="changeBot">
         <img src="image/icon/globe.png" data-onsidebar data-div-change="external">
         <img src="image/icon/analytics.png" data-onsidebar data-div-change="log">
+        <img src="image/icon/extension.png" data-onsidebar data-div-change="packages">
         <img src="image/icon/insights.png" data-onsidebar data-div-change="insights">
         <img src="image/icon/error.png" data-onsidebar data-div-change="errors">
 
@@ -58,13 +60,13 @@
                 <b style="font-size: 12px;" id="sideBar-botID">Bot Stuff</b>
             </center><br>
             <img src="image/icon/actions.png" data-onsidebar data-div-change="actions">
-            <img src="image/icon/sync.png" id="sidebar-sync" data-onsidebar data-div-change="sync">
             <img src="image/icon/terminal.png" data-onsidebar data-div-change="botCommads">
             <img src="image/icon/event.png" data-onsidebar data-div-change="events">
             <img src="image/icon/variables.png" data-onsidebar data-div-change="botVariables">
             <img src="image/icon/category.png" data-onsidebar data-div-change="resources">
             <img src="image/icon/database.png" data-onsidebar data-div-change="database">
             <img src="image/icon/admin.png" data-onsidebar data-div-change="permissions">
+            <img src="image/icon/sync.png" id="sidebar-sync" data-onsidebar data-div-change="sync">
             <img src="image/icon/settings.png" data-onsidebar data-div-change="settings">
             <img src="image/icon/info.png" data-onsidebar data-div-change="details">
 
@@ -190,7 +192,19 @@
             <button data-lang="log.button.clear-log" onclick="window.electron.clearLog(); reloadTo('log')"
                 class="dangerButton">Clear Log</button>
         </div>
-
+        
+        <div data-div-id="packages">
+            <h1>Your packages</h1>
+            <p>Add packages to enhance your Discord Bot Maker experience</p>
+            <h2>Installed</h2>
+            <p>Installed packages which you can use right now</p>
+            <button onclick="loadPackages()">Reload Package List</button>
+            <button onclick="loadNewPackage()">Install Package</button>
+            <div id="packages-installed"></div>
+            <h2>Online</h2>
+            <p>Install packages online</p>
+        </div>
+        
         <div data-div-id="changeBot">
             <h1>Bot Manager</h1>
             <div class="warning-alert" id="botManager-noBots-alert" style="display: none;">
@@ -334,24 +348,24 @@
                                 <th>From Server</th>
                             </tr>
                             <tr>
-                                <td><button>Database</button></td>
-                                <td><button>Database</button></td>
+                                <td><button onclick="extSync('to:database');">Database</button></td>
+                                <td><button onclick="extSync('from:database');">Database</button></td>
                             </tr>
                             <tr>
-                                <td><button>Commands</button></td>
-                                <td><button>Commands</button></td>
+                                <td><button onclick="extSync('to:commands');">Commands</button></td>
+                                <td><button onclick="extSync('from:commands');">Commands</button></td>
                             </tr>
                             <tr>
-                                <td><button>Resources</button></td>
-                                <td><button>Resources</button></td>
+                                <td><button onclick="extSync('to:resources');">Resources</button></td>
+                                <td><button onclick="extSync('from:resources');">Resources</button></td>
                             </tr>
                             <tr>
-                                <td><button>Events</button></td>
-                                <td><button>Events</button></td>
+                                <td><button onclick="extSync('to:events');">Events</button></td>
+                                <td><button onclick="extSync('from:events');">Events</button></td>
                             </tr>
                             <tr>
-                                <td><button>All Data</button></td>
-                                <td><button>All Data</button></td>
+                                <td><button onclick="extSync('to:all');">All Data</button></td>
+                                <td><button onclick="extSync('from:all');">All Data</button></td>
                             </tr>
                         </table>
                     </td>

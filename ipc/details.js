@@ -41,7 +41,7 @@ ipcMain.on("getFAQ", (event, id) => {
 
 // Get the full bot list
 ipcMain.on("get-bot-list", (event, data) => {
-    global.sendLog("get-bot-list", "ipc");
+    global.dbm.log("get-bot-list", "ipc");
     event.returnValue = Object.keys(botManager.data.bots);
 });
 

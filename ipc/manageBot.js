@@ -25,7 +25,7 @@ ipcMain.on("deleteBot", (event, data) => {
 
     // Check if the bot exists
     if (!botManager.data.bots[id]) {
-        return global.mainWindow.webContents.send("error", {
+        return global.dbm.mainWindow.webContents.send("error", {
             type: "alert",
             msg: "The bot " + id + " does not exist"
         });
@@ -43,7 +43,7 @@ ipcMain.on("deleteBot", (event, data) => {
         
         // Alert user where it was saved to
         setTimeout(() => {
-            global.mainWindow.webContents.send("success", {
+            global.dbm.mainWindow.webContents.send("success", {
                 type: "alert",
                 msg: "Created backup at: " + bPath,
                 force: true
@@ -54,7 +54,7 @@ ipcMain.on("deleteBot", (event, data) => {
     // Delete the bot
     botManager.deleteBot(id);
 
-    return global.mainWindow.webContents.send("message", {
+    return global.dbm.mainWindow.webContents.send("message", {
         reload: true,
         msg: "The bot " + id + " has been deleted"
     });
@@ -75,7 +75,7 @@ ipcMain.on("renameBot", (event, data) => {
     // Check if the bot exists
     if (!botManager.data.bots[data.id]) {
         // Return an error
-        global.mainWindow.webContents.send("error", {
+        global.dbm.mainWindow.webContents.send("error", {
             type: "alert",
             title: "Oops",
             msg: "The bot you were trying to delete (" + data.id + ") does not exist"
@@ -90,7 +90,7 @@ ipcMain.on("renameBot", (event, data) => {
         botManager.data.bots[data.name].id = data.name;
         botManager.data.selected = data.name;
 
-        global.sendNotification("Bot renamed", "success", "The application will now restart.");
+        global.dbm.window.notification("Bot renamed", "success", "The application will now restart.");
         botManager.save();
         setTimeout(() => {
             app.relaunch();

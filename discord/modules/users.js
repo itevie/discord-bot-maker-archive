@@ -9,7 +9,8 @@ module.exports.actions = {
         name: "Send Message To Author",
         inputs: {
             content: {
-                name: "content"
+                name: "content",
+                allowEmpty: false
             }
         },
         execute: async (data) => {
@@ -26,10 +27,12 @@ module.exports.actions = {
         name: "Send Message To User",
         inputs: {
             content: {
-                name: "content"
+                name: "content",
+                allowEmpty: false
             },
             id: {
-                name: "user id"
+                name: "user id",
+                allowEmpty: false
             }
         },
         execute: async (data) => {

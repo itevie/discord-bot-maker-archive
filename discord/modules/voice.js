@@ -19,7 +19,8 @@ module.exports.actions = {
         description: "Join a Voice Channel",
         inputs: {
             "channelId": {
-                name: "Channel id"
+                name: "Channel id",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -41,10 +42,12 @@ module.exports.actions = {
         description: "Plays audio in the specified voice connection channel",
         inputs: {
             "channelId": {
-                name: "Channel id"
+                name: "Channel id",
+                allowEmpty: false
             },
             "audio": {
-                name: "filename"
+                name: "filename",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -78,7 +81,8 @@ module.exports.actions = {
         description: "Leaves a voice channel",
         inputs: {
             "channelId": {
-                name: "Channel id"
+                name: "Channel id",
+                allowEmpty: false
             }
         },
         execute: (data) => {

@@ -83,3 +83,10 @@ function toggleExternalFetcher() {
     externalFetcherEnabled = externalFetcherEnabled == true ? false : true;
     document.getElementById("external-toggle-fetcher").innerHTML = externalFetcherEnabled == true ? "Stop Trying To Connect" : "Start Trying To Connect";
 }
+
+function extSync(name) {
+    let type = name.split(":")[0];
+    let what = name.split(":")[1];
+
+    let a = window.electron.syncExternal({ type: type, what: what });
+}

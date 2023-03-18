@@ -8,14 +8,14 @@ module.exports.init = (client, id) => {
     try {
         var botData = JSON.parse(JSON.stringify(botManager.data.bots[id]));
     } catch (err) {
-        return global.sendError("Failed to start bot, your bot's data may be corrupt or missing: " + err.toString());
+        return global.dbm.error("Failed to start bot, your bot's data may be corrupt or missing: " + err.toString());
     }
 
     if (!botData) return;
 
     // DEFAULT FUNCTIONS
     function sendInfo(text) {
-        global.sendLog(text, "event:messageDelete (" + id + ")");
+        global.dbm.log(text, "event:messageDelete (" + id + ")");
     }
 
     client.on("messageDelete", async message => {

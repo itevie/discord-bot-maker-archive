@@ -22,7 +22,7 @@ ipcMain.on("showEmbed", (event, name) => {
 
     // Create and show the embed window
     embedWindow = new BrowserWindow({
-        parent: global.mainWindow,
+        parent: global.dbm.mainWindow,
         modal: true,
         title: "Embed Editor",
         webPreferences: {
@@ -58,9 +58,9 @@ ipcMain.on("deleteEmbed", (event, name) => {
     // Check if it exists
     if (botManager.data.bots[botManager.data.selected].resources.embeds[name]) {
         delete botManager.data.bots[botManager.data.selected].resources.embeds[name];
-        global.sendNotification("Embed " + name + " has been deleted", "success");
+        global.dbm.window.notification("Embed " + name + " has been deleted", "success");
     } else {
-        global.sendNotification("Failed to delete", "error", "The embed " + name + " does not exist!")
+        global.dbm.window.notification("Failed to delete", "error", "The embed " + name + " does not exist!")
     }
 })
 

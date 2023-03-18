@@ -15,11 +15,11 @@ module.exports.init = (port) => {
     let routes = getAllFiles(__dirname + "/routes");
     for (let i in routes) {
         require(routes[i]).init(app);
-        global.sendLog("Loaded route " + routes[i], "server:routes");
+        global.dbm.log("Loaded route " + routes[i], "server:routes");
     }
 
     let server = app.listen(port, () => {
-        global.sendLog("Server listening on port " + port, "server");
+        global.dbm.log("Server listening on port " + port, "server");
     });
 
     ws.init(server);

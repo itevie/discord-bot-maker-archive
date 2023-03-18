@@ -62,7 +62,8 @@ module.exports.run = (id) => {
 
     running[id].on("ready", () => {
         sendInfo("The bot is now ready and online!", "startBot");
-        global?.mainWindow?.webContents?.send("botStarted");
+        global.dbm.window.notification("The bot has started!", "success");
+        global.dbm.mainWindow?.send("botStarted");
         showLoader = false;
         botManager.data.bots[id].pendingRestart = false;
 
@@ -75,12 +76,12 @@ module.exports.run = (id) => {
     });
 
     running[id].on("debug", d => {
-        global.sendLog(d, "bot:" + id, showLoader);
+        global.dbm.log(d, "bot:" + id, showLoader);
         if (d.includes("Session Limit Information")) {
             let total = d.match(/[0-9]{1,}/)[0];
             d = d.replace(total, "");
             let remaining = d.match(/[0-9]{1,}/)[0];
-            global?.mainWindow?.webContents?.send("detailUpdate", {
+            global?.dbm?.mainWindow?.webContents?.send("detailUpdate", {
                 startLimitTotal: total,
                 startLimitRemaining: remaining
             });
@@ -88,17 +89,14 @@ module.exports.run = (id) => {
     });
 
     running[id].on("error", d => {
-        global.sendLog(d, "bot:" + id, showLoader);
+        global.dbm.log(d, "bot:" + id, showLoader);
         showLoader = false;
     })
 
     running[id].login(botManager.data.bots[id].token).catch((err) => {
         if (err.toString().includes("An invalid token was provided")) {
-            global.sendLog("The token for bot " + id + " is invalid and needs to be re-set");
-            global?.mainWindow?.webContents?.send("error", {
-                type: "alert",
-                "msg": "Your token for the bot " + id + " seems to be invalid, please reset it in the bot's settings"
-            });
+            global.dbm.log("The token for bot " + id + " is invalid and needs to be re-set");
+            global.dbm.error("Your token for the bot " + id + " seems to be invalid, please reset it in the bot's settings");
         }
         running[id].destroy();
         delete running[id];
@@ -107,7 +105,7 @@ module.exports.run = (id) => {
 }
 
 module.exports.stop = (id) => {
-    global.sendLog("Stopping bot " + id, "bot-runner", true);
+    global.dbm.log("Stopping bot " + id, "bot-runner", true);
     if (!running[id]) {
         return sendInfo("The bot is not running", "startBot");
     }
@@ -115,8 +113,9 @@ module.exports.stop = (id) => {
     running[id].destroy();
     delete running[id];
 
-    global.sendLog("Bot stopped:  " + id, "bot-runner");
-    global?.mainWindow?.webContents?.send("botStopped");
+    global.dbm.log("Bot stopped:  " + id, "bot-runner");
+    global.dbm.window.notification("Your bot " + id + " has stopped", "info");
+    global.dbm.mainWindow?.send("botStopped");
 }
 
 module.exports.stopAll = () => {
@@ -126,7 +125,7 @@ module.exports.stopAll = () => {
 }
 
 function sendInfo(msg, type) {
-    global.sendLog(msg, "bot-runner");
+    global.dbm.log(msg, "bot-runner");
     global?.mainWindow?.webContents?.send("info", {
         type: type,
         msg: msg

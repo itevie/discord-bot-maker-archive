@@ -82,7 +82,8 @@ module.exports.actions = {
                 name: "content"
             },
             amount: {
-                name: "amount"
+                name: "amount",
+                allowEmpty: false
             }
         },
         execute: (data) => {

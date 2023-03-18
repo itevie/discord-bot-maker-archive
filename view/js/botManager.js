@@ -352,7 +352,6 @@ function loadBotList() {
 
 window.electron.botStartedListener(() => {
     enableAll();
-    notification("The bot has started!", "success");
     document.getElementById("botQuickActions").innerHTML = "";
     showStopButton();
     reloadAllData();
@@ -369,7 +368,6 @@ function showStopButton() {
 
 window.electron.botStoppedListener(() => {
     enableAll();
-    notification("The bot has stopped", "success");
     document.getElementById("botQuickActions").innerHTML = "";
     document.getElementById("botQuickActions-startButton").classList.remove("dangetButton");
     document.getElementById("botQuickActions-startButton").classList.add("goodButton");

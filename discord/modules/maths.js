@@ -11,11 +11,13 @@ module.exports.actions = {
         inputs: {
             "number1": {
                 name: "number 1",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             },
             "number2": {
                 name: "number 2",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -31,11 +33,13 @@ module.exports.actions = {
         inputs: {
             "number1": {
                 name: "number 1",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             },
             "number2": {
                 name: "number 2",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -51,11 +55,13 @@ module.exports.actions = {
         inputs: {
             "number1": {
                 name: "number 1",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             },
             "number2": {
                 name: "number 2",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -71,11 +77,13 @@ module.exports.actions = {
         inputs: {
             "number1": {
                 name: "number 1",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             },
             "number2": {
                 name: "number 2",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -91,11 +99,13 @@ module.exports.actions = {
         inputs: {
             "number1": {
                 name: "number 1",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             },
             "number2": {
                 name: "number 2",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -111,7 +121,8 @@ module.exports.actions = {
         inputs: {
             "number1": {
                 name: "number 1",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {
@@ -126,10 +137,12 @@ module.exports.actions = {
         name: "Random",
         inputs: {
             "number1": {
-                name: "minimum"
+                name: "minimum",
+                allowEmpty: false
             },
             "number2": {
-                name: "maximum"
+                name: "maximum",
+                allowEmpty: false
             }
         },
         execute: (data) => {

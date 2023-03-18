@@ -5,6 +5,8 @@ let {
 const {
     app
 } = require("electron");
+const toml = require("toml");
+const errorManager = require(__dirname + "/../../errorManager.js");
 const botRunner = require(__dirname + "/../../botRunner.js");
 const botManager = require(__dirname + "/../../botManager.js");
 const fs = require("fs");
@@ -37,61 +39,77 @@ module.exports.modulesList = modulesList;
 let webActions = {};
 module.exports.webActions = webActions;
 
-let moduleList = fs.readdirSync(__dirname + "/../modules");
-for (let i in moduleList) {
-    moduleList[i] = __dirname + "/../modules/" + moduleList[i];
-}
+let packages = [ __dirname + "/../modules" ];
+if (fs.existsSync(app.getPath("userData") + "/modules"))
+    for (let i of fs.readdirSync(app.getPath("userData") + "/modules"))
+        packages.push(app.getPath("userData") + "/modules" + "/" + i);
 
-// Load external modules
-global.sendLog("Finding external modules...", "module-manager");
-let path = app.getPath("userData");
-if (fs.existsSync(path + "/modules")) {
-    let externalModules = fs.readdirSync(path + "/modules");
-    for (let i in externalModules) {
-        global.sendLog("Found external module: " + path + "/modules/" + externalModules[i], "module-manager");
-        moduleList.push(path + "/modules/" + externalModules[i]);
-    }
-}
+global.dbm.log("Found " + packages.length + " package(s)", "package-loader");
 
-let moduleNames = [];
-
-for (let i in moduleList) {
-    global.sendLog("Activating module: " + moduleList[i], "module-manager");
-    if (!moduleList[i].endsWith(".js")) continue;
-    let module = require(moduleList[i]);
-    let ac = module.actions;
-    let details = module.details;
-    if (moduleNames.includes(details.name.toLowerCase())) {
-        require(__dirname + "/../../errorManager.js").fatalError(new Error("Module already imported: " + details.name + " (" + moduleList[i] + ")"));
-    }
-    modulesList.push(details.name.toLowerCase());
-    let moduleName = details.name.toLowerCase();
-    moduleNames.push(moduleName);
-
-    for (let a in ac) {
-        let name = moduleName + ":" + a;
-        actions[name] = ac[a];
+for (let i in packages) {
+    global.dbm.log("Loading package " + packages[i], "package-loader");
+    if (!fs.existsSync(packages[i] + "/manifest.toml")) {
+        return errorManager.fatalError(new Error("The package " + packages[i] + " does not have a manifest.toml"));
     }
 
-    global.sendLog("Initiated module: " + moduleName, "module-manager");
-}
+    let manifest = fs.readFileSync(packages[i] + "/manifest.toml");
+    manifest = toml.parse(manifest);
 
-for (let i in actions) {
-    let orig = i;
-    let moduleName = i.split(":")[0];
+    global.dbm.log("Package " + packages[i] + " manifest: v" + manifest.manifest_version + " name:" + manifest.information.name + "(" + manifest.information.version + ") by:" + manifest.information.author, "package-loader");
 
-    if (!webActions[moduleName]) webActions[moduleName] = {};
+    let modules = manifest.list.module_list;
 
-    webActions[moduleName][orig] = {
-        name: actions[i].name,
-        inputs: actions[i].inputs || {},
-        description: actions[i].description || ""
+    for (let m in modules) {
+        global.dbm.log("Loading module " + modules[m] + " from package " + manifest.information.name, "package-loader");
+        if (!fs.existsSync(packages[i] + "/" + modules[m] + ".js")) {
+            return errorManager.fatalError(new Error("Cannot find module " + packages[i] + "/" + modules[m] + ".js" + " at package " + manifest.information.name));
+        }
+
+        if (modules[m] == "information") {
+            return errorManager.fatalError(new Error("Module name cannot be 'information' in module " + manifest.information.name + " at package " + manifest.information.name));
+        }
+
+        if (!manifest[modules[m]]) {
+            return errorManager.fatalError(new Error("Module manifest cannot be found in package's manifest file, module " + modules[i] + " at package " + manifest.information.name));
+        }
+
+        let module = require(packages[i] + "/" + modules[m] + ".js");
+        modulesList.push(manifest.information.name);
+
+        let ac = module.actions;
+        let moduleManifest = manifest[modules[m]];
+
+        for (let i in ac) {
+            global.dbm.log("Loading action " + i + " from module " + modules[m] + " from package " + manifest.information.name, "package-loader");
+            
+            if (!webActions[manifest.information.name]) webActions[manifest.information.name] = {
+                information: manifest.information
+            };
+            if (!webActions[manifest.information.name][moduleManifest.name]) webActions[manifest.information.name][moduleManifest.name] = {
+                information: moduleManifest
+            };
+
+            let name = manifest.information.name + ":" + moduleManifest.name + ":" + i;
+
+            actions[name] = ac[i];
+
+            webActions[manifest.information.name][moduleManifest.name][i] = {
+                name: ac[i].name,
+                inputs: ac[i].inputs || {},
+                description: ac[i].description || "",
+                allowedEvents: ac[i].allowedEvents || ["*"]
+            }
+
+            global.dbm.log("Loaded action: " + manifest.information.name + ":" + moduleManifest.name + ":" + i, "package-loader");
+        }
+
+        global.dbm.log("Loaded module: " + manifest.information.name + ":" + moduleManifest.name, "package-loader");
     }
 
-    global.sendLog("Loaded action " + i, "module-manager");
+    global.dbm.log("Loaded package: " + manifest.information.name, "package-loader");
 }
 
-global.sendLog("Loaded " + Object.keys(actions).length + " actions!", "module-manager");
+global.dbm.log("Loaded " + Object.keys(actions).length + " actions from " + modulesList.length + " modules from " + packages.length + " packages!", "module-manager");
 
 module.exports.execute = async (options) => {
     let botData = options.botData;
@@ -110,11 +128,11 @@ module.exports.execute = async (options) => {
 
     // DEFAULT FUNCTIONS
     function sendInfo(text) {
-        global.sendLog(text, "event:" + eventType + " (" + botId + ")");
+        global.dbm.log(text, "event:" + eventType + " (" + botId + ")");
     }
 
     function error(text) {
-        global.sendLog(text, "error:event:" + eventType + " (" + botId + ")");
+        global.dbm.log(text, "error:event:" + eventType + " (" + botId + ")");
     }
 
     data.log = sendInfo;

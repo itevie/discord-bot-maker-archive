@@ -20,7 +20,7 @@ process.on("uncaughtException", (err) => {
 })
 
 function newLog(err, fatal) {
-    console.log(err, err.stack, err.toString())
+    console.log(err, err?.stack, "Fatal: " + fatal);
     if (err.toString().toLowerCase().includes("manager was destroyed")) return;
 
     let logName = Date.now().toString() + ".txt";
@@ -40,7 +40,7 @@ Version: ${require("os").version()}
 
 --- ERROR ---
 ${err?.toString() || "No error; log created by user"}
-STACK: ${err?.stack.toString() || "No stack; log created by user"}
+STACK: ${err?.stack?.toString() || "No stack; log created by user"}
 
 --- DETAILS --- 
 
@@ -69,7 +69,7 @@ App Version: ${require("./package.json").version}
 
     fs.writeFileSync(path + "/logs/" + logName, text);
     botRunner.stopAll();
-    global.sendError("An error occurred, a log has been made at " + path + "/logs/" + logName);
+    global.dbm.error("An error occurred, a log has been made at " + path + "/logs/" + logName);
 
     if (fatal) {
         dialog.showMessageBoxSync({

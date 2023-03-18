@@ -26,7 +26,7 @@ ipcMain.on("fetchSettings", (event, data) => {
 ipcMain.on("updateBotSettings", (event, data) => {
     // Ran when all is done
     function done() {
-        global.sendNotification("Success", "success", "Your bot's settings have been saved");
+        global.dbm.window.notification("Success", "success", "Your bot's settings have been saved");
     }
 
     if (data.prefix) // Prefix setting
@@ -39,7 +39,7 @@ ipcMain.on("updateBotSettings", (event, data) => {
             done();
         }).catch(() => {
             // Show error
-            global.sendLog("Failed", "token-validator");
+            global.dbm.log("Failed", "token-validator");
         });
     } else {
         done();

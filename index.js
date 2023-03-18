@@ -1,6 +1,11 @@
 // Require dependencies
-global.sendLog = (text, type) => {    
+global.dbm = { window: {} };
+global.dbm.log = (text, type) => {    
     console.log("[" + type + "] " + text);
+}
+
+if (process.argv[2] == "nw") {
+    return require("./cli.js").run();
 }
 
 const Discord = require("discord.js");
@@ -22,8 +27,8 @@ external.validate();
 
 // Load main window
 const loadMainWindow = () => {
-    global.sendLog("Loading window");
-    global.mainWindow = new BrowserWindow({
+    global.dbm.log("Loading window");
+    global.dbm.mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
         title: "Discord Bot Maker",
@@ -32,9 +37,9 @@ const loadMainWindow = () => {
         }
     });
 
-    mainWindow.loadFile(path.join(__dirname, "view/index.html"));
+    global.dbm.mainWindow.loadFile(path.join(__dirname, "view/index.html"));
 
-    global.sendLog("Created", "window");
+    global.dbm.log("Created", "window");
     ipc.init();
 }
 
@@ -51,7 +56,7 @@ app.on("ready", () => {
 //Runs once all windows have closed and the current OS doesnt close
 //  application once all windows are closed (darwin)
 app.on("window-all-closed", () => {
-    global.sendLog("All windows closed", "window");
+    global.dbm.log("All windows closed", "window");
     botManager.save();
     if (process.platform !== "darwin") {
         app.quit();
@@ -59,7 +64,7 @@ app.on("window-all-closed", () => {
 });
 
 app.on("activate", () => {
-    global.sendLog("Activated", "window");
+    global.dbm.log("Activated", "window");
     if (BrowserWindow.getAllWindows().length === 0) {
         loadMainWindow();
     }

@@ -37,7 +37,8 @@ module.exports.actions = {
         inputs: {
             seconds: {
                 name: "Seconds",
-                type: "text"
+                type: "text",
+                allowEmpty: false
             }
         },
         execute: (data) => {

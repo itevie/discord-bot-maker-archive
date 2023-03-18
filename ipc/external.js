@@ -25,10 +25,10 @@ ipcMain.on("loadExternal", (event) => {
         axios.get(url + "/bots/running").then(res => {
             event.returnValue = res.data;
         }).catch(err => {
-            global.sendError("Failed to fetch running: " + err, "external");
+            global.dbm.error("Failed to fetch running: " + err, "external");
         });
     }, () => {
-        global.sendLog("Negative callback recieved: loadExternal", "debug:external");
+        global.dbm.log("Negative callback recieved: loadExternal", "debug:external");
         event.returnValue = {}
     });
 });
@@ -39,12 +39,12 @@ ipcMain.on("stopBotExternal", (event, id) => {
         axios.post(url + "/bots/stop", {
             id: id
         }).then(res => {
-            global.sendLog("Stopped bot: " + id, "external");
+            global.dbm.log("Stopped bot: " + id, "external");
         }).catch(err => {
-            global.sendError("Failed to stop bot: " + (err?.response?.data?.message || err), "external");
+            global.dbm.error("Failed to stop bot: " + (err?.response?.data?.message || err), "external");
         });
     }, () => {
-        global.sendLog("Negative callback recieved: stopBot", "debug:external");
+        global.dbm.log("Negative callback recieved: stopBot", "debug:external");
         event.returnValue = {}
     });
 });
@@ -57,5 +57,47 @@ ipcMain.on("deleteExternal", (event) => {
     if (external.wsConnection) {
         external.wsConnection.close();
         external.wsConnection = null;
+    }
+});
+
+ipcMain.on("syncExternal", (event, data) => {
+    console.log(data)
+    if (data.type == "to") {
+        let what = data.what;
+        let d = null;
+
+        switch (what) {
+            case "all":
+                d = botManager.data.bots[botManager.data.selected];
+                break;
+            case "database":
+                d = botManager.data.bots[botManager.data.selected].database;
+                break;
+            case "commands":
+                d = botManager.data.bots[botManager.data.selected].commands;
+                break;
+            case "resources":
+                d = botManager.data.bots[botManager.data.selected].resources;
+                break;
+            case "events":
+                d = botManager.data.bots[botManager.data.selected].events;
+                break;
+        }
+
+        external.validate(async () => {
+            let url = botManager.data.external.url;
+            console.log(url)
+            let res = await axios.post(url + "/sync", {
+                type: what,
+                data: d,
+                botId: botManager.data.selected
+            }).catch(err => {
+                global.dbm.error("Failed to sync: " + (err?.response?.data?.message || err), "external");
+                event.returnValue = false;
+            });
+        }, () => {
+            global.dbm.log("Negative callback recievd for syncExternal", "external");
+            event.returnValue = false;
+        });
     }
 });

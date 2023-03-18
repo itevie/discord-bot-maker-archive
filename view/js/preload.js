@@ -48,6 +48,9 @@ contextBridge.exposeInMainWorld('electron', {
     getConfig: () => ipcRenderer.sendSync("getConfig", null),
     setExternal: (url) => ipcRenderer.sendSync("setExternal", url),
     deleteExternal: () => ipcRenderer.send("deleteExternal", null),
+    syncExternal: (data) => ipcRenderer.send("syncExternal", data),
+
+    loadNewPackage: () => ipcRenderer.send("loadNewPackage", null),
 
     fetchFaqList: () => ipcRenderer.sendSync("fetchFaqList", null),
     getProcessData: () => ipcRenderer.sendSync("getProcessData", null),

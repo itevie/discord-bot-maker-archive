@@ -3,6 +3,7 @@ const {
     ipcRenderer
 } = require('electron');
 const fs = require("fs");
+const clc = require("cli-color");
 const botManager = require("./botManager");
 const botRunner = require("./botRunner");
 const Discord = require("discord.js");
@@ -11,14 +12,14 @@ const getAllFiles = require("./getAllFiles");
 module.exports.init = () => {
     let files = getAllFiles(__dirname + "/ipc");
     for (let i in files) {
-        global.sendLog("Init IPC: " + files[i], "ipc");
+        global.dbm.log("Init IPC: " + files[i], "ipc");
         require(files[i]);
     }
 }
 
 let log = [];
 
-global.sendLog = (text, type, loader = false) => {
+global.dbm.log = (text, type, loader = false) => {
     log.push({
         msg: text,
         type: type,
@@ -26,7 +27,7 @@ global.sendLog = (text, type, loader = false) => {
     });
 
     try {
-        global?.mainWindow?.webContents?.send("log", {
+        global?.dbm?.mainWindow?.webContents?.send("log", {
             msg: text.toString(),
             type: type,
             showLoader: loader
@@ -35,24 +36,41 @@ global.sendLog = (text, type, loader = false) => {
         console.log(err)
     }
 
-    console.log("[" + type + "] " + text);
+    if (type?.startsWith("error")) {
+        console.log(clc.red.bold("[" + type + "] " + text));
+    }
+    else console.log("[" + type + "] " + text);
 }
 
-global.sendError = (text) => {
-    global.sendLog(text, "error");
+global.dbm.error = (text) => {
+    global.dbm.log(text, "error");
     try {
-        global?.mainWindow?.webContents?.send("error", {
+        global?.dbm?.mainWindow?.webContents?.send("error", {
             type: "alert",
             force: true,
             msg: text.toString()
         });
     } catch (err) {
-        global.sendLog(err.toString());
+        global.dbm.log(err.toString(), "error");
     }
 }
 
-global.sendNotification = (title, icon = "info", desc = "") => {
-    global?.mainWindow?.webContents?.send("notification", {
+global.dbm.window.notification = (title, icon = "info", desc = "") => {
+    console.log();
+
+    let ic = "";
+    if (icon == "info") ic = clc.blue.bold("Info");
+    else if (icon == "error") ic = clc.red.blod("Error");
+    else if (icon == "warning") ic = clc.yellow.bold("Warning");
+    else if (icon == "success") ic = clc.green.bold("Success");
+
+    console.log("   " + ic + " " + title);
+    if (desc) console.log("   " + desc);
+    console.log()
+
+    global.dbm.log(ic + " " + title + " " + desc, "notification");
+
+    global?.dbm?.mainWindow?.webContents?.send("notification", {
         title: title,
         icon: icon,
         desc: desc
