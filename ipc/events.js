@@ -13,7 +13,8 @@ ipcMain.on("createEvent", (event, data) => {
 
     // Creates the event
     botManager.data.bots[botManager.data.selected].events[type] = {
-        actions: data.actions
+        actions: data.actions,
+        code: data.code
     };
 
     return event.returnValue = true;

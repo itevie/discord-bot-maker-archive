@@ -29,4 +29,28 @@ module.exports.actions = {
             });
         }
     },
+    "stop-actions": {
+        name: "Stop Actions"
+    },
+    "none": {
+        name: "None",
+        execute: (data) => {
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }
+    },
+    "log": {
+        name: "Log",
+        inputs: {
+            content: {
+                name: "content"
+            }
+        },
+        execute: (data) => {
+            return new Promise((resolve, reject) => {
+                data.log(data.action.content);
+            });
+        }
+    }
 }

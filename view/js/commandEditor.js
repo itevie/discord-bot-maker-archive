@@ -2,6 +2,7 @@ let current = [];
 let editing = null;
 let actionList = window.electron.getActionList();
 let editingDiv = null;
+let actionCodeMode = true;
 
 document.addEventListener("DOMContentLoaded", () => {
     Array.from(document.getElementById("editAction-type").options).forEach(function (op) {
@@ -27,9 +28,42 @@ let actionTemplate = `
 </div>
 `;
 
-function updateList() {
-    if (!editingDiv) return;
+function validateActionCode() {
+    let res = parseActionCode();
+    if (Array.isArray(res)) {
+        if (res[0] == false) {
+            document.getElementById(editingDiv + "-codeEditor-" + "info").innerHTML = "Error: at line " + res[1] + ": " + res[2];
+            current = null;
+            return
+        }
+    }
+    current = res;
+    document.getElementById(editingDiv + "-codeEditor-" + "info").innerHTML = ""
+}
+
+function updateList(code) {
     document.getElementById(editingDiv).innerHTML = "";
+    if (!editingDiv) return;
+    if (actionCodeMode) {
+        let codeEditor = document.createElement("textarea");
+        codeEditor.id = editingDiv + "-codeEditor"
+        codeEditor.classList.add("codeEditor");
+        if (code) codeEditor.value = code;
+        let codeEditorInfo = document.createElement("p");
+        codeEditorInfo.id = editingDiv + "-codeEditor-" + "info";
+        codeEditorInfo.style.color = "red";
+        document.getElementById(editingDiv).appendChild(codeEditorInfo);
+        document.getElementById(editingDiv).appendChild(codeEditor);
+        document.getElementById(editingDiv + "-addAnother").style.display = "none";
+
+        codeEditor.onkeyup = () => {
+            validateActionCode();
+        }
+
+        return;
+    }
+
+    document.getElementById(editingDiv + "-addAnother").style.display = "block";
 
     for (let i in current) {
         let div = document.createElement("div");
@@ -93,7 +127,8 @@ function editCommand(id) {
     document.getElementById("newCommand-commandName").value = id;
     document.getElementById("newCommand-comment").value = command.comment || "";
     current = command.actions;
-    updateList();
+    console.log(command.code);
+    updateList(command.code);
     showDiv("newCommand");
 }
 

@@ -22,6 +22,12 @@ textarea {
     outline: none;
 }
 
+.codeEditor {
+    width: 75vw;
+    height: 500px;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
 textarea:focus {
     outline: none;
 }
@@ -82,14 +88,17 @@ a:hover {
     border-radius: 5px;
     background-color: #2B2D31;
     color: white;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .code.box {
     padding: 10px;
     margin: 5px;
+    font-family: "Lucida Console", "Courier New", monospace;
 }
 
 .code:not(.box) {
     padding: 3px;
     display: inline-block;
+    font-family: "Lucida Console", "Courier New", monospace;
 }

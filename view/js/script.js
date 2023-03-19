@@ -32,6 +32,8 @@ function prettify(string) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    console.log(localStorage.getItem("useActionCode"));
+    document.getElementById("appSettings-useActionCode").checked = localStorage.getItem("useActionCode") != undefined ? (localStorage.getItem("useActionCode") == "true" ? true : false) : false;
     let faqs = window.electron.fetchFaqList();
     let h = "";
     for (let i in faqs) {

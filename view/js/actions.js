@@ -80,6 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
             // Loop through actions
             for (let action in packages[package][module]) {
                 selectActions[action] = packages[package][module][action];
+                selectActions[action].fullName = package + ":" + module + ":" + action;
             }
         }
     }
@@ -88,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
         // Create and setup the option menu
         let option = document.createElement("option");
         option.text = prettify(selectActions[i].name);
-        option.value = i;
+        option.value = selectActions[i].fullName;
 
         option.setAttribute("data-action-id", i);
 

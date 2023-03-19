@@ -31,7 +31,7 @@ function setupEvent(id) {
     editingDiv = "event-actionList";
     editingEvent = id;
     if (currentBotData.events[id]) current = currentBotData.events[id].actions;
-    updateList();
+    updateList(currentBotData.events[id]?.code);
 
     document.getElementById("editEvent-type").innerHTML = id;
 
@@ -41,7 +41,8 @@ function setupEvent(id) {
 function createTheEvent() {
     let res = window.electron.createEvent({
         type: editingEvent,
-        actions: current
+        actions: current,
+        code: document.getElementById("event-actionList-codeEditor").value || currentBotData.events[id].code || undefined
     });
     
     if (res != true) showError("Failed to update event");

@@ -50,6 +50,7 @@ function loadPackages() {
         packageP.innerHTML += "Author: " + packages[i].information.author;
         packageP.innerHTML += "<br>Description: " + packages[i].information.description;
         packageP.innerHTML += "<br>Version: " + packages[i].information.version;
+        packageP.innerHTML += "<br>ID: " + i;
         packageModules.appendChild(packageP);
 
         // Loop through the package's modules
@@ -84,6 +85,7 @@ function loadPackages() {
 
             let moduleDescription = [];
             if (packages[i][module].information.description) moduleDescription.push(packages[i][module].information.description);
+            moduleDescription.push("ID: " + i + ":" + module);
             moduleDescription = moduleDescription.join("<br>");
 
             let moduleP = document.createElement("p");
@@ -109,6 +111,22 @@ function loadPackages() {
                 actionDescriptionText.push(`${packages[i][module][action].description}`);
                 if (packages[i][module][action].allowedEvents) 
                     actionDescriptionText.push(`Allowed Events: ${packages[i][module][action].allowedEvents.join(",")}`);
+                if (packages[i][module][action].inputs) {
+                    let text = "Prameters: ";
+                    for (let input in packages[i][module][action].inputs) {
+                        let inputSelectText = "";
+                        if (packages[i][module][action].inputs[input].type == "select") {
+                            inputSelectText = `(<label style="color: orange">`;
+                            for (let option in packages[i][module][action].inputs[input].options) {
+                                inputSelectText += packages[i][module][action].inputs[input].options[option] + ", ";
+                            }
+                            inputSelectText += "</label>)";
+                        }
+                        text += `${input}(<label style="color: lightblue">${(packages[i][module][action].inputs[input].type || "text")}${inputSelectText}</label>), `;
+                    }
+                    actionDescriptionText.push(text);
+                }
+                actionDescriptionText.push("ID: " + i + ":" + module + ":" + action);
 
                 actionDescriptionText = actionDescriptionText.join("<br>");
 

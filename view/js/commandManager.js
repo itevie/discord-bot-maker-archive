@@ -1,4 +1,6 @@
 function createCommand() {
+    if (current == null) return;
+
     let commandName = document.getElementById("newCommand-commandName").value;
     if (commandName.length == 0) {
         return showError("Please provide a command name larger than 1 character long");
@@ -9,7 +11,8 @@ function createCommand() {
         name: commandName,
         ignoreBots: document.getElementById("newCommand-ignoreBots").checked,
         actions: current,
-        comment: document.getElementById("newCommand-comment").value
+        comment: document.getElementById("newCommand-comment").value,
+        code: document.getElementById("newCommand-actionList-codeEditor")?.value || currentBotData.commands[commandName] || ""
     }
 
     let res = window.electron.createCommand(command);

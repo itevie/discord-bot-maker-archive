@@ -21,6 +21,7 @@
     <script src="js/ctxmenu.js"></script>
     <script src="js/externalManager.js"></script>
     <script src="js/packages.js"></script>
+    <script src="js/codeEditor.js"></script>
     <!-- STYLE SHEETS -->
     <link rel="stylesheet" href="sw/sweetalert2.css">
     <link rel="stylesheet" href="css/actions.css">
@@ -151,6 +152,8 @@
                 </table>
             </div>
             <br>
+            <input id="appSettings-useActionCode" type="checkBox" onclick="console.log('a');localStorage.setItem('useActionCode', this.checked);actionCodeMode=this.checked"><label>Use Action Code (EXPERIMENTAL)</label>
+            <br><br>
             <button data-tooltip="Restart the application" data-lang="settings.restart" data-nodisable
                 onclick="document.body.classList.add('fadeOut');window.electron.restartApp()">Restart</button>
             <button
@@ -196,6 +199,27 @@
         <div data-div-id="packages">
             <h1>Your packages</h1>
             <p>Add packages to enhance your Discord Bot Maker experience</p>
+            <p>Structure:</p>
+            <div class="inline-comment">
+                package name
+                <div class="inline-comment">
+                    <div class="inline-comment">
+                        package description
+                    </div>
+                    module name
+                    <div class="inline-comment">
+                        <div class="inline-comment">
+                            module description
+                        </div>
+                        action name
+                        <div class="inline-comment">
+                            description<br>
+                            events it can be used in<br>
+                            parameters, blue = parameter type, orange = allowed values<br>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <h2>Installed</h2>
             <p>Installed packages which you can use right now</p>
             <button onclick="loadPackages()">Reload Package List</button>
@@ -443,7 +467,7 @@
             <p>Actions that will be executed once this event is triggered</p>
             <div id="event-actionList" class="actionListContainer">
             </div>
-            <button onclick="addAnotherAction();">Add another action</button>
+            <button id="event-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
             <h2>Finish</h2>
             <button class="goodButton" onclick="createTheEvent()">Create</button>
             <button class="dangerButton" onclick="current=[];updateList()">Clear</button>
@@ -487,7 +511,7 @@
             <p>Actions that will be executed once this command is ran</p>
             <div id="newCommand-actionList" class="actionListContainer">
             </div>
-            <button onclick="addAnotherAction();">Add another action</button>
+            <button id="newCommand-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
             <h2>Finish</h2>
             <button onclick="createCommand()">Create Command</button>
             <button class="dangerButton" onclick="resetNewCommandsDiv()">Reset Command</button>

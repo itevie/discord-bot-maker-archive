@@ -12,25 +12,7 @@ const botManager = require(__dirname + "/../../botManager.js");
 const fs = require("fs");
 
 let actions = {
-    "x:stop-actions": {
-        name: "Stop Actions"
-    },
-    "x:none": {
-        name: "None"
-    },
-    "x:log": {
-        name: "Log",
-        inputs: {
-            content: {
-                name: "content"
-            }
-        },
-        execute: (data) => {
-            return new Promise((resolve, reject) => {
-                data.log(data.action.content);
-            });
-        }
-    }
+
 }
 
 let modulesList = [];
@@ -97,7 +79,7 @@ for (let i in packages) {
                 name: ac[i].name,
                 inputs: ac[i].inputs || {},
                 description: ac[i].description || "",
-                allowedEvents: ac[i].allowedEvents || ["*"]
+                allowedEvents: ac[i].allowedEvents || ["*"],
             }
 
             global.dbm.log("Loaded action: " + manifest.information.name + ":" + moduleManifest.name + ":" + i, "package-loader");

@@ -1,0 +1,92 @@
+<h1>Action Code</h1>
+<p>Action code is like Discord Bot Maker's own "programming language", however do not be fooled, all it does is convert your text into the loved actions.</p>
+<p>This may make it easier to read, make etc.</p>
+<p><b>But however, this may be for only advanced users only</b></p>
+<div class="warning-alert" id="botManager-noBots-alert">
+    <b>Information</b>
+    <p>This is not fully tested, so bugs may occur.</p>
+</div>
+<h2>Getting Started</h2>
+<p>First of all, you need to enable it, go to App Settings > Enable Action Code</p>
+<p>Now if you open up a command, you'll see a new text box!</p>
+<div class="warning-alert danger" >
+    <b>Important</b>
+    <p>If you have pre-existing actions, they WILL NOT be converted into action code.</p>
+</div>
+<h2>How does it work?</h2>
+<p>Action code is simply just a text version of actions, with a few things made easier (such as if statements)</p>
+<p>Each function or action is the exact same (id wise) as the action, however you may not know the ID of an action, so:</p>
+<ol>
+    <li>Go to the packages tab</li>
+    <li>Click the dropdowns for whichever action you want until you find it</li>
+    <li>Copy down the "id" section in the description area</li>
+</ol>
+<p>This function is now ready to be used</p>
+<h2>Using functions</h2>
+<p>Functions are simple, all you need is:</p>
+<ul>
+    <li>The function ID</li>
+    <li>The parameters (shown in the actual action editor, and the actions's description in the package tab)</li>
+</ul>
+<p>They go like:</p>
+<div class="code box">
+    built-in:messages:reply-to-author-message( content: "Content" )
+</div>
+<p>Explanation of this is: </p>
+<ol>
+    <li>We state which action we are trying to run (built-in:messages:reply-to-author-message)</li>
+    <li>We open up parenthesis in which our parameters will lie</li>
+    <li>We get the parameter name (in this action's case its "content")</li>
+    <li>We add a colon specifying its a parameter name</li>
+    <li>We then add the value and close the parenthesis</li>
+</ol>
+<p>For actions with more than one parameter:</p>
+<div class="code box">
+    built-in:messages:reply-to-message( id: "message_id" content: "Content" )
+</div>
+<h2>Values</h2>
+<p>As you've seen above you can put values inside of "", howver if they are only one argument long (doesn't have any spaces) this isn't needed:</p>
+<div class="code box">
+    built-in:messages:reply-to-message( id: {{message_id}} content: {{message_content}} )
+</div>
+<p>However this would be invalid:</p>
+<div class="code box">
+    built-in:messages:reply-to-message( id: {{message_id}} content: Hello world! )
+</div>
+<h2>Now you may be thinking: "Damn, these actions are way too long"</h2>
+<p>Well don't fear! We have the <code>import</code> statement!</p>
+<p>All importing does is create an alias for the action, for example:</p>
+<div class="code box">
+    import (reply-to-author-message, delete-author-message) from built-in:messages<br>
+    <br>
+    reply-to-author-messag( content: "Hey there!" )<br>
+    delete-author-message()<br>
+</div>
+<p>What this does:</p>
+<ol>
+    <li>Created aliases for "reply-to-author-message" and "delete-author-message" as "built-in:messages:reply-to-author-message" and "built-in:messages:delete-author-message" in their respective order</li>
+</ol>
+<h3>Bigger example</h3>
+<div class="code box">
+    // Import things<br>
+    import (reply-to-author-message) from built-in:messages<br>
+    import (database) from built-in<br>
+    import (set-variable) from built-in:variables<br>
+    import (math) from built-in<br>
+    <br>
+    // Get the current counter, if it doesn't exist set it to 0<br>
+    database:db-item-not-exist( id: "counter" content: 0 )<br>
+    database:fetch-database-item( id: "counter" )<br>
+    <br>
+    // Add 1 to the counter<br>
+    set-variable( id: "current" content: {{result}} )<br>
+    math:add( number1: {{current}} number2: 1 )<br>
+    set-variable (id: "current" content: {{result}} )<br>
+    <br>
+    // Update the database and respond with the current counter
+    database:set-database-item( id: "counter" content: {{current}})<br>
+    reply-to-author-message( content: "Counter is at {{current}}" )
+</div>
+<h2>Comments</h2>
+<p>Comments are a useful part of your code to understand what everything is doing, so you don't forget about it in the future.</p>
+<p>Comments are done by using <code>//</code> then your comment right after it, and this will be stripped and removed so it doesn't affect your action code.</p>
