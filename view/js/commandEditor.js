@@ -37,6 +37,14 @@ function validateActionCode() {
             return
         }
     }
+
+    for (let i in res) {
+        if (actionArray.includes(res[i].type) == false && res[i].type) {
+            document.getElementById(editingDiv + "-codeEditor-" + "info").innerHTML = "Error: The action " + res[i].type + " is not a recognised (did you mean " + closestMatch(res[i].type, actionArray) + "?) action (possibly at line " + (+i + 1) + ")";
+            current = null;
+            return; 
+        }
+    }
     current = res;
     document.getElementById(editingDiv + "-codeEditor-" + "info").innerHTML = ""
 }
@@ -76,6 +84,7 @@ function updateList(code) {
         for (let i in select.options) {
             if (select.options[i].value == type) {
                 nType = select.options[i].innerHTML;
+                if (!nType) return;
                 if (nType.length > 25) {
                     nType = nType.substring(0, 25);
                     nType += "...";

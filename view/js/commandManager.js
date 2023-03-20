@@ -45,8 +45,8 @@ function newCommand() {
     resetNewCommandsDiv();
     current = [];
     editing = null;
-    updateList();
     editingDiv = "newCommand-actionList";
+    updateList();
 
     showDiv("newCommand");
 }

@@ -60,6 +60,8 @@ let selectActions = {
     }
 }
 
+let actionArray = [];
+
 document.addEventListener("DOMContentLoaded", () => {
     let packages = window.electron.fetchWebActions();
     let editActionSelect = document.getElementById("editAction-type");
@@ -79,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Loop through actions
             for (let action in packages[package][module]) {
+                actionArray.push(package + ":" + module + ":" + action);
                 selectActions[action] = packages[package][module][action];
                 selectActions[action].fullName = package + ":" + module + ":" + action;
             }

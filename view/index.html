@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="css/elements.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/themes/dark.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css" />
 </head>
@@ -42,7 +43,7 @@
         <img src="image/icon/bot.png" data-onsidebar data-div-change="changeBot">
         <img src="image/icon/globe.png" data-onsidebar data-div-change="external">
         <img src="image/icon/analytics.png" data-onsidebar data-div-change="log">
-        <img src="image/icon/extension.png" data-onsidebar data-div-change="packages">
+        <img src="image/icon/package.png" data-onsidebar data-div-change="packages">
         <img src="image/icon/insights.png" data-onsidebar data-div-change="insights">
         <img src="image/icon/error.png" data-onsidebar data-div-change="errors">
 
@@ -63,10 +64,12 @@
             <img src="image/icon/actions.png" data-onsidebar data-div-change="actions">
             <img src="image/icon/terminal.png" data-onsidebar data-div-change="botCommads">
             <img src="image/icon/event.png" data-onsidebar data-div-change="events">
+            <img src="image/icon/function.png" data-onsidebar data-div-change="functions">
             <img src="image/icon/variables.png" data-onsidebar data-div-change="botVariables">
             <img src="image/icon/category.png" data-onsidebar data-div-change="resources">
             <img src="image/icon/database.png" data-onsidebar data-div-change="database">
             <img src="image/icon/admin.png" data-onsidebar data-div-change="permissions">
+            <img src="image/icon/extension.png" data-onsidebar data-div-change="plugins">
             <img src="image/icon/sync.png" id="sidebar-sync" data-onsidebar data-div-change="sync">
             <img src="image/icon/settings.png" data-onsidebar data-div-change="settings">
             <img src="image/icon/info.png" data-onsidebar data-div-change="details">
@@ -89,7 +92,7 @@
             </div>
             <hr class="sidebar-button" style="box-shadow: -5px 5px 10px 1px black">
         </div>
-        <img src="image/icon/back.png" onclick="sidebarBack()" data-onsidebar class="sidebar-bottom">
+        <img style="display: none" src="image/icon/back.png" onclick="sidebarBack()" data-onsidebar class="sidebar-bottom">
         <!--<button id="sidebar-back" class="sidebar-bottom" data-onsidebar onclick="sidebarBack()"></button>-->
     </div>
 
@@ -99,6 +102,7 @@
         <div data-div-id="home" style="display: block;">
             <h1>Home</h1>
             <p>Welcome to Electron Discord Bot Maker!</p>
+            <img src="image/icon.png" style="width: 150px">
             <p>This application allows you to easily create your very own Dicord bot which can do anything you want it
                 to do!
                 <br>
@@ -422,6 +426,13 @@
             <div id="embedList"></div>
         </div>
 
+        <div data-div-id="functions">
+            <h1>Functions</h1>
+            <p>Create a function so you don't have to repeat actions over and over again.</p>
+            <p>These work the same as commands, but they can be ran from any other action.</p>
+            <h2>Your Functions</h2>
+        </div>
+
         <div data-div-id="botCommads" style="display: none;">
             <h1 data-lang="commands.header">Command Manager</h1>
             <button data-lang="commands.create-command" onclick="newCommand()">Create Command</button>
@@ -515,6 +526,11 @@
             <h2>Finish</h2>
             <button onclick="createCommand()">Create Command</button>
             <button class="dangerButton" onclick="resetNewCommandsDiv()">Reset Command</button>
+        </div>
+
+        <div data-div-id="plugins">
+            <h1>You're plugins</h1>
+            <p>Plugins allow easy extensibility of your bot, allowing you to add advanced features quickly without you having to make the actions yourself!</p>
         </div>
 
         <div data-div-id="actions">

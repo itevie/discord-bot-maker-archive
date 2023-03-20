@@ -1,0 +1,219 @@
+/* ROOT */
+body {    
+    background-color: #313338;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* SIDEBAR */
+.sidebar {
+    background-color: #1E1F22;
+    box-shadow: 3px 0 10px 1px black;
+}
+
+.sidebar>img:hover,
+.sidebar>div>img:hover {
+    background-color: gray;
+    filter: invert(0);
+    border-radius: 10px;
+}
+
+/* FOOTER */
+.footer {
+    background-color: #222;
+    box-shadow: 0px -1px 10px 3px black;
+}
+
+/* ALERTS */
+
+.warning-alert {
+    width: 100%;
+    background-color: #0000FF55;
+    border-color: #5555FF55;
+    border-radius: 10px;
+    border-style: solid;
+    padding: 10px;
+}
+
+.danger {
+    background-color: #FF000055;
+    border-color: #FF555555;
+}
+
+/* ELEMENTS */
+
+button {
+    background-color: #5e616c;
+    color: white;
+}
+
+textarea {
+    background-color: #333;
+    color: white;
+}
+
+input {
+    border-style: solid;
+    border-width: 1px;
+    border-color: gray;
+    background-color: #333;
+    color: white;
+}
+
+a {
+    color: lightblue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+a:hover {
+    color: blue;
+}
+
+/* MISC CLASSES */
+
+.codeEditor {    
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+/* MISC: BUTTONS */
+.dangerButton {
+    background: #880000;
+}
+
+.dangerButton:hover:not(:disabled) {
+    background: #880000;
+    border-color: red;
+    box-shadow: black 3px 3px;
+}
+
+.goodButton {
+    background: #2db82e;
+    color: black;
+    transition: 0.3s;
+}
+
+.goodButton:hover:not(:disabled) {
+    background: #2db82e;
+    border-color: #249225;
+    box-shadow: black 3px 3px;
+}
+
+button:hover:not(:disabled) {
+    background-color: #a0a5b8;
+}
+
+/* MISC: ICONS */
+
+.icon {
+    filter: invert(1);
+    transition: 0.3s;
+}
+
+.icon:hover {
+    filter: invert(0);
+    background-color: gray;
+}
+
+.danger-icon:hover {
+    filter: invert(0);
+    background-color: red;
+}
+
+/* MISC: CODE BLOCKS */
+
+.code {
+    border-color: #1E1F22;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: #2B2D31;
+    color: white;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.code.box {
+    padding: 10px;
+    margin: 5px;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+.code:not(.box) {
+    padding: 3px;
+    display: inline-block;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
+
+/* MISC: OTHER */
+
+.inline-comment {
+    padding: 10px;
+    margin: 5px;
+    border-left-color: white;
+    border-left-style: solid;
+}
+
+/* CONTAINERS, MODALS */
+
+/* The background dim for the a container, if it's present */
+.modal {
+    background-color: #22222288;
+}
+
+/* A full screen container */
+.container {
+    border-color: black;
+    border-style: solid;
+    border-radius: 20px;
+    border-width: 5px;
+    background-color: #3d3f46;
+    color: white;
+}
+
+/* ANIMATIONS */
+
+.loader::after {
+    animation: 3s linear infinite loader;
+    animation-fill-mode: forwards;
+    content: "";
+    display: inline-block;
+}
+
+/* For when the information at the bottom is classed as loading something, e.g. bot is starting */
+@keyframes loader {
+    0% {
+        content: "#";
+    }
+
+    12% {
+        content: "##";
+    }
+
+    25% {
+        content: "###";
+    }
+
+    37.5% {
+        content: "####";
+    }
+
+    50% {
+        content: "#####";
+    }
+
+    62.5% {
+        content: "####";
+    }
+
+    75% {
+        content: "###";
+    }
+
+    87.5% {
+        content: "##";
+    }
+
+    100% {
+        content: "#";
+    }
+}

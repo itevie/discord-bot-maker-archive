@@ -152,7 +152,7 @@ module.exports.execute = async (options) => {
     let i = 0;
     async function nextIdx() {
         function nextOne(val) {
-            variables.result = val;
+            if (val != undefined && val != null) variables.result = val;
             i++;
             if (!options.actions[i]) return;
             nextIdx();
@@ -163,12 +163,14 @@ module.exports.execute = async (options) => {
             return nextOne(null);
         }
 
+        if (options.actions[i] == "DEL") return nextOne();
+
         let type = options.actions[i].type;
         data.action = JSON.parse(JSON.stringify(options.actions[i]));
         let a = parseRecursive(data.action, variables, client, botId);
         data.action = a;
 
-        if (type == "x:stop-actions") return;
+        if (type == "built-in:misc:stop-actions") return;
 
         sendInfo("Execute action " + (parseInt(i) + 1) + " (" + type + ")");
 
@@ -179,54 +181,42 @@ module.exports.execute = async (options) => {
         }
         data.variables = variables;
 
-        if (type == "variables:set-variable") {
+        if (type == "built-in:variables:set-variable") {
             variables[data.action.id] = parse(data.action.content, variables, client, botId);
             return nextOne();
-        } else if (type == "variables:delete-variable") {
+        } else if (type == "built-in:variables:delete-variable") {
             if (variables[data.action.id]) delete variables[data.action.id];
             return nextOne();
-        } else if (type == "conditional:one-action-if-equals") {
-            let val = true;
+        } else if (type == "built-in:conditional:one-action-if-equals") {
             if (data.action.statement1 != data.action.statement2) {
                 skipNext = true;
-                val = false;
             }
-            return nextOne(val);
-        } else if (type == "conditional:one-action-if-not-equals") {
-            let val = true;
+            return nextOne();
+        } else if (type == "built-in:conditional:one-action-if-not-equals") {
             if (data.action.statement1 == data.action.statement2) {
                 skipNext = true;
-                val = false;
             }
-            return nextOne(val);
-        } else if (type == "conditional:one-action-if-starts-with") {
-            let val = true;
+            return nextOne();
+        } else if (type == "built-in:conditional:one-action-if-starts-with") {
             if (data.action.statement1.startsWith(data.action.statement2) == false) {
                 skipNext = true;
-                val = false;
             }
-            return nextOne(val);
-        } else if (type == "conditional:one-action-if-ends-with") {
-            let val = true;
+            return nextOne();
+        } else if (type == "built-in:conditional:one-action-if-ends-with") {
             if (data.action.statement1.endsWith(data.action.statement2) == false) {
                 skipNext = true;
-                val = false;
             }
-            return nextOne(val);
-        } else if (type == "conditional:one-action-if-includes") {
-            let val = true;
+            return nextOne();
+        } else if (type == "built-in:conditional:one-action-if-includes") {
             if (data.action.statement1.includes(data.action.statement2) == false) {
                 skipNext = true;
-                val = false;
             }
-            return nextOne(val);
-        } else if (type == "conditional:one-action-if-exists") {
-            let val = true;
-            if (data.action.what != undefined || data.action.what != null || data.action.what != NaN) {
+            return nextOne();
+        } else if (type == "built-in:conditional:one-action-if-exists") {
+            if (data.action.statement1 == undefined || data.action.statement1 == null || data.action.statement1 == NaN) {
                 skipNext = true;
-                val = false;
             }
-            return nextOne(val);
+            return nextOne();
         }
 
         // Check if it is allowed to run
@@ -236,6 +226,7 @@ module.exports.execute = async (options) => {
         }
 
         actions[type].execute(data).then(res => {
+            if (!res) return nextOne();
             return nextOne(res);
         }).catch(err => {
             error(err + "\n" + err.stack?.toString().replace(/\n/g, "<br>"));

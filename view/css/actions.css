@@ -1,5 +1,4 @@
 
-
 .strikethrough:active {
     opacity: 0;
 }
@@ -11,7 +10,7 @@
 
 .action {
     padding: 10px;
-    width: 400px;;
+    width: 400px;
 }
 
 .action>b {
@@ -26,13 +25,6 @@
 
 .newCommand-editAction-inputs>div {
     padding: 3px;
-}
-
-.inline-comment {
-    padding: 10px;
-    margin: 5px;
-    border-left-color: white;
-    border-left-style: solid;
 }
 
 .action-movement {

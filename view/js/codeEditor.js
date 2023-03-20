@@ -1,6 +1,6 @@
 function parseActionCode() {
     let data = document.getElementById(editingDiv + "-codeEditor").value.replace(/<br>/g, "\n").replace(/<\/?div>/g, "\n").split("\n");
-    console.log(data)
+
     let output = [];
     let imports = {};
     
@@ -103,17 +103,18 @@ function parseActionCode() {
                 if (args[a].trim() == ")") break;
                 if (args[a].trim() == "") continue;
 
-                if (args[a].match(/^([a-zA-Z0-9]+\:)$/) && inKey == false) {
+                if (args[a].match(/^([a-zA-Z0-9\-\_]+\;)$/) && inKey == false) {
                     return [ false, i, "Expected parameter value after key for function call (arg " + args[a] + ")" ];
-                } else if (!args[a].match(/^([a-zA-Z0-9]+\:)$/) && inKey == true) {
+                } else if (!args[a].match(/^([a-zA-Z0-9\-\_]+\;)$/) && inKey == true) {
                     return [ false, i, "Expected parameter key for function call (arg " + args[a] + ")" ];
                 }
 
                 if (inKey == true) {
-                    let keyName = args[a].match(/[a-zA-Z0-9]+/);
+                    let keyName = args[a].match(/[a-zA-Z0-9\-\_]+/);
                     currentKey = keyName;
                     inKey = false;
                 } else {
+                    if (a == args.length - 1 && args[a].endsWith(")")) args[a] = args[a].slice(0, args[a].length - 1);
                     action[currentKey] = args[a];
                     inKey = true;
                 }
@@ -150,7 +151,7 @@ function splitNotString(str) {
             continue;
         } 
         
-        if ((str[i] == ":" || str[i] == "(") && inString == false) {
+        if ((str[i] == ";" || str[i] == "(" || str[i] == ")") && inString == false) {
             current += str[i];
             output.push(current);
             current = "";

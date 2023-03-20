@@ -150,5 +150,32 @@ module.exports.actions = {
                 resolve(Math.floor(Math.random() * (data.action.number1 - data.action.number2)) + data.action.number1);
             });
         }
+    },
+
+    "ratelimit": {
+        allowedEvents: ["*"],
+        name: "ratelimit",
+        description: "Check if the difference between 2 dates is bigger than the ratelimit",
+        inputs: {
+            "last": {
+                name: "last",
+                allowEmpty: false
+            },
+            "now": {
+                name: "now",
+                allowEmpty: false
+            },
+            "ratelimit": {
+                name: "ratelimit",
+                allowedEvents: false
+            }
+        },
+        execute: (data) => {
+            return new Promise((resolve, reject) => {
+                if (data.action.ratelimit - (date.action.now - date.actioin.last) < 0) {
+                    resolve(true);
+                } reject(false);
+            });
+        }
     }
 }

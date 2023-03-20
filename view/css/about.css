@@ -23,7 +23,7 @@ body {
 
 .fullCenter {
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     width: 70%;
     -ms-transform: translateX(-50%) translateY(-50%);
@@ -53,4 +53,19 @@ body {
     text-decoration: underline;
     color: lightblue;
     cursor: pointer;
+}
+
+.icon {
+    transition: 0.3s;
+    width: 75px
+}
+
+.icon:hover {
+    width: 85px;
+    rotate: 10deg;
+}
+
+.icon:active {
+    rotate: -370deg;
+    width: 90px;
 }

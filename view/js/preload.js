@@ -133,7 +133,7 @@ function addLogItem(message) {
 
     if (message.type.startsWith("bot:") == true && settings.botDebug == true) valid = true;
     else if (message.type.startsWith("event:") == true && settings.botEvents == true) valid = true;
-    else if (settings.generalLog == true || message.type.startsWith("error:")) valid = true;
+    else if (settings.generalLog == true || message.type.startsWith("error")) valid = true;
 
     if (valid == false) return;
     

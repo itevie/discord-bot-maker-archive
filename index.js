@@ -34,7 +34,8 @@ const loadMainWindow = () => {
         title: "Discord Bot Maker",
         webPreferences: {
             preload: path.join(__dirname, '/view/js/preload.js')
-        }
+        },
+        icon: __dirname + "/icon.ico"
     });
 
     global.dbm.mainWindow.loadFile(path.join(__dirname, "view/index.html"));

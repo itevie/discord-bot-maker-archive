@@ -1,6 +1,5 @@
 
 .modal {
-    background-color: #22222288;
     position: fixed;
     top: 0;
     left: 0;
@@ -13,12 +12,6 @@
     position: absolute;
     width: 400px;
     min-height: 200px;
-    border-color: black;
-    border-style: solid;
-    border-radius: 20px;
-    border-width: 5px;
-    background-color: #3d3f46;
-    color: white;
     top: 50%;
     left: 50%;
     -ms-transform: translateX(-50%) translateY(-50%);

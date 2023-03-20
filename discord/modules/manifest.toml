@@ -9,7 +9,7 @@ author = "Discord Bot Maker"
 [list]
 module_list = [
     "bot", "conditional", "database", "lists", "maths", "messages", "misc",
-    "strings", "types", "users", "variables", "voice"
+    "strings", "types", "users", "variables", "voice", "time"
 ]
 
 [bot]
@@ -59,3 +59,7 @@ description = "Store data in variables for use later"
 [voice]
 name = "voice"
 description = "Connect and play audio in voice chats"
+
+[time]
+name = "time"
+description = "Dates and times"
