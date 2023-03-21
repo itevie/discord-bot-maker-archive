@@ -2,8 +2,9 @@
 This is an application that will let you easily create Discord bots.
 With a visual UI, you'll be able to make awesome Discord bots without any problem!
 
-<img src="view/image/icon.png" alt="Discord Bot Logo" width="200"/>
-
+<p align="center">
+    <img src="view/image/icon.png" alt="Discord Bot Logo" width="100"/>
+</p>
 ## Installing
  - Make sure you have Node.JS installed on your computer: [download](https://nodejs.org/en/download)
  - Download the source code as a ZIP
