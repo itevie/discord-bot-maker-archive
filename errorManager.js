@@ -17,8 +17,7 @@ module.exports.fatalError = (err) => {
 
 process.on("uncaughtException", (err) => {
     newLog(err);
-})
-
+});
 function newLog(err, fatal) {
     console.log(err, err?.stack, "Fatal: " + fatal);
     if (err.toString().toLowerCase().includes("manager was destroyed")) return;
@@ -26,6 +25,24 @@ function newLog(err, fatal) {
     let logName = Date.now().toString() + ".txt";
     let path = app.getPath("userData");
     if (!fs.existsSync(path + "/logs/")) fs.mkdirSync(path + "/logs");
+
+    let packages = [];
+    let modules = [];
+    let actions = [];
+
+    let webActions = require("./discord/utils/execute")?.webActions;
+    if (webActions) {
+        for (let package in webActions) {
+            packages.push(package);
+            for (let module in webActions[package]) {
+                if (module == "information") continue;
+                modules.push(package + ":" + module);
+                for (let action in webActions[package][module]) {
+                    actions.push(package + ":" + module + ":" + action);
+                }
+            }
+        }
+    }
 
     let text = `--- START OF LOG ---
 
@@ -44,7 +61,9 @@ STACK: ${err?.stack?.toString() || "No stack; log created by user"}
 
 --- DETAILS --- 
 
-Loaded Plugins: ${require("./discord/utils/execute")?.modulesList?.join(", ")}
+Loaded Packages: (${packages.length}) ${packages.join(", ")}
+Loaded Modules: (${modules.length}) ${modules.join(", ")}
+Loaded Actions: (${actions.length}) ${actions.join(", ")}
 Running Bots: ${botRunner.getList(true)}
 App Version: ${require("./package.json").version}
 

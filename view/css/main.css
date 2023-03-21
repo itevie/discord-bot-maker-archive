@@ -46,6 +46,19 @@
     border-radius: 10px;
 }
 
+.icon2 {
+    transition: 0.3s;
+    filter: invert(1);
+}
+
+.icon2:hover {
+    border-radius: 5px;
+    border-style: none;
+    border-width: 0;
+    background-color: gray;
+    filter: invert(0);
+}
+
 .icon:active {
     padding: 5px;
     width: 22px;

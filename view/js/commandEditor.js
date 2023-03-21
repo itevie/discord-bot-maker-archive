@@ -3,6 +3,7 @@ let editing = null;
 let actionList = window.electron.getActionList();
 let editingDiv = null;
 let actionCodeMode = true;
+let currentEditingCommand = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     Array.from(document.getElementById("editAction-type").options).forEach(function (op) {
@@ -132,13 +133,14 @@ function moveActionDown(id) {
 
 function editCommand(id) {
     let command = currentBotData.commands[id];
+    currentEditingCommand = id;
     editingDiv = "newCommand-actionList";
     document.getElementById("newCommand-commandName").value = id;
     document.getElementById("newCommand-comment").value = command.comment || "";
     current = command.actions;
-    console.log(command.code);
     updateList(command.code);
-    showDiv("newCommand");
+    //showDiv("newCommand");
+    document.getElementById("commandEditor").style.display = "block";
 }
 
 function updateEditActionSelection(data = {}) {

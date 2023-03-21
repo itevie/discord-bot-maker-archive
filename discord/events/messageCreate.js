@@ -28,6 +28,8 @@ module.exports.init = (client, id) => {
             args.shift();
             sendInfo("Command recieved: " + command);
 
+            if (message.system) return sendInfo("Command refused: author is System.");
+
             if (botData.commands[command] && botData.commands[command].type == "prefix" && !(botData.commands[command].ignoreBots && message.author.bot)) {
                 sendInfo("Running command: " + content)
                 let cmd = botData.commands[command];
@@ -46,6 +48,7 @@ module.exports.init = (client, id) => {
         }
 
         if (botData.events["messageCreate"]) {
+            if (message.system) return sendInfo("Command refused: author is System.");
             await execute({
                 client: client,
                 message: message,
@@ -58,6 +61,7 @@ module.exports.init = (client, id) => {
 
         for (let i in botData.commands) {
             if (botData.commands[i].type == "new-message" && !(botData.commands[i].ignoreBots && message.author.bot)) {
+                if (message.system) return sendInfo("Command refused: author is System.");
                 await execute({
                     client: client,
                     message: message,

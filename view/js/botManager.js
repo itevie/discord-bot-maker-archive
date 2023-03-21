@@ -2,23 +2,6 @@ let currentBotData = {};
 let currentBotName = null;
 let db = null;
 
-let commandItemTemplate = `
-    <div class="contentDiv" style="display: inline-block">
-        <b>%id%</b><br>
-        <label>Action Count: %actionCount%</label>
-        <br>
-        <label>Type: %type%</label>
-        <br>
-        <div style="display: %showcomment%">
-            <div class="inline-comment">
-                <label>%comment%</label>
-            </div>
-        </div>
-        <img src="image/icon/edit.png" onclick="editCommand('%id%')" class="icon">
-        <img src="image/icon/delete.png" onclick="deleteCommand('%id%')" class="icon danger-icon">
-    </div>
-`;
-
 function backup(name) {
     window.electron.backup(name);
 }
@@ -133,20 +116,8 @@ function reloadAllData() {
     document.getElementById("details-name").innerHTML = currentBotData.id;
     if (currentBotData.profile?.pfp) document.getElementById("details-pfp").src = currentBotData.profile.pfp;
     else document.getElementById("details-pfp").src = "image/noPfp.png";
-    if (currentBotData) {
-        document.getElementById("commandList").innerHTML = "";
-        for (let i in currentBotData.commands) {
-            let t = commandItemTemplate
-                .replace(/%id%/g, i)
-                .replace(/%actionCount%/g, currentBotData.commands[i].actions.length)
-                .replace(/%type%/g, currentBotData.commands[i].type || "Unknown");
-            let comment = currentBotData.commands[i].comment;
-            if (!comment || comment.trim() == "") t = t.replace(/%showcomment%/g, "none");
-            else t.replace(/%showcomment%/g, "block");
-            t = t.replace(/%comment%/g, comment);
-            document.getElementById("commandList").innerHTML += t;
-        }
-    }
+
+    loadCommands();
 
     let settings = window.electron.fetchSettings();
     document.getElementById("log-checkboxGeneralLog").checked = settings.generalLog;

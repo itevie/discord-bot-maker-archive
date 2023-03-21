@@ -198,6 +198,7 @@
             <p id="actionLog" class="actionLog"></p>
             <button data-lang="log.button.clear-log" onclick="window.electron.clearLog(); reloadTo('log')"
                 class="dangerButton">Clear Log</button>
+            <button onclick="window.electron.fetchFullList();">Load Full Log</button>
         </div>
         
         <div data-div-id="packages">
@@ -433,11 +434,74 @@
             <h2>Your Functions</h2>
         </div>
 
+        <!--
         <div data-div-id="botCommads" style="display: none;">
             <h1 data-lang="commands.header">Command Manager</h1>
             <button data-lang="commands.create-command" onclick="newCommand()">Create Command</button>
             <h2 data-lang="commands.header.commandList">Command List</h2>
             <div id="commandList"></div>
+        </div>
+        -->
+
+        <div data-div-id="botCommads" style="display: none; height: 100%; margin-top: 5px;">
+            <div class="commandManagerCommandList">
+                <b>Commands</b>
+                <hr>
+                <img src="image/icon/add.png" class="icon2" style="width: 32px;" onclick="newCommand()">
+                <img src="image/icon/new_folder.png" class="icon2" style="width: 32px;" onclick="newCommand()">
+                <hr>
+                <div id="commandList"></div>
+            </div>
+            <div style="float: left;display:none;" class="commandEditor" id="commandEditor">
+                <div>
+                    <fieldset style="float:left">
+                        <legend>Information</legend>
+                        <label>Command Name: </label>
+                        <input onkeyup="validate(this, /.{1,1000}/);" id="newCommand-commandName">
+                        <br>
+                        <div class="inline-comment">
+                            <label>The comment for this command. <i>This is purely for you and has 0 affect on your
+                                    bot.</i></label><br>
+                            <textarea id="newCommand-comment"></textarea>
+                        </div>
+                    </fieldset>
+                    <fieldset style="float:left">
+                        <legend>Options</legend>
+                        <p>Select which command mode this is (learn more <button
+                                onclick="showFAQ('command-types')">here</button>): </p>
+                        <input type="radio" id="newCommand-commandType-prefix" name="newCommand-commandType" value="prefix"
+                            checked>
+                        <label for="newCommand-commandType-prefix">Prefix</label><br>
+                        <input disabled type="radio" id="newCommand-commandType-contains" name="newCommand-commandType"
+                            value="contains">
+                        <label for="newCommand-commandType-contains">Contains</label><br>
+                        <input type="radio" id="newCommand-commandType-new-message" name="newCommand-commandType"
+                            value="new-message">
+                        <label for="newCommand-commandType-contains">Message Sent</label>
+                        <div>
+                            <p>Other Settings</p>
+                            <input type="checkbox" id="newCommand-allowInDms">
+                            <label>Can be used in DMs? </label>
+                        </div>
+                    
+                        <div>
+                            <input type="checkbox" id="newCommand-ignoreBots" checked>
+                            <label>Ignore Bots? </label>
+                        </div>
+                    </fieldset>
+                </div>
+                <fieldset>
+                    <legend>Actions</legend>
+                    <div id="newCommand-actionList" class="actionListContainer">
+                    </div>
+                    <button id="newCommand-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
+                </fieldset>
+                <fieldset>
+                    <legend>Finish</legend>
+                    <button onclick="createCommand()">Save Command</button>
+                    <button onclick="deleteCommand()" class="dangerButton">Delete Command</button>
+                </fieldset>
+            </div>
         </div>
 
         <div data-div-id="botVariables">
@@ -446,11 +510,32 @@
             <p>Learn more about predefined variables <button onclick="showFAQ('predefined_variables')">here</button></p>
         </div>
 
-        <div data-div-id="events">
+        <!--<div data-div-id="events">
             <h1>Events</h1>
             <p>These are like commands but they are ran when a certain thing happens in a server. For example when a
                 message is edited, a role is created etc.</p>
-            <table iv id="eventList"></table>
+            <table id="eventList"></table>
+        </div>-->
+        <div data-div-id="events">
+            <div class="commandManagerCommandList">
+                <b>Events</b>
+                <hr>
+                <div id="eventList"></div>
+            </div>
+            <div style="float: left;display:block;" class="commandEditor" id="eventEditor">
+                <fieldset>
+                    <legend>Actions</legend>
+                    <p>Actions that will be executed once this event is triggered</p>
+                    <div id="event-actionList" class="actionListContainer">
+                    </div>
+                    <button id="event-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
+                </fieldset>
+                <fieldset>
+                    <legend>Finish</legend>  
+                    <button class="goodButton" onclick="createTheEvent()">Create</button>
+                    <button class="dangerButton" onclick="current=[];updateList()">Clear</button>
+                </fieldset>
+            </div>
         </div>
 
         <div class="modal" style="display: none;" id="editAction">
@@ -471,20 +556,15 @@
             </div>
         </div>
 
-        <div data-div-id="editEvent">
+        <!--<div data-div-id="editEvent">
             <h1>Edit Event</h1>
             <i>Editing: <label id="editEvent-type"></label></i>
             <h2>Actions</h2>
-            <p>Actions that will be executed once this event is triggered</p>
-            <div id="event-actionList" class="actionListContainer">
-            </div>
-            <button id="event-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
+            
             <h2>Finish</h2>
-            <button class="goodButton" onclick="createTheEvent()">Create</button>
-            <button class="dangerButton" onclick="current=[];updateList()">Clear</button>
-        </div>
+        </div>-->
 
-        <div data-div-id="newCommand">
+        <!--<div data-div-id="newCommand">
             <h1>Create a new command</h1>
             <h2>Information</h2>
             <p>General information for this command</p>
@@ -526,7 +606,7 @@
             <h2>Finish</h2>
             <button onclick="createCommand()">Create Command</button>
             <button class="dangerButton" onclick="resetNewCommandsDiv()">Reset Command</button>
-        </div>
+        </div>-->
 
         <div data-div-id="plugins">
             <h1>You're plugins</h1>
@@ -546,7 +626,7 @@
         </div>
 
         <br><br><br>
-        <div class="footer" id="footer" style="display: block;">
+        <div class="footer" id="footer" style="display: none;">
             <p id="footerInfo">Info will appear here...</p>
         </div>
     </div>

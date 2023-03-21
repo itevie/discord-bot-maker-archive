@@ -227,6 +227,7 @@ module.exports.execute = async (options) => {
 
         actions[type].execute(data).then(res => {
             if (!res) return nextOne();
+            sendInfo("Action " + (parseInt(i) + 1) + " returned: " + res);
             return nextOne(res);
         }).catch(err => {
             error(err + "\n" + err.stack?.toString().replace(/\n/g, "<br>"));

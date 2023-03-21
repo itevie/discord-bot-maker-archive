@@ -78,7 +78,11 @@ contextBridge.exposeInMainWorld('electron', {
     notification: (callback) => {
         ipcRenderer.on("notification", callback);
     },
-    fetchRunningList: () => ipcRenderer.sendSync("runningBotList")
+    fetchRunningList: () => ipcRenderer.sendSync("runningBotList"),
+
+    fetchFullList: () => {
+        getFullList();
+    }
 });
 
 let logMessageTemplate = `<label style="color: %color%">%type% @ %time% %loader%</label><br>&nbsp;&nbsp;%msg%<br>`
@@ -108,7 +112,6 @@ ipcRenderer.on("error", (event, message) => {
 ipcRenderer.on("botCreated", (event, message) => {
     document.getElementById("botCreator-info").innerHTML = "Bot created!";
     document.getElementById("botCreator-info").style.color = "green";
-    console.log(rendererEvents);
     rendererEvents.success("The bot was successfully created!", {
         reload: 1000
     });
@@ -124,9 +127,14 @@ ipcRenderer.on("success", (event, message) => {
     rendererEvents.success(message.msg, message);
 });
 
-
+let logAmount = 0;
 function addLogItem(message) {
     if (!message.type) message.type = "info";
+    if (logAmount > 100) {
+        document.getElementById("actionLog").innerHTML = "";
+        logAmount = 0;
+    }
+
     let settings = ipcRenderer.sendSync("fetchSettings", null);
 
     let valid = false;
@@ -148,14 +156,19 @@ function addLogItem(message) {
     document.getElementById("actionLog").scrollTop = document.getElementById("actionLog").scrollHeight;
 
     document.getElementById("footerInfo").innerHTML = t.replace(/%loader%/g, message.showLoader ? `<label class="loader"></label>` : "");
+
+    logAmount++;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+function getFullList() {
+    document.getElementById("actionLog").innerHTML = "";
+    logAmount = -1000000000;
+
     let log = ipcRenderer.sendSync("fetchLog", null);
     for (let i in log) {
         addLogItem(log[i]);
     }
-});
+}
 
 ipcRenderer.on("detailUpdate", (event, data) => {
     if (data["startLimitTotal"]) {

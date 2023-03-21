@@ -7,21 +7,36 @@ let eventList = {
 
 let editingEvent = "";
 
-let eventTemplate = `
+let eventTemplate2 = `
 <td><b style="color: %setup%">%name%</b></td><td><img src="image/icon/edit.png" onclick="setupEvent('%id%')" class="icon"</td>
 `;
 
+let eventTemplate = `
+<div>
+    <label class="noselect" onclick="setupEvent('%id%');setSelectedEvent('%name%')">%name%</label>
+</div>
+`
+
+function setSelectedEvent(name) {
+    let eventsElements = document.getElementById("eventList");
+    for (let i = 0; i < eventsElements.children.length; i++) {
+        let child = eventsElements.children[i].children[0];
+        console.log(child.innerHTML, name, child.innerHTML == name)
+        if (child.innerHTML == name) child.style["font-weight"] = "bold";
+        else child.style["font-weight"] = 100;
+        console.log(child.style["font-weight"])
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     for (let i in eventList) {
-        let div = document.createElement("tr");
         let n = eventTemplate
             .replace(/%id%/g, i)
             .replace(/%name%/g, eventList[i])
             .replace(/%setup%/g, "gray")
             .replace(/%btnsetup%/g, "Edit");
 
-        div.innerHTML = n;
-        document.getElementById("eventList").appendChild(div);
+        document.getElementById("eventList").innerHTML += n;
     }
 });
 
@@ -33,9 +48,7 @@ function setupEvent(id) {
     if (currentBotData.events[id]) current = currentBotData.events[id].actions;
     updateList(currentBotData.events[id]?.code);
 
-    document.getElementById("editEvent-type").innerHTML = id;
-
-    showDiv("editEvent");
+    //document.getElementById("editEvent-type").innerHTML = id;
 }
 
 function createTheEvent() {
@@ -47,7 +60,6 @@ function createTheEvent() {
     
     if (res != true) showError("Failed to update event");
     else {
-        showDiv("events");
         reloadAllData();
     }
 }
