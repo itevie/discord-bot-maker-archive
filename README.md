@@ -3,6 +3,7 @@ This is an application that will let you easily create Discord bots.
 With a visual UI, you'll be able to make awesome Discord bots without any problem!
 
 ## Installing
+ - Make sure you have Node.JS installed on your computer (download)[https://nodejs.org/en/download]
  - Download the source code as a ZIP
  - Extract it
  - Open terminal and navigate to the folder
