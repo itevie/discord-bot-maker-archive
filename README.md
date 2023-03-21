@@ -5,6 +5,7 @@ With a visual UI, you'll be able to make awesome Discord bots without any proble
 <div style="text-align:center">
     <img src="view/image/icon.png" alt="Discord Bot Logo" width="100"/>
 </div>
+
 ## Installing
  - Make sure you have Node.JS installed on your computer: [download](https://nodejs.org/en/download)
  - Download the source code as a ZIP
