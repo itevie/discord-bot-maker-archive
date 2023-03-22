@@ -2,6 +2,8 @@
 This is an application that will let you easily create Discord bots.
 With a visual UI, you'll be able to make awesome Discord bots without any problem!
 
+Join our support server to get involved in the community! Share your content, ask for help, provide feedback: [Join!](https://discord.gg/KDWzBaPEbZ)
+
 <div style="text-align:center">
     <img src="view/image/icon.png" alt="Discord Bot Logo" width="100"/>
 </div>

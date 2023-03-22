@@ -65,7 +65,7 @@ let newBot = {
     events: {
         "messageDelete": {
             actions: [{
-                type: "built-in:x:log",
+                type: "built-in:misc:log",
                 content: "A message was deleted!"
             }]
         }

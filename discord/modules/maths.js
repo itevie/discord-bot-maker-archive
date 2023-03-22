@@ -147,7 +147,9 @@ module.exports.actions = {
         },
         execute: (data) => {
             return new Promise((resolve, reject) => {
-                resolve(Math.floor(Math.random() * (data.action.number1 - data.action.number2)) + data.action.number1);
+                let min = parseFloat(data.action.number1);
+                let max = parseFloat(data.action.number2);
+                resolve(Math.floor(Math.random() * ( max - min + 1) + min));
             });
         }
     },
@@ -172,9 +174,10 @@ module.exports.actions = {
         },
         execute: (data) => {
             return new Promise((resolve, reject) => {
-                if (data.action.ratelimit - (date.action.now - date.actioin.last) < 0) {
-                    resolve(true);
-                } reject(false);
+                console.log(data.action.ratelimit, data.action.now, data.action.last, data.action.now - data.action.last);
+                if (data.action.ratelimit - (data.action.now - data.action.last) < 0) {
+                    resolve("true");
+                } else resolve("false");
             });
         }
     }

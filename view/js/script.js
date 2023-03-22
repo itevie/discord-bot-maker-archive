@@ -126,9 +126,17 @@ document.addEventListener("DOMContentLoaded", () => {
             content: tooltipText(tooltips[i].getAttribute("data-tooltip")),
             allowHTML: true,
             animation: "shift-away",
-            interactive: true
+            interactive: true,
+            delay: 500
         });
     }
+
+    /*tippy(document.getElementById("home-icon"), {
+        content: "home",
+        
+        animation: "shift-away",
+        interactive: true
+    });*/
 
     reloadSettings();
 
