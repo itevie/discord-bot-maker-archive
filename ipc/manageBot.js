@@ -5,7 +5,7 @@ const {
     shell
 } = require('electron');
 const fs = require("fs");
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 const botRunner = require(__dirname + "/../botRunner.js");
 // Start the bot
 ipcMain.on("startBot", (event, id) => {
@@ -62,9 +62,9 @@ ipcMain.on("deleteBot", (event, data) => {
 
 // CHange the selected bot
 ipcMain.on("selectBot", (event, id) => {
-    if (botManager.validate(id) == false) return;
     if (!botManager.data.bots[id]) return event.returnValue = "Bot does not exist";
     else {
+        if (botManager.validate(id) == false) return;
         botManager.data.selected = id;
         return event.returnValue = true;
     }

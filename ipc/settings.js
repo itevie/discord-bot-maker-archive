@@ -2,7 +2,7 @@ const {
     ipcMain,
     ipcRenderer
 } = require('electron');
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 const package = require(__dirname + "/../package.json");
 const tokenValidator = require(__dirname + "/createBot.js").validate;
 

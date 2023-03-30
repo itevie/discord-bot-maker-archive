@@ -1,4 +1,4 @@
-const botManager = require(__dirname + "/../../botManager.js");
+const botManager = require(__dirname + "/../../database.js");
 
 module.exports.details = {
     name: "Maths"

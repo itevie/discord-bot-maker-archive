@@ -84,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     dataDivIDs[e].style.display = "block";
                     dataDivIDs[e].classList.add("fadeIn");
                     shown = true;
+                    currentDiv = id;
+                    console.log("currentDiv: " + id);
                 } else {
                     dataDivIDs[e].style.display = "none";
                     dataDivIDs[e].classList.remove("fadeIn");
@@ -93,8 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
             if (shown == false) {
                 Swal.fire("Oops", "Looks like this feature has not been implemented yet", "info");
             }
-
-            currentDiv = change;
 
             if (toRun) toRun();
         }
@@ -150,24 +150,27 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function showDiv(id) {
+/*function showDiv(id) {
     let dataDivIDs = document.querySelectorAll("[data-div-id]");
+    console.log(id)
     for (let i in dataDivIDs) {
         if (typeof dataDivIDs[i] != "object") continue;
         let did = dataDivIDs[i].getAttribute("data-div-id");
 
+        console.log(id)
         if (id == did) {
             setDivHistory(did);
             dataDivIDs[i].style.display = "block";
             dataDivIDs[e].classList.add("fadeIn");
+            currentDiv = id;
+            console.log("currentDiv: " + id);
         } else {
             dataDivIDs.style.display = "none";
             dataDivIDs[e].classList.remove("fadeIn");
         }
     }
-
-    currentDiv = id;
 }
+*/
 
 function setDivHistory(id) {
     divHistory[0] = divHistory[1];
@@ -211,6 +214,7 @@ function showDiv(sid) {
         let id = dataDivIDs[e].getAttribute("data-div-id");
 
         if (sid == id) {
+            currentDiv = id;
             dataDivIDs[e].style.display = "block";
             shown = true;
         }

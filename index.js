@@ -16,7 +16,7 @@ const {
 } = require("electron");
 const path = require("path");
 const ipc = require("./ipc.js");
-const botManager = require("./botManager");
+const botManager = require("./database");
 const botRunner = require("./botRunner");
 const external = require("./externalManager");
 const fs = require("fs");

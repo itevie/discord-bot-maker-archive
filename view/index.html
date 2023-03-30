@@ -22,6 +22,7 @@
     <script src="js/externalManager.js"></script>
     <script src="js/packages.js"></script>
     <script src="js/codeEditor.js"></script>
+    <script src="js/searcher.js"></script>
     <!-- STYLE SHEETS -->
     <link rel="stylesheet" href="sw/sweetalert2.css">
     <link rel="stylesheet" href="css/actions.css">
@@ -156,7 +157,7 @@
                 </table>
             </div>
             <br>
-            <input id="appSettings-useActionCode" type="checkBox" onclick="console.log('a');localStorage.setItem('useActionCode', this.checked);actionCodeMode=this.checked"><label>Use Action Code (EXPERIMENTAL)</label>
+            <input id="appSettings-useActionCode" type="checkBox" onclick="localStorage.setItem('useActionCode', this.checked);actionCodeMode=this.checked"><label>Use Action Code (EXPERIMENTAL)</label>
             <br><br>
             <button data-tooltip="Restart the application" data-lang="settings.restart" data-nodisable
                 onclick="document.body.classList.add('fadeOut');window.electron.restartApp()">Restart</button>

@@ -21,10 +21,8 @@ function setSelectedEvent(name) {
     let eventsElements = document.getElementById("eventList");
     for (let i = 0; i < eventsElements.children.length; i++) {
         let child = eventsElements.children[i].children[0];
-        console.log(child.innerHTML, name, child.innerHTML == name)
         if (child.innerHTML == name) child.style["font-weight"] = "bold";
         else child.style["font-weight"] = 100;
-        console.log(child.style["font-weight"])
     }
 }
 
@@ -55,7 +53,7 @@ function createTheEvent() {
     let res = window.electron.createEvent({
         type: editingEvent,
         actions: current,
-        code: document.getElementById("event-actionList-codeEditor").value || currentBotData.events[id].code || undefined
+        code: (document.getElementById("event-actionList-codeEditor").value != undefined ? document.getElementById("event-actionList-codeEditor").value : (currentBotData.events[editingEvent].code || undefined))
     });
     
     if (res != true) showError("Failed to update event");

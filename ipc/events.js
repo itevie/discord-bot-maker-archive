@@ -2,7 +2,7 @@ const {
     ipcMain,
     ipcRenderer
 } = require('electron');
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 const botRunner = require(__dirname + "/../botRunner.js");
 
 // Create event, returns success

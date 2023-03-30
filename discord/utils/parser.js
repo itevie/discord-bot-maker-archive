@@ -1,8 +1,9 @@
 const {
     data
-} = require("../../botManager");
+} = require("../../database");
 
-let botManager = require(__dirname + "/../../botManager.js");
+const Variable = require(__dirname + "/../Variable.js");
+let botManager = require(__dirname + "/../../database.js");
 
 module.exports.parse = (text, variables, client, id, messageSending) => {
     variables.uptime = client.uptime;
@@ -28,7 +29,6 @@ module.exports.parse = (text, variables, client, id, messageSending) => {
         let v = vars[i].substring(2, vars[i].length - 2);
         if (v.startsWith("embed:")) continue;
         let res = module.exports.travelJSON(v, variables);
-
         text = text.replace(vars[i], res);
     }
 
@@ -49,7 +49,7 @@ function parseRecursive(data, variables, client, id) {
             data[i] = parseRecursive(data[i], variables, client, id);
             continue;
         } else {
-            data[i] = module.exports.parse(data[i].toString(), variables, client, id);
+            data[i] = module.exports.parse(data[i].valueAsString || data[i].toString(), variables, client, id);
         }
     }
 
@@ -67,7 +67,7 @@ module.exports.travelJSON = (path, json) => {
             return undefined;
         }
 
-        if (typeof json[keys[i]] == "object") {
+        if (typeof json[keys[i]] == "object" && (json[keys[i]] instanceof Variable == false)) {
             if (keys.length == 1) {
                 return JSON.stringify(json[keys[i]]);
             }
@@ -76,7 +76,7 @@ module.exports.travelJSON = (path, json) => {
             keys.shift();
             return module.exports.travelJSON(keys.join(":"), json[key]);
         } else {
-            return json[keys[i]];
+            return json[keys[i]].value || json[keys[i]];
         }
     }
 }

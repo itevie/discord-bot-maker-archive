@@ -1,4 +1,4 @@
-let botManager = require(__dirname + "/../../botManager.js");
+let botManager = require(__dirname + "/../../database.js");
 let {
     parse
 } = require(__dirname + "/../utils/parser.js");

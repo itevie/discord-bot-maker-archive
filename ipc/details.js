@@ -3,7 +3,7 @@ const {
     app,
     ipcRenderer
 } = require('electron');
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 const { log, clearLog } = require(__dirname + "/../ipc.js");
 const botRunner = require(__dirname + "/../botRunner.js");
 const fs = require("fs");

@@ -1,4 +1,4 @@
-const botManager = require(__dirname + "/../../botManager.js");
+const botManager = require(__dirname + "/../../database.js");
 const parse = require(__dirname + "/../utils/parser.js").parse;
 
 module.exports.details = {

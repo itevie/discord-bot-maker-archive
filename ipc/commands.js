@@ -2,7 +2,7 @@ const {
     ipcMain,
     ipcRenderer
 } = require('electron');
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 
 // Create command, does return something,
 ipcMain.on("createCommand", (event, data) => {

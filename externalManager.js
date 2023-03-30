@@ -1,5 +1,5 @@
 const init = require("./server/init").init;
-const botManager = require("./botManager");
+const botManager = require("./database");
 const axios = require("axios");
 const config = require("./config");
 const WebSocket = require("ws").WebSocket;

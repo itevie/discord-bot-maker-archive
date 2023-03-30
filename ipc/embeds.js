@@ -2,7 +2,7 @@ const {
     ipcMain,
     BrowserWindow,
 } = require('electron');
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 const path = require("path");
 
 let editingEmbed = null;

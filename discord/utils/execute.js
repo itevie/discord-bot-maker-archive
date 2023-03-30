@@ -5,93 +5,15 @@ let {
 const {
     app
 } = require("electron");
-const toml = require("toml");
-const errorManager = require(__dirname + "/../../errorManager.js");
-const botRunner = require(__dirname + "/../../botRunner.js");
-const botManager = require(__dirname + "/../../botManager.js");
-const fs = require("fs");
+const extensions = require(__dirname + "/../../extensionLoader");
+const Variable = require(__dirname + "/../Variable.js");
+const Types = require(__dirname + "/../Types.js");
 
-let actions = {
+module.exports.actions = extensions.actions;
+module.exports.modulesList = extensions.modulesList;
+module.exports.webActions = extensions.webActions;
 
-}
-
-let modulesList = [];
-module.exports.modulesList = modulesList;
-
-let webActions = {};
-module.exports.webActions = webActions;
-
-let packages = [ __dirname + "/../modules" ];
-if (fs.existsSync(app.getPath("userData") + "/modules"))
-    for (let i of fs.readdirSync(app.getPath("userData") + "/modules"))
-        packages.push(app.getPath("userData") + "/modules" + "/" + i);
-
-global.dbm.log("Found " + packages.length + " package(s)", "package-loader");
-
-for (let i in packages) {
-    global.dbm.log("Loading package " + packages[i], "package-loader");
-    if (!fs.existsSync(packages[i] + "/manifest.toml")) {
-        return errorManager.fatalError(new Error("The package " + packages[i] + " does not have a manifest.toml"));
-    }
-
-    let manifest = fs.readFileSync(packages[i] + "/manifest.toml");
-    manifest = toml.parse(manifest);
-
-    global.dbm.log("Package " + packages[i] + " manifest: v" + manifest.manifest_version + " name:" + manifest.information.name + "(" + manifest.information.version + ") by:" + manifest.information.author, "package-loader");
-
-    let modules = manifest.list.module_list;
-
-    for (let m in modules) {
-        global.dbm.log("Loading module " + modules[m] + " from package " + manifest.information.name, "package-loader");
-        if (!fs.existsSync(packages[i] + "/" + modules[m] + ".js")) {
-            return errorManager.fatalError(new Error("Cannot find module " + packages[i] + "/" + modules[m] + ".js" + " at package " + manifest.information.name));
-        }
-
-        if (modules[m] == "information") {
-            return errorManager.fatalError(new Error("Module name cannot be 'information' in module " + manifest.information.name + " at package " + manifest.information.name));
-        }
-
-        if (!manifest[modules[m]]) {
-            return errorManager.fatalError(new Error("Module manifest cannot be found in package's manifest file, module " + modules[i] + " at package " + manifest.information.name));
-        }
-
-        let module = require(packages[i] + "/" + modules[m] + ".js");
-        modulesList.push(manifest.information.name);
-
-        let ac = module.actions;
-        let moduleManifest = manifest[modules[m]];
-
-        for (let i in ac) {
-            global.dbm.log("Loading action " + i + " from module " + modules[m] + " from package " + manifest.information.name, "package-loader");
-            
-            if (!webActions[manifest.information.name]) webActions[manifest.information.name] = {
-                information: manifest.information
-            };
-            if (!webActions[manifest.information.name][moduleManifest.name]) webActions[manifest.information.name][moduleManifest.name] = {
-                information: moduleManifest
-            };
-
-            let name = manifest.information.name + ":" + moduleManifest.name + ":" + i;
-
-            actions[name] = ac[i];
-
-            webActions[manifest.information.name][moduleManifest.name][i] = {
-                name: ac[i].name,
-                inputs: ac[i].inputs || {},
-                description: ac[i].description || "",
-                allowedEvents: ac[i].allowedEvents || ["*"],
-            }
-
-            global.dbm.log("Loaded action: " + manifest.information.name + ":" + moduleManifest.name + ":" + i, "package-loader");
-        }
-
-        global.dbm.log("Loaded module: " + manifest.information.name + ":" + moduleManifest.name, "package-loader");
-    }
-
-    global.dbm.log("Loaded package: " + manifest.information.name, "package-loader");
-}
-
-global.dbm.log("Loaded " + Object.keys(actions).length + " actions from " + modulesList.length + " modules from " + packages.length + " packages!", "module-manager");
+let actions = module.exports.actions;
 
 module.exports.execute = async (options) => {
     let botData = options.botData;
@@ -121,9 +43,10 @@ module.exports.execute = async (options) => {
 
     // Add default variables
     variables.api_ping = Math.round(client.ws.ping);
+
     // Add variables
     if (["messageCreate"].includes(eventType)) {
-        variables.ping = Date.now() - options.message.createdTimestamp;
+        variables.ping = new Variable(Date.now() - options.message.createdTimestamp, { type: "number" });
 
         variables.message = options.message;
 
@@ -133,14 +56,14 @@ module.exports.execute = async (options) => {
             data.args = options.args;
 
             for (let i in args) {
-                variables["arg" + (parseInt(i) + 1)] = args[i];
+                variables["arg" + (parseInt(i) + 1)] = new Variable(args[i], { type: "string" });
 
                 let t = [];
                 for (let x = parseInt(i) + 1; x < args.length; x++) {
                     t.push(args[x]);
                 }
 
-                variables["afterarg" + (parseInt(i) + 1)] = t.join(" ");
+                variables["afterarg" + (parseInt(i) + 1)] = new Variable(t.join(" "), { type: "string" });
             }
         }
     }
@@ -151,6 +74,7 @@ module.exports.execute = async (options) => {
     // Loop through actions
     let i = 0;
     async function nextIdx() {
+        // Function to load and run the next action
         function nextOne(val) {
             if (val != undefined && val != null) variables.result = val;
             i++;
@@ -165,10 +89,25 @@ module.exports.execute = async (options) => {
 
         if (options.actions[i] == "DEL") return nextOne();
 
+        // Get the type and parse the action data
+        if (options.actions[i] == undefined) return error("Action " + (+i + 1) + " is undefined?");
         let type = options.actions[i].type;
         data.action = JSON.parse(JSON.stringify(options.actions[i]));
         let a = parseRecursive(data.action, variables, client, botId);
         data.action = a;
+        
+        // Parse action types
+        for (let a in data.action) {
+            if (i == "type" || type == "built-in:misc:stop-actions") continue;
+            if (actions[type]?.inputs[a]?.dataType) {
+                try {
+                    data.action = new Variable(data.action[a], { type: actions[type].inputs[a].dataType });
+                    data.action = data.action.value;
+                } catch (err) {
+                    return error("Failed to parse action paramater: " + a + " (potential error: the action param (" + a + " requires type " + actions[type].inputs[a].dataType + ")) " + err);
+                }
+            }
+        }
 
         if (type == "built-in:misc:stop-actions") return;
 
@@ -182,7 +121,7 @@ module.exports.execute = async (options) => {
         data.variables = variables;
 
         if (type == "built-in:variables:set-variable") {
-            variables[data.action.id] = parse(data.action.content, variables, client, botId);
+            variables[data.action.id] = new Variable(parse(data.action.content, variables, client, botId), { type: "any" });
             return nextOne();
         } else if (type == "built-in:variables:delete-variable") {
             if (variables[data.action.id]) delete variables[data.action.id];
@@ -225,6 +164,7 @@ module.exports.execute = async (options) => {
             return;
         }
 
+        // Execute the action
         actions[type].execute(data).then(res => {
             if (!res) return nextOne();
             sendInfo("Action " + (parseInt(i) + 1) + " returned: " + res);

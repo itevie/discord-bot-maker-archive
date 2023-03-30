@@ -39,7 +39,9 @@ module.exports.run = (loadMainWindow) => {
         let flag = flags[i];
         if (flag[0] == "bot") {
             noWindow = true;
-            botRunner.run(flag[1]);
+            setTimeout(() => {
+                botRunner.run(flag[1]);
+            }, 3000);
         } else if (flag[0] == "server") {
             noWindow = true;
             externalManager.start(flag[1]);

@@ -4,7 +4,7 @@ const {
 } = require('electron');
 const fs = require("fs");
 const clc = require("cli-color");
-const botManager = require("./botManager");
+const botManager = require("./database");
 const botRunner = require("./botRunner");
 const Discord = require("discord.js");
 const getAllFiles = require("./getAllFiles");

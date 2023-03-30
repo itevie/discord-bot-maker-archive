@@ -1,4 +1,4 @@
-const botManager = require("./botManager");
+const botManager = require("./database");
 const getAllFiles = require("./getAllFiles");
 const pms = require('ms-prettify').default;
 

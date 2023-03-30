@@ -107,7 +107,7 @@ module.exports.validate = (id) => {
     }
 
     if (errors.length > 0) {
-        global.mainWindow.webContents.send("error", {
+        global.dbm.mainWindow.webContents.send("error", {
             type: "alert",
             title: "Database Errors",
             msg: "Uh oh, your bot " + id + " has errors!<br><br>" + errors.join("<br>")

@@ -2,7 +2,7 @@ const {
     ipcMain,
     ipcRenderer
 } = require('electron');
-const botManager = require(__dirname + "/../botManager");
+const botManager = require(__dirname + "/../database");
 const external = require(__dirname + "/../externalManager.js");
 const axios = require("axios");
 

@@ -6,7 +6,7 @@ const {
     dialog
 } = require("electron");
 const ipc = require("./ipc.js");
-const botManager = require("./botManager");
+const botManager = require("./database");
 const botRunner = require("./botRunner");
 const fs = require("fs");
 const config = require("./config");
