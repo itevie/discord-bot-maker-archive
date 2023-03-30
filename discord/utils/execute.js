@@ -121,7 +121,7 @@ module.exports.execute = async (options) => {
         data.variables = variables;
 
         if (type == "built-in:variables:set-variable") {
-            variables[data.action.id] = new Variable(parse(data.action.content, variables, client, botId), { type: "any" });
+            variables[data.action.id] = parse(data.action.content, variables, client, botId);
             return nextOne();
         } else if (type == "built-in:variables:delete-variable") {
             if (variables[data.action.id]) delete variables[data.action.id];
