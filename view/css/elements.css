@@ -11,6 +11,11 @@ button {
     transition: 0.3s;
 }
 
+.tabButton {
+    margin: 0;
+    padding: 2px;
+}
+
 textarea {
     outline: none;
 }

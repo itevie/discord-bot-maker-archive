@@ -64,18 +64,15 @@ let actionArray = [];
 
 document.addEventListener("DOMContentLoaded", () => {
     let packages = window.electron.fetchWebActions();
-    console.log(packages)
     let editActionSelect = document.getElementById("editAction-type");
 
     // Loop through packages
     for (let package in packages) {
         if (package == "information") continue;
-        console.log("package " + packages[package].information);
 
         // Loop through modules
         for (let module in packages[package]) {
             if (module == "information") continue;
-            console.log("module " + packages[package][module].information);
             
             selectActions["c" + module] = {
                 name: " --- " + prettify(module) + " --- ",
@@ -84,7 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
             // Loop through actions
             for (let action in packages[package][module]) {
-                console.log("action " + packages[package][module][action]);
                 actionArray.push(package + ":" + module + ":" + action);
                 selectActions[action] = packages[package][module][action];
                 selectActions[action].fullName = package + ":" + module + ":" + action;

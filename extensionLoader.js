@@ -110,6 +110,9 @@ global.dbm.log("Loaded " + Object.keys(actions).length + " actions from " + modu
 // Load plugins
 global.dbm.log("Loading plugins", "plugin-loader");
 
+let pluginList = {};
+module.exports.plugins = pluginList;
+
 let plugins = [];
 if (fs.existsSync(app.getPath("userData") + "/plugins"))
     for (let i of fs.readdirSync(app.getPath("userData") + "/plugins"))
@@ -131,6 +134,22 @@ for (let i in plugins) {
     // Check for [settings].init
     if (!manifest.settings?.init) {
         return errorManager.fatalError(new Error("The plugin " + plugins[i] + "'s manifest.toml's either does not have an [settings] or [settings] does not contain key 'init'"))
+    }
+
+    // Check for UI and if it exists
+    if (manifest.settings.ui) {
+        if (fs.existsSync(plugins[i] + "/" + manifest.settings.ui) == false) {
+            return errorManager.fatalError(new Error("The plugin " + plugins[i] + " failed to load due to missing UI: " + manifest.settings.ui));
+        }
+    }
+
+    pluginList[manifest.information.id] = {
+        name: manifest.information.name,
+        description: manifest.information.description,
+        author: manifest.information.author,
+        version: manifest.information.version,
+        hasSettingsPanel: manifest.settings.ui ? true : false,
+        HTMLpath: plugins[i] + "/" + manifest.settings.ui
     }
 
     // Load and run init

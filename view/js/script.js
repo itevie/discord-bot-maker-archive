@@ -148,6 +148,33 @@ document.addEventListener("DOMContentLoaded", () => {
         showDiv(localStorage.getItem("reloadTo"));
         localStorage.removeItem("reloadTo");
     }
+
+    // Load tabs
+    let tabbers = document.querySelectorAll("[data-tab-change]");
+    let defaultTabs = [];
+
+    for (let i in tabbers) {
+        if (typeof tabbers[i] != "object") continue;
+        let tabGroup = tabbers[i].getAttribute("data-tab-group");
+        let tabs = document.querySelectorAll(`[data-tab-group="${tabGroup}"]`);
+
+        if (tabbers[i].hasAttribute("data-tab-default"))
+            defaultTabs.push(tabbers[i]);
+
+        tabbers[i].onclick = () => {
+            for (let t in tabs) {
+                if (typeof tabs[t] != "object") continue;
+                if (tabs[t].hasAttribute("data-tab-change")) continue;
+                tabs[t].style.display = "none";
+                if (tabs[t].getAttribute("data-tab-id") == tabbers[i].getAttribute("data-tab-change"))
+                    tabs[t].style.display = "block";
+            }
+        }
+    }
+
+    for (let i in defaultTabs) {
+        defaultTabs[i].onclick();
+    }
 });
 
 /*function showDiv(id) {

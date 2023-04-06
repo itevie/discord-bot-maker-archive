@@ -50,6 +50,9 @@ contextBridge.exposeInMainWorld('electron', {
     deleteExternal: () => ipcRenderer.send("deleteExternal", null),
     syncExternal: (data) => ipcRenderer.send("syncExternal", data),
 
+    fetchPluginList: () => ipcRenderer.sendSync("pluginList", null),
+    loadPluginHTML: (id) => ipcRenderer.sendSync("loadPluginHTML", id),
+
     loadNewPackage: () => ipcRenderer.send("loadNewPackage", null),
 
     fetchFaqList: () => ipcRenderer.sendSync("fetchFaqList", null),

@@ -23,6 +23,7 @@
     <script src="js/packages.js"></script>
     <script src="js/codeEditor.js"></script>
     <script src="js/searcher.js"></script>
+    <script src="js/plugins.js"></script>
     <!-- STYLE SHEETS -->
     <link rel="stylesheet" href="sw/sweetalert2.css">
     <link rel="stylesheet" href="css/actions.css">
@@ -453,7 +454,63 @@
                 <hr>
                 <div id="commandList"></div>
             </div>
-            <div style="float: left;display:none;" class="commandEditor" id="commandEditor">
+            <div style="float: left; display:none;" class="commandEditor" id="commandEditor">
+                <div>
+                    <button class="tabButton" data-tab-group="commandEditor" data-tab-change="information" data-tab-default>Information</button>
+                    <button class="tabButton" data-tab-group="commandEditor" data-tab-change="options">Options</button>
+                    <button class="tabButton" data-tab-group="commandEditor" data-tab-change="actions">Actions</button>
+                    <button class="tabButton" data-tab-group="commandEditor" data-tab-change="finish">Finish</button>
+                </div>
+                <div data-tab-group="commandEditor" data-tab-id="information">
+                    <h1>Information</h1>
+                    <label>Command Name: </label>
+                    <input onkeyup="validate(this, /.{1,1000}/);" id="newCommand-commandName">
+                    <br>
+                    <div class="inline-comment">
+                        <label>The comment for this command. <i>This is purely for you and has 0 affect on your
+                                bot.</i></label><br>
+                        <textarea id="newCommand-comment"></textarea>
+                    </div>
+                </div>
+                <div data-tab-group="commandEditor" data-tab-id="options">
+                    <h1>Options</h1>
+                    <p>Select which command mode this is (learn more <button
+                            onclick="showFAQ('command-types')">here</button>): </p>
+                    <input type="radio" id="newCommand-commandType-prefix" name="newCommand-commandType" value="prefix"
+                        checked>
+                    <label for="newCommand-commandType-prefix">Prefix</label><br>
+                    <input disabled type="radio" id="newCommand-commandType-contains" name="newCommand-commandType"
+                        value="contains">
+                    <label for="newCommand-commandType-contains">Contains</label><br>
+                    <input type="radio" id="newCommand-commandType-new-message" name="newCommand-commandType"
+                        value="new-message">
+                    <label for="newCommand-commandType-contains">Message Sent</label>
+                    <div>
+                        <p>Other Settings</p>
+                        <input type="checkbox" id="newCommand-allowInDms">
+                        <label>Can be used in DMs? </label>
+                    </div>
+                
+                    <div>
+                        <input type="checkbox" id="newCommand-ignoreBots" checked>
+                        <label>Ignore Bots? </label>
+                    </div>
+                </div>
+
+                <div data-tab-group="commandEditor" data-tab-id="actions">
+                    <h1>Actions</h1>
+                    <div id="newCommand-actionList" class="actionListContainer">
+                    </div>
+                    <button id="newCommand-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
+                </div>
+
+                <div data-tab-group="commandEditor" data-tab-id="finish">
+                    <h1>Finish</h1>
+                    <button onclick="createCommand()">Save Command</button>
+                    <button onclick="deleteCommand()" class="dangerButton">Delete Command</button>
+                </div>
+            </div>
+            <!--<div style="float: left;display:none;" class="commandEditor" id="commandEditora">
                 <div>
                     <fieldset style="float:left">
                         <legend>Information</legend>
@@ -502,7 +559,7 @@
                     <button onclick="createCommand()">Save Command</button>
                     <button onclick="deleteCommand()" class="dangerButton">Delete Command</button>
                 </fieldset>
-            </div>
+            </div>-->
         </div>
 
         <div data-div-id="botVariables">
@@ -612,6 +669,11 @@
         <div data-div-id="plugins">
             <h1>You're plugins</h1>
             <p>Plugins allow easy extensibility of your bot, allowing you to add advanced features quickly without you having to make the actions yourself!</p>
+            <div id="pluginList"></div>
+        </div>
+
+        <div data-div-id="pluginEditor" id="pluginEditor">
+
         </div>
 
         <div data-div-id="actions">
