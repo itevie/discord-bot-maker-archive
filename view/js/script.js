@@ -348,7 +348,7 @@ function notification(title, icon = "info", desc = "") {
         Toast.fire({
             icon: icon,
             title: title,
-            text: desc
+            html: desc
         });
     }
 }

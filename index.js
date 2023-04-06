@@ -22,6 +22,7 @@ const external = require("./externalManager");
 const fs = require("fs");
 const config = require("./config");
 require("./langParser");
+require("./updater");
 
 external.validate();
 
