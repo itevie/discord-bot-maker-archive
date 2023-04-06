@@ -36,10 +36,12 @@ global.dbm.log = (text, type, loader = false) => {
         console.log(err)
     }
 
+    let time = "(" + new Date().toLocaleString() + ") ";
+
     if (type?.startsWith("error")) {
-        console.log(clc.red.bold("[" + type + "] " + text));
+        console.log(time + clc.red.bold("[" + type + "] " + text));
     }
-    else console.log("[" + type + "] " + text);
+    else console.log(time + "[" + type + "] " + text);
 }
 
 global.dbm.error = (text) => {

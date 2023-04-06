@@ -41,7 +41,6 @@ function loadPackages() {
         packageModules.id = "packages-installed-" + i;
         packageModules.classList.add("inline-comment");
 
-        console.log(packages[i].information)
         // Load package description, author etc.
         let packageP = document.createElement("p");
         packageP.style.padding = "5px";

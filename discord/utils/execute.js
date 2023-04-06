@@ -101,8 +101,8 @@ module.exports.execute = async (options) => {
             if (i == "type" || type == "built-in:misc:stop-actions") continue;
             if (actions[type]?.inputs[a]?.dataType) {
                 try {
-                    data.action = new Variable(data.action[a], { type: actions[type].inputs[a].dataType });
-                    data.action = data.action.value;
+                    let t = new Variable(data.action[a], { type: actions[type].inputs[a].dataType });
+                    data.action[a] = t.value;
                 } catch (err) {
                     return error("Failed to parse action paramater: " + a + " (potential error: the action param (" + a + " requires type " + actions[type].inputs[a].dataType + ")) " + err);
                 }

@@ -5,6 +5,7 @@ const {
 const toml = require("toml");
 const fs = require("fs");
 const errorManager = require("./errorManager");
+const api = require("./api.js");
 
 let actions = {
 
@@ -105,3 +106,40 @@ for (let i in packages) {
 }
 
 global.dbm.log("Loaded " + Object.keys(actions).length + " actions from " + modulesList.length + " modules from " + packages.length + " packages!", "module-manager");
+
+// Load plugins
+global.dbm.log("Loading plugins", "plugin-loader");
+
+let plugins = [];
+if (fs.existsSync(app.getPath("userData") + "/plugins"))
+    for (let i of fs.readdirSync(app.getPath("userData") + "/plugins"))
+        plugins.push(app.getPath("userData") + "/plugins" + "/" + i);
+
+for (let i in plugins) {
+    global.dbm.log("Loading plugin " + packages[i], "plugin-loader");
+    // Check if it has a manifest.toml
+    if (!fs.existsSync(plugins[i] + "/manifest.toml")) {
+        return errorManager.fatalError(new Error("The package " + plugins[i] + " does not have a manifest.toml"));
+    }
+
+    // Load and parse the toml
+    let manifest = fs.readFileSync(plugins[i] + "/manifest.toml");
+    manifest = toml.parse(manifest);
+
+    global.dbm.log("Plugin " + packages[i] + " manifest: v" + manifest.manifest_version + " name:" + manifest.information.name + "(" + manifest.information.version + ") by:" + manifest.information.author, "plugin-loader");
+
+    // Check for [settings].init
+    if (!manifest.settings?.init) {
+        return errorManager.fatalError(new Error("The plugin " + plugins[i] + "'s manifest.toml's either does not have an [settings] or [settings] does not contain key 'init'"))
+    }
+
+    // Load and run init
+    try {
+        let initFile = require(plugins[i] + "/" + manifest.settings.init);
+        initFile(new api.API(manifest.information.id));
+    } catch (err) {
+        errorManager.fatalError(new Error("The plugin " + plugins[i] + " failed to load at running " + manifest.settings.init + "!\n\n" + err.toString()));
+    }
+
+    global.dbm.log("Finished loading plugin: " + manifest.information.name, "plugin-loader");
+}

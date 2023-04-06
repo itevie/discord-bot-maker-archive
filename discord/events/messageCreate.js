@@ -3,6 +3,7 @@ let {
     parse
 } = require(__dirname + "/../utils/parser.js");
 const execute = require(__dirname + "/../utils/execute.js").execute;
+const events = require(__dirname + "/../../api.js").events;
 
 module.exports.init = (client, id) => {
     try {
@@ -57,6 +58,17 @@ module.exports.init = (client, id) => {
                 actions: botData.events.messageCreate.actions,
                 type: "event"
             });
+        }
+
+        if (events.messageCreate) {
+            for (let i in events.messageCreate) {
+                events.messageCreate[i].function({
+                    client: client,
+                    message: message,
+                    botId: id,
+                    botData: botData
+                });
+            }
         }
 
         for (let i in botData.commands) {
