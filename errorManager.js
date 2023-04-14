@@ -4,7 +4,7 @@ const {
     app,
     dialog
 } = require("electron");
-const ipc = require("./ipc.js");
+const logger = require("./logger.js");
 const botManager = require("./database");
 const botRunner = require("./botRunner");
 const fs = require("fs");
@@ -23,7 +23,7 @@ process.on("uncaughtException", (err) => {
 // Function to create a very detailed log
 function newLog(err, fatal) {
     console.log(err, err?.stack, "Fatal: " + fatal);
-    if (err.toString().toLowerCase().includes("manager was destroyed")) return;
+    if (err && err.toString().toLowerCase().includes("manager was destroyed")) return;
 
     let logName = Date.now().toString() + ".txt"; // Create a file name
     let path = app.getPath("userData"); // Get the path where it should be saved to
@@ -98,7 +98,7 @@ App Version: ${require("./package.json").version}
 
     // Loop through every log and add it to the text
     for (let i in logger.log) {
-        text += `${ipc.log[i].type}: ${ipc.log[i].msg}\n`
+        text += `${logger.log[i].type}: ${logger.log[i].msg}\n`
     }
 
     fs.writeFileSync(path + "/logs/" + logName, text); // Write the file

@@ -1,5 +1,18 @@
 // This file contains utilisation functions
 
+function confirm(text, callback) {
+    Swal.fire({
+        icon: "question",
+        title: "Confirm",
+        text: text,
+        showCancelButton: true
+    }).then(res => {
+        if (res.isConfirmed) {
+            callback();
+        }
+    });
+}
+
 // Validate a text field
 function validate(el, regex) {
     let text = el.value;

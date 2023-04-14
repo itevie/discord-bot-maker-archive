@@ -164,7 +164,7 @@
             <input id="appSettings-useActionCode" type="checkBox" onclick="localStorage.setItem('useActionCode', this.checked);actionCodeMode=this.checked"><label>Use Action Code (EXPERIMENTAL)</label>
             <br><br>
             <button data-tooltip="Restart the application" data-lang="settings.restart" data-nodisable
-                onclick="document.body.classList.add('fadeOut');window.electron.restartApp()">Restart</button>
+                onclick="confirm('Are you sure you want to restart?', () => { document.body.classList.add('fadeOut'); window.electron.restartApp(); })">Restart</button>
             <button
                 data-tooltip="Sometimes when your doing actions such as starting or stopping a bot, all buttons will be disabled so that things have a less chance of breaking.<br><br>Sometimes though, this itself may break, so this button will enable all buttons despite being disabled."
                 data-lang="settings.force-enable-buttons" data-nodisable onclick="enableAll()">Force Enable
