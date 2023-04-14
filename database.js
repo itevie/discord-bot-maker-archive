@@ -1,6 +1,6 @@
 const fs = require("fs");
 const {
-    app, globalShortcut
+    app, globalShortcut, dialog
 } = require("electron");
 const uuid = require("uuid");
 const cli = require("./cli");
@@ -186,11 +186,15 @@ let x = setInterval(() => {
         clearInterval(x); // Stop auto save
 
         // Send notification and exit
-        global.dbm.error("Discord Bot Maker detected that there are more than 1 instance of this app open. Do not do this as data may be lost, the application will now exit.");
+        //global.dbm.error("Discord Bot Maker detected that there are more than 1 instance of this app open. Do not do this as data may be lost, the application will now exit.");
+        dialog.showMessageBoxSync({
+            title: "Don't do that!",
+            message: "Discord Bot Maker detected that there are more than 1 instance of this app open.\n\nDo not do this as data may be lost, the application will now exit."
+        });
 
         setTimeout(() => {
             app.quit();
-        }, 10000);
+        }, 100);
     }
     module.exports.save();
 }, 1000);

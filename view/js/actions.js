@@ -1,3 +1,5 @@
+// This file loads all the actions from the app and loads them nicely
+
 // OLD ACTIONS NT ADDED YET
 let a = {
     "c0": {

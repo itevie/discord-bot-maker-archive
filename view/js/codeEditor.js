@@ -1,3 +1,5 @@
+// Function that managers the action code editor
+
 function parseActionCode() {
     let data = document.getElementById(editingDiv + "-codeEditor").value.replace(/<br>/g, "\n").replace(/<\/?div>/g, "\n").split("\n");
 

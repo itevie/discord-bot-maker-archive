@@ -1,3 +1,5 @@
+// This file controls functions, when you press "s" a thing appears and then you can type in any command
+
 let queryCommands = [
     //DIV SHOWERS
     {
