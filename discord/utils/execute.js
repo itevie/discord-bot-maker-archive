@@ -37,6 +37,9 @@ module.exports.execute = async (options) => {
 
     function error(text) {
         global.dbm.log(text, "error:event:" + eventType + " (" + botId + ")");
+        global.dbm.sendError(text, {
+            bot: botId
+        });
     }
 
     data.log = sendInfo;

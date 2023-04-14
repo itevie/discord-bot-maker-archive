@@ -20,9 +20,9 @@ module.exports.webActions = webActions;
 
 // Load all the package directories
 let packages = [ __dirname + "/discord/modules" ];
-if (fs.existsSync(app.getPath("userData") + "/modules"))
-    for (let i of fs.readdirSync(app.getPath("userData") + "/modules"))
-        packages.push(app.getPath("userData") + "/modules" + "/" + i);
+if (fs.existsSync(app.getPath("userData") + "/modules")) // Check if the custom modules folder exists
+    for (let i of fs.readdirSync(app.getPath("userData") + "/modules")) // Loop through every folder in there
+        packages.push(app.getPath("userData") + "/modules" + "/" + i); // Add the package to the list
 
 global.dbm.log("Found " + packages.length + " package(s)", "package-loader");
 
@@ -114,12 +114,14 @@ let pluginList = {};
 module.exports.plugins = pluginList;
 
 let plugins = [];
-if (fs.existsSync(app.getPath("userData") + "/plugins"))
-    for (let i of fs.readdirSync(app.getPath("userData") + "/plugins"))
-        plugins.push(app.getPath("userData") + "/plugins" + "/" + i);
+if (fs.existsSync(app.getPath("userData") + "/plugins")) // Check if the custom plugins folder exists
+    for (let i of fs.readdirSync(app.getPath("userData") + "/plugins")) // Loop through every folder in the plugins folder
+        plugins.push(app.getPath("userData") + "/plugins" + "/" + i); // Add the plugin to the list
 
+// Loop through all plugins
 for (let i in plugins) {
     global.dbm.log("Loading plugin " + packages[i], "plugin-loader");
+
     // Check if it has a manifest.toml
     if (!fs.existsSync(plugins[i] + "/manifest.toml")) {
         return errorManager.fatalError(new Error("The package " + plugins[i] + " does not have a manifest.toml"));
@@ -143,6 +145,7 @@ for (let i in plugins) {
         }
     }
 
+    // Add the plugin data to the plugins
     pluginList[manifest.information.id] = {
         name: manifest.information.name,
         description: manifest.information.description,
@@ -154,9 +157,11 @@ for (let i in plugins) {
 
     // Load and run init
     try {
+        // Load the init file for the plugin and run it
         let initFile = require(plugins[i] + "/" + manifest.settings.init);
-        initFile(new api.API(manifest.information.id));
+        initFile(new api.API(manifest.information.id) /* Creates an API tailored for the plugin (it's very nice uwu) */);
     } catch (err) {
+        // Failed to load the init file so stop the program
         errorManager.fatalError(new Error("The plugin " + plugins[i] + " failed to load at running " + manifest.settings.init + "!\n\n" + err.toString()));
     }
 

@@ -1,4 +1,6 @@
 // Require dependencies
+
+// Fallback log
 global.dbm = { window: {} };
 global.dbm.log = (text, type) => {    
     console.log("[" + type + "] " + text);
@@ -15,6 +17,7 @@ const {
     ipcRenderer
 } = require("electron");
 const path = require("path");
+const logger = require("./logger.js");
 const ipc = require("./ipc.js");
 const botManager = require("./database");
 const botRunner = require("./botRunner");

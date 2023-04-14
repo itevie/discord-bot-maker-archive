@@ -1,3 +1,6 @@
+// Route GET /information
+// This route sends the current server's information, such as the current version
+
 const config = require(__dirname + "/../../config.js");
 
 module.exports.init = (app) => {

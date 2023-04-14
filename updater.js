@@ -38,6 +38,7 @@ axios.get("https://raw.githubusercontent.com/itevie/discord-bot-maker/main/packa
     (global.dbm?.log || console.log)("Failed to check for updates: " + err.toString(), "error:update-manager");
 });
 
+// Alert that there is a new update
 function alertNewUpdate(type, newVersion) {
     (global.dbm?.log || console.log)("New update avaiable: " + type + " release: " + current + " => " + newVersion, "update-manager");
     setTimeout(() => {

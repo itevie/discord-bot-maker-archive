@@ -1,3 +1,6 @@
+// Route GET /bots/running
+// Returns the current bot list
+
 const botRunner = require(__dirname + "/../../botRunner.js");
 
 module.exports.init = (app) => {
