@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/javascript_compressed"></script>
+</head>
+<body>
+    <div id="blocklyDiv" style="height: 480px; width: 600px;"></div>
+    <button onclick="load()">done</button>
+</body>
+<script>
+    const toolbox = {
+  "kind": "categoryToolbox",
+  "contents": [
+    {
+      "kind": "category",
+      "name": "Control",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "controls_if"
+        },
+      ]
+    },
+    {
+      "kind": "category",
+      "name": "Logic",
+      "contents": [
+        {
+          "kind": "block",
+          "type": "logic_compare"
+        },
+        {
+          "kind": "block",
+          "type": "logic_operation"
+        },
+        {
+          "kind": "block",
+          "type": "logic_boolean"
+        }
+      ]
+    }
+  ]
+}
+
+const sampleGenerator = new Blockly.Generator('YourLanguageHere');
+
+    const workspace = Blockly.inject('blocklyDiv', {toolbox: toolbox});
+
+    function load() {
+        const jsCode = Blockly.JavaScript.workspaceToCode(workspace);
+        console.log(jsCode)
+    }
+</script>
+</html>

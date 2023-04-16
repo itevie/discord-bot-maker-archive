@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/javascript_compressed"></script>
+    <script src="js/packages.js"></script>
+    <script src="js/util.js"></script>
+    <script src="js/blockly.js"></script>
+</head>
+<style>
+    body {
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+</style>
+<body>
+    <div id="editor" style="width: 100%; height: 100%;"></div>
+</body>
+<script>
+    let commandEditorWorkspace = null;
+    const serializer = new Blockly.serialization.blocks.BlockSerializer();
+
+    document.addEventListener("DOMContentLoaded", () => {
+        setTimeout(() => {
+            commandEditorWorkspace = Blockly.inject('editor', {toolbox: actualToolbox});
+
+            // Fetch state
+            let data = window.electron.fetchCurrentCode();
+            if (data.state) serializer.load(data.state, commandEditorWorkspace);
+            else Blockly.serialization.blocks.append({'type': 'base'}, commandEditorWorkspace);
+
+            // Register events
+            commandEditorWorkspace.addChangeListener(save);
+        }, 500);
+    });
+
+    // Function to save stuff
+    function save(event) {
+        if ([Blockly.Events.BLOCK_CHANGE, Blockly.Events.BLOCK_CREATE, Blockly.Events.BLOCK_DELETE, Blockly.Events.BLOCK_MOVE].includes(event.type)) {  
+            const jsCode = Blockly.JavaScript.workspaceToCode(commandEditorWorkspace);
+
+            const state = serializer.save(commandEditorWorkspace);
+            console.log(jsCode)
+            window.electron.updateCurrentCode({
+                js: jsCode,
+                state: state
+            });
+        }
+    }
+</script>
+</html>

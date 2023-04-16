@@ -43,12 +43,12 @@ function deleteCommand(id) {
 }
 
 function newCommand() {
+    document.getElementById("commandEditor-editCode").disabled = true;
+    document.getElementById("commandEditor-editCode").innerHTML = "Edit Code (Create the command to use this)"
     currentEditingCommand = null;
     resetNewCommandsDiv();
     current = [];
     editing = null;
-    editingDiv = "newCommand-actionList";
-    updateList();
     document.getElementById("commandEditor").style.display = "block";
 }
 

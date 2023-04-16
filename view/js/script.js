@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("appSettings-useActionCode").checked = localStorage.getItem("useActionCode") != undefined ? (localStorage.getItem("useActionCode") == "true" ? true : false) : false;    
     actionCodeMode = localStorage.getItem("useActionCode") != undefined ? (localStorage.getItem("useActionCode") == "true" ? true : false) : false;
 
+    document.getElementById("appSettings-basicMode").checked = localStorage.getItem("basicMode") == "true" ? true : false;
+    
     // Load all the FAQs
     let faqs = window.electron.fetchFaqList();
     let h = "";
@@ -79,6 +81,11 @@ function showDiv(sid) {
     if (shown == false) {
         Swal.fire("Oops", "Looks like this feature has not been implemented yet", "information");
     }
+}
+
+function updateBasicMode(yes) {
+    localStorage.setItem("basicMode", yes);
+    reloadAllData();
 }
 
 let runningBotList = `

@@ -43,6 +43,7 @@ module.exports.init = (client, id) => {
                     eventType: "messageCreate",
                     command: cmd,
                     actions: cmd.actions,
+                    js: cmd.js,
                     type: "prefix"
                 });
             }

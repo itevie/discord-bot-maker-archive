@@ -7,6 +7,19 @@ const cli = require("./cli");
 let path = cli.getFlag("data", app.getPath("userData"));
 global.dbm.log("Data path: " + path, "bot-manager");
 
+// Check if directories are in appdata
+if (!fs.existsSync(app.getPath("userData") + "/logs"))
+    fs.mkdirSync(app.getPath("userData") + "/logs");
+if (!fs.existsSync(app.getPath("userData") + "/modules"))
+    fs.mkdirSync(app.getPath("userData") + "/modules");
+if (!fs.existsSync(app.getPath("userData") + "/plugins"))
+    fs.mkdirSync(app.getPath("userData") + "/plugins");
+if (!fs.existsSync(app.getPath("userData") + "/user_files"))
+    fs.mkdirSync(app.getPath("userData") + "/user_files");
+if (!fs.existsSync(app.getPath("userData") + "/backups"))
+    fs.mkdirSync(app.getPath("userData") + "/backups");
+
+
 let thisSession = uuid.v4(); // Create an ID for the current session
 // This will be saved in the data, to check if there are other instances of the app saving to it
 // So we can stop it so no data gets overwritten and lost
@@ -28,6 +41,14 @@ if (!fs.existsSync(path + "/data.json")) {
 const data = require(path + "/data.json");
 data.currentEditor = thisSession;
 const botRunner = require("./botRunner");
+
+// Check for bot user_files directories
+for (let i in data.bots) {
+    if (!fs.existsSync(app.getPath("userData") + "/user_files/" + i)) {
+        global.dbm.log("Created folder: " + app.getPath("userData") + "/user_files/" + i, "files");
+        fs.mkdirSync(app.getPath("userData") + "/user_files/" + i);
+    }
+}
 
 // If the selected bot isn't found, default to the first one
 if ((Object.keys(data.bots).length != 0 && data.selected == null) || !data.bots[data.selected]) {
@@ -61,13 +82,44 @@ let newBot = {
     },
     commands: {
         "example": {
-            comment: "An example command, start the bot and run !example to see it work!",
-            type: "prefix",
-            ignoreBots: true,
-            actions: [{
-                type: "built-in:messages:send-author-message",
-                content: "Welldone! You ran the example command {{embed:first-embed}}"
-            }]
+            "type": "prefix",
+            "name": "example",
+            "ignoreBots": true,
+            "actions": [
+            ],
+            "comment": "",
+            "code": "",
+            "state": {
+                "languageVersion": 0,
+                "blocks": [
+                {
+                    "type": "base",
+                    "id": "zjiE^%Kon.YlLESLa]c!",
+                    "x": 9,
+                    "y": 17,
+                    "inputs": {
+                    "do": {
+                        "block": {
+                        "type": "built-in:messages:reply-to-author-message",
+                        "id": "uo/-aeD4%Eh^|aL$J`DD",
+                        "inputs": {
+                            "content": {
+                            "block": {
+                                "type": "text",
+                                "id": "]iBJ8VW#8k*lW@KKUHeL",
+                                "fields": {
+                                "TEXT": "Hello World! {{embed:first-embed}}"
+                                }
+                            }
+                            }
+                        }
+                        }
+                    }
+                    }
+                }
+                ]
+            },
+            "js": "async function __run() {\n  await __data.executeAction(\"built-in:messages:reply-to-author-message\", { args: {\"content\":\"'Hello World! {{embed:first-embed}}'\"}});\n\n}\n__run();"
         }
     },
     events: {
@@ -109,6 +161,12 @@ module.exports.validate = (id) => {
     let botData = data.bots[id];
     if (typeof id == "object") botData = id; // If bot data has been passed along into id param, set it
     if (!botData) return false;
+
+    // Check if the user_files directory exists
+    if (!fs.existsSync(app.getPath("userData") + "/user_files/" + botData.id)) {
+        global.dbm.log("Created folder: " + app.getPath("userData") + "/user_files/" + botData.id, "validator");
+        fs.mkdirSync(app.getPath("userData") + "/user_files/" + botData.id);
+    }
 
     // Loop through all the new bot keys, checking if it is in the current one
     for (let i in keys) {

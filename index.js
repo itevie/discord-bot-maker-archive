@@ -27,11 +27,12 @@ const config = require("./config");
 require("./langParser");
 require("./updater");
 
+
 external.validate();
 
 // Load main window
 const loadMainWindow = () => {
-    global.dbm.log("Loading window");
+    global.dbm.log("Loading window", "window");
     global.dbm.mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,

@@ -1,3 +1,6 @@
+const {
+    Notification
+} = require("electron");
 const clc = require("cli-color");
 
 let log = [];
@@ -79,7 +82,7 @@ global.dbm.window.notification = (title, icon = "info", desc = "") => {
     if (global?.dbm?.mainWindow?.isFocused() == false) {
         new Notification({
             title: title,
-            body: singleLine
+            body: desc
         });
     }
 

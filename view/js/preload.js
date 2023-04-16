@@ -32,6 +32,7 @@ contextBridge.exposeInMainWorld('electron', {
     fetchSettings: () => ipcRenderer.sendSync("fetchSettings", null),
     showAbout: () => ipcRenderer.send("showAbout", null),
     showEmbed: (name) => ipcRenderer.send("showEmbed", name),
+    showEditor: (data) => ipcRenderer.send("showEditor", data),
     deleteEmbed: (name) => ipcRenderer.send("deleteEmbed", name),
     getAllEmbeds: () => ipcRenderer.sendSync("getAllEmbeds", null),
     backup: (name) => ipcRenderer.send("backup", name),

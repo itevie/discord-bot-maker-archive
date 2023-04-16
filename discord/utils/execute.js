@@ -8,6 +8,8 @@ const {
 const extensions = require(__dirname + "/../../extensionLoader");
 const Variable = require(__dirname + "/../Variable.js");
 const Types = require(__dirname + "/../Types.js");
+const database = require(__dirname + "/../../database.js");
+const safeEval = require("safe-eval");
 
 // Export stuff
 module.exports.actions = extensions.actions;
@@ -24,6 +26,7 @@ module.exports.execute = async (options) => {
     let eventType = options.eventType;
     let variables = {};
     let args = options.args;
+    let js = options.js
 
     // This will be sent to stuff
     let data = {
@@ -46,6 +49,8 @@ module.exports.execute = async (options) => {
             bot: botId
         });
     }
+
+    if (!js) return error("Command data does not have JS, cannot continue");
 
     data.log = sendInfo;
 
@@ -78,122 +83,36 @@ module.exports.execute = async (options) => {
         }
     }
 
-    let fail = false;
-    let skipNext = false;
+    let context = {
+        __data: {
+            executeAction: (id, d) => {
+                return new Promise((resolve, reject) => {
+                    sendInfo("Executing action: " + id);
 
-    // Loop through actions
-    let i = 0;
-    async function nextIdx() {
-        // Function to load and run the next action
-        function nextOne(val) {
-            // If the result is NOT undefined, set the result to the value
-            if (val != undefined && val != null) variables.result = val;
-            i++;
+                    data.action = structuredClone(d.args);
+                    let a = parseRecursive(data.action, variables, client, botId);
+                    data.action = a;
 
-            if (!options.actions[i]) return;
-            nextIdx();
-        }
-        
-        // If skipNext is true, skip this action and do the next one
-        if (skipNext == true) {
-            skipNext = false;
-            return nextOne(null);
-        }
-
-        // If it is DEL, do the next one
-        if (options.actions[i] == "DEL") return nextOne();
-
-        // Get the type and parse the action data
-        if (options.actions[i] == undefined) return error("Action " + (+i + 1) + " is undefined?");
-        let type = options.actions[i].type; // Get the type
-        data.action = structuredClone(options.actions[i]); // Get the action data
-
-        // Parse the action stuff
-        let a = parseRecursive(data.action, variables, client, botId);
-        data.action = a;
-        
-        // Parse action types
-        for (let a in data.action) {
-            if (i == "type" || type == "built-in:misc:stop-actions") continue;
-            if (actions[type]?.inputs[a]?.dataType) {
-                try {
-                    let t = new Variable(data.action[a], { type: actions[type].inputs[a].dataType });
-                    data.action[a] = t.value;
-                } catch (err) {
-                    return error("Failed to parse action paramater: " + a + " (potential error: the action param (" + a + " requires type " + actions[type].inputs[a].dataType + ")) " + err);
-                }
+                    data.variables = variables;
+                    actions[id].execute(data).then(result => {
+                        sendInfo("Finished action: " + id + ", gave: " + result);
+                        if (result != undefined) variables.result = result;
+                        resolve();
+                    }).catch((err) => {
+                        console.log(err)
+                        reject(err);
+                    });
+                });
+            },
+            getVariable: (id) => {
+                return new Promise((resolve) => {
+                    resolve(parse("{{" + id + "}}", variables, client, botId));
+                });
             }
-        }
-
-        // If it is to stop, stop
-        if (type == "built-in:misc:stop-actions") return;
-
-        sendInfo("Execute action " + (parseInt(i) + 1) + " (" + type + ")");
-
-        // Check if action exists
-        if (!actions[type]) {
-            fail = "Action type " + type + " does not exist"
-            return;
-        }
-        data.variables = variables;
-
-        // If the action is a built-in:variables or conditional compute it here:
-        if (type == "built-in:variables:set-variable") {
-            variables[data.action.id] = parse(data.action.content, variables, client, botId);
-            return nextOne();
-        } else if (type == "built-in:variables:delete-variable") {
-            if (variables[data.action.id]) delete variables[data.action.id];
-            return nextOne();
-        } else if (type == "built-in:conditional:one-action-if-equals") {
-            if (data.action.statement1 != data.action.statement2) {
-                skipNext = true;
-            }
-            return nextOne();
-        } else if (type == "built-in:conditional:one-action-if-not-equals") {
-            if (data.action.statement1 == data.action.statement2) {
-                skipNext = true;
-            }
-            return nextOne();
-        } else if (type == "built-in:conditional:one-action-if-starts-with") {
-            if (data.action.statement1.startsWith(data.action.statement2) == false) {
-                skipNext = true;
-            }
-            return nextOne();
-        } else if (type == "built-in:conditional:one-action-if-ends-with") {
-            if (data.action.statement1.endsWith(data.action.statement2) == false) {
-                skipNext = true;
-            }
-            return nextOne();
-        } else if (type == "built-in:conditional:one-action-if-includes") {
-            if (data.action.statement1.includes(data.action.statement2) == false) {
-                skipNext = true;
-            }
-            return nextOne();
-        } else if (type == "built-in:conditional:one-action-if-exists") {
-            if (data.action.statement1 == undefined || data.action.statement1 == null || data.action.statement1 == NaN) {
-                skipNext = true;
-            }
-            return nextOne();
-        }
-
-        // Check if it is allowed to run
-        if (actions[type].allowedEvents && !actions[type].allowedEvents.includes(eventType) && !actions[type].allowedEvents.includes("*")) {
-            fail = "The event " + eventType + " does not allow the action type " + type;
-            return;
-        }
-
-        // Execute the action
-        actions[type].execute(data).then(res => {
-            if (!res) return nextOne();
-            sendInfo("Action " + (parseInt(i) + 1) + " returned: " + res);
-            return nextOne(res);
-        }).catch(err => {
-            error(err + "\n" + err.stack?.toString().replace(/\n/g, "<br>"));
-            return;
-        });
+        },
     }
 
-    nextIdx();
+    safeEval(`2;${js.replace(/\n/g, ";")}`, context);
 }
 
 // Get LIST of actions

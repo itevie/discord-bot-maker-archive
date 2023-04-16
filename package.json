@@ -1,6 +1,6 @@
 {
   "name": "discord-bot-maker",
-  "version": "1.0.17",
+  "version": "1.1.0",
   "main": "index.js",
   "scripts": {
     "start": "electron ."
@@ -41,6 +41,7 @@
     "minimist": "^1.2.8",
     "morgan": "^1.10.0",
     "ms-prettify": "^1.4.0",
+    "safe-eval": "^0.4.1",
     "toml": "^3.0.0",
     "uuid": "^9.0.0",
     "yargs": "^17.7.1"

@@ -134,11 +134,19 @@ function moveActionDown(id) {
 function editCommand(id) {
     let command = currentBotData.commands[id];
     currentEditingCommand = id;
-    editingDiv = "newCommand-actionList";
+
+    document.getElementById("commandEditor-editCode").innerHTML = "Edit Code";
+    document.getElementById("commandEditor-editCode").disabled = false;
+    document.getElementById("commandEditor-editCode").onclick = () => window.electron.showEditor({
+        type: "command",
+        command: id
+    });
+    
+    //editingDiv = "newCommand-actionList";
     document.getElementById("newCommand-commandName").value = id;
     document.getElementById("newCommand-comment").value = command.comment || "";
-    current = command.actions;
-    updateList(command.code);
+    //current = command.actions;
+    //updateList(command.code);
     //showDiv("newCommand");
     document.getElementById("commandEditor").style.display = "block";
 }

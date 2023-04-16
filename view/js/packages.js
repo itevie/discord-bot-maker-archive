@@ -6,10 +6,12 @@ function loadNewPackage() {
     window.electron.loadNewPackage();
 }
 
+let packages = {};
 function loadPackages() {
-    document.getElementById("packages-installed").innerHTML = "";
+    //document.getElementById("packages-installed").innerHTML = "";
 
-    let packages = window.electron.fetchWebActions();
+    packages = window.electron.fetchWebActions();
+    return;
     let mainDiv = document.createElement("div");
 
     for (let i in packages) {

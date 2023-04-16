@@ -23,6 +23,7 @@ module.exports.actions = {
                 ).catch(err => {
                     reject(err.toString());
                 }).then(message => {
+                    if (!message) resolve();
                     resolve(message.id);
                 });
             });
@@ -74,12 +75,13 @@ module.exports.actions = {
         },
         execute: (data) => {
             return new Promise((resolve, reject) => {
+                console.log(parse(data.action.content, data.variables, data.client, data.botId, true))
                 data.message.reply(
                     parse(data.action.content, data.variables, data.client, data.botId, true)
-                ).catch(err => {
-                    reject(err.toString());
-                }).then(newMessage => {
+                ).then(newMessage => {
                     resolve(newMessage.id);
+                }).catch(err => {
+                    reject(err.toString());
                 })
             });
         }

@@ -6,6 +6,7 @@ const Variable = require(__dirname + "/../Variable.js");
 let botManager = require(__dirname + "/../../database.js");
 
 module.exports.parse = (text, variables, client, id, messageSending) => {
+    if (!text) text = "";
     variables.uptime = client.uptime;
     variables.prefix = botManager.data.bots[id].prefix;
 
@@ -17,6 +18,7 @@ module.exports.parse = (text, variables, client, id, messageSending) => {
             let name = embedWanting[i].substring(2, embedWanting[i].length - 2).split(":")[1];
             if (embeds[name]) {
                 for (let i in embeds[name]) {
+                    console.log(parseRecursive(embeds[name][i], variables, client, id))
                     sendingEmbeds.push(parseRecursive(embeds[name][i], variables, client, id));
                 }
             }
@@ -31,6 +33,9 @@ module.exports.parse = (text, variables, client, id, messageSending) => {
         let res = module.exports.travelJSON(v, variables);
         text = text.replace(vars[i], res);
     }
+
+    if (text.startsWith("'") && text.endsWith("'"))
+        text = text.substring(1, text.length - 1);
 
     text = text.replace(/\{\{arg[0-9]+\}\}/g, "").replace(/\\n/g, "\n");
     if (messageSending) {

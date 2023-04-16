@@ -111,7 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         // Add it
-        editActionSelect.add(option);
+        //editActionSelect.add(option);
     }
 });
 

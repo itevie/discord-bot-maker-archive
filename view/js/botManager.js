@@ -137,6 +137,15 @@ function reloadAllData() {
     }
 
     reloadResources();
+
+    // Check settings
+    if (localStorage.getItem("basicMode") != undefined) {
+        let basicModes = document.querySelectorAll("[data-basic-mode]");
+        for (let i in basicModes) {
+            if (typeof basicModes[i] != "object") continue;
+            basicModes[i].style.display = localStorage.getItem("basicMode") == "true" ? "none" : "block";
+        }
+    }
 }
 
 function deleteDBKey(id) {

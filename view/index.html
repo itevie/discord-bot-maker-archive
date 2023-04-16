@@ -8,6 +8,8 @@
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
     <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+    <script src="https://unpkg.com/blockly/blockly.min.js"></script>
+    <script src="https://unpkg.com/blockly/javascript_compressed"></script>
     <script src="sw/sweetalert2.all.min.js"></script>
     <script src="js/commandEditor.js"></script>
     <script src="js/commandManager.js"></script>
@@ -27,6 +29,7 @@
     <script src="js/util.js"></script>
     <script src="js/elementEvents.js"></script>
     <script src="js/alerts.js"></script>
+    <script src="js/blockly.js"></script>
     <!-- STYLE SHEETS -->
     <link rel="stylesheet" href="sw/sweetalert2.css">
     <link rel="stylesheet" href="css/actions.css">
@@ -46,20 +49,11 @@
         <img src="image/icon/settings.png" data-onsidebar data-div-change="appSettings">
         <img src="image/icon/article.png" data-onsidebar data-div-change="faqList">
         <img src="image/icon/bot.png" data-onsidebar data-div-change="changeBot">
-        <img src="image/icon/globe.png" data-onsidebar data-div-change="external">
+        <img data-basic-mode  src="image/icon/globe.png" data-onsidebar data-div-change="external">
         <img src="image/icon/analytics.png" data-onsidebar data-div-change="log">
-        <img src="image/icon/package.png" data-onsidebar data-div-change="packages">
-        <img src="image/icon/insights.png" data-onsidebar data-div-change="insights">
+        <img data-basic-mode src="image/icon/package.png" data-onsidebar data-div-change="packages">
+        <img data-basic-mode src="image/icon/insights.png" data-onsidebar data-div-change="insights">
         <img src="image/icon/error.png" data-onsidebar data-div-change="errors">
-
-        <div style="display: none;">
-            <button data-lang="sidebar.home" data-onsidebar data-div-change="home">Home</button>
-            <button data-lang="sidebar.settings" data-onsidebar data-div-change="appSettings">Settings</button>
-            <button data-onsidebar data-div-change="faqList">Articles</button>
-            <button data-lang="sidebar.bots" data-onsidebar data-div-change="changeBot"
-                id="sidebarBotsButton">Bots</button>
-            <button data-lang="sidebar.log" data-onsidebar data-div-change="log">Log</button>
-        </div>
 
         <div id="botSidebarButtons">
             <hr data-onsidebar style="box-shadow: -5px -5px 10px 1px black">
@@ -69,32 +63,15 @@
             <img src="image/icon/actions.png" data-onsidebar data-div-change="actions">
             <img src="image/icon/terminal.png" data-onsidebar data-div-change="botCommads">
             <img src="image/icon/event.png" data-onsidebar data-div-change="events">
-            <img src="image/icon/function.png" data-onsidebar data-div-change="functions">
-            <img src="image/icon/variables.png" data-onsidebar data-div-change="botVariables">
+            <img data-basic-mode src="image/icon/function.png" data-onsidebar data-div-change="functions">
+            <img data-basic-mode src="image/icon/variables.png" data-onsidebar data-div-change="botVariables">
             <img src="image/icon/category.png" data-onsidebar data-div-change="resources">
             <img src="image/icon/database.png" data-onsidebar data-div-change="database">
-            <img src="image/icon/admin.png" data-onsidebar data-div-change="permissions">
-            <img src="image/icon/extension.png" data-onsidebar data-div-change="plugins">
-            <img src="image/icon/sync.png" id="sidebar-sync" data-onsidebar data-div-change="sync">
+            <img data-basic-mode src="image/icon/admin.png" data-onsidebar data-div-change="permissions">
+            <img data-basic-mode src="image/icon/extension.png" data-onsidebar data-div-change="plugins">
+            <img data-basic-mode src="image/icon/sync.png" id="sidebar-sync" data-onsidebar data-div-change="sync">
             <img src="image/icon/settings.png" data-onsidebar data-div-change="settings">
             <img src="image/icon/info.png" data-onsidebar data-div-change="details">
-
-            <div style="display: none">
-                <center data-onsidebar class="botLabelSidebar">
-                    <b id="sideBar-botID">Bot Stuff</b>
-                </center><br>
-                <button data-lang="sidebar.bot.actions" data-onsidebar data-div-change="actions">Actions</button>
-                <button data-lang="sidebar.bot.commands" data-onsidebar data-div-change="botCommads">Commands</button>
-                <button data-onsidebar data-div-change="events">Events</button>
-                <button data-lang="sidebar.bot.variables" data-onsidebar
-                    data-div-change="botVariables">Variables</button>
-                <button data-lang="sidebar.bot.resources" data-onsidebar data-div-change="resources">Resources</button>
-                <button data-lang="sidebar.bot.database" data-onsidebar data-div-change="database">Database</button>
-                <button data-lang="sidebar.bot.permissions" data-onsidebar
-                    data-div-change="permissions">Permissions</button>
-                <button data-lang="sidebar.bot.settings" data-onsidebar data-div-change="settings">Settings</button>
-                <button data-lang="sidebar.bot.details" data-onsidebar data-div-change="details">Details</button>
-            </div>
             <hr class="sidebar-button" style="box-shadow: -5px 5px 10px 1px black">
         </div>
         <img style="display: none" src="image/icon/back.png" onclick="sidebarBack()" data-onsidebar class="sidebar-bottom">
@@ -132,7 +109,7 @@
         </div>
 
         <div data-div-id="faqList">
-            <h1>Artile List</h1>
+            <h1>Articles List</h1>
             <p>Click on any of the folowing articles to learn about it</p>
             <div id="faqList"></div>
         </div>
@@ -158,6 +135,9 @@
                     <tr>
                         <td><input type="checkbox"><label>Remember last page you was on</label></td>
                     </tr>
+                    <tr>
+                        <td><input id="appSettings-basicMode" type="checkbox" onchange="updateBasicMode(this.checked)"><label>Basic Mode?</label></td>
+                    </tr>
                 </table>
             </div>
             <br>
@@ -172,7 +152,7 @@
             <button onclick="window.electron.createLogFile()">Create Log</button>
             <h2>Performance</h2>
             <input type="checkbox"><label>Disable unnecessary features to help with RAM/CPU usage</label><br><br>
-            <table>
+            <table data-basic-mode>
                 <tr>
                     <td><label>Process RAM:</label></td>
                     <td><progress id="appSettngs-processRam"></progress></td>
@@ -428,6 +408,7 @@
             <p>Here you can upload files, music, message embeds, etc. for use in your bot!</p>
             <h2>Embeds</h2>
             <p>Click on an embed to edit it, right click to delete one, or create a new one.</p>
+            <p>Note: to save an embed, simply close the embed creator window</p>
             <button onclick="newEmbed()">New Embed</button><br><br>
             <div id="embedList"></div>
         </div>
@@ -502,9 +483,7 @@
 
                 <div data-tab-group="commandEditor" data-tab-id="actions">
                     <h1>Actions</h1>
-                    <div id="newCommand-actionList" class="actionListContainer">
-                    </div>
-                    <button id="newCommand-actionList-addAnother" onclick="addAnotherAction();">Add another action</button>
+                    <button id="commandEditor-editCode">Edit Code</button>
                 </div>
 
                 <div data-tab-group="commandEditor" data-tab-id="finish">
@@ -670,7 +649,7 @@
         </div>-->
 
         <div data-div-id="plugins">
-            <h1>You're plugins</h1>
+            <h1>Your plugins</h1>
             <p>Plugins allow easy extensibility of your bot, allowing you to add advanced features quickly without you having to make the actions yourself!</p>
             <div id="pluginList"></div>
         </div>

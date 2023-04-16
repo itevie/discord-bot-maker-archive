@@ -8,7 +8,7 @@ author = "Discord Bot Maker"
 
 [list]
 module_list = [
-    "bot", "conditional", "database", "lists", "maths", "messages", "misc",
+    "bot", "database", "lists", "maths", "messages", "misc",
     "strings", "types", "users", "variables", "voice", "time"
 ]
 
