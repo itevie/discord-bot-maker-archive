@@ -4,6 +4,7 @@ const actualToolbox = {
         {
             "kind": "category",
             "name": "Logic",
+            colour: 210,
             "contents": [
                 {
                     "kind": "block",
@@ -38,7 +39,8 @@ const actualToolbox = {
         {
             "kind": "category",
             "name": "Predefined Variables",
-            "contents": []
+            "contents": [],
+            colour: 290,
         },
         {
             "kind": "category",
@@ -52,11 +54,13 @@ const actualToolbox = {
                     kind: "block",
                     type: "set_variable"
                 }
-            ]
+            ],
+            colour: 290,
         },
         {
             "kind": "category",
             "name": "Text",
+            colour: 160,
             "contents": [
                 {
                     "kind": "block",
@@ -111,6 +115,7 @@ const actualToolbox = {
         {
             kind: "category",
             name: "Math",
+            colour: 230,
             contents: [
                 {
                     "kind": "block",
@@ -147,9 +152,13 @@ const actualToolbox = {
 
 let predefinedVariables = {
     result: `>>>result`,
+    message_content: `>>>message:content`,
+    message_id: `>>>message:id`,
     author_id: `>>>message:author:id`,
     author_username: `>>>message:author:username`,
-    author_discriminator: ">>>message:author:discriminator"
+    author_discriminator: ">>>message:author:discriminator",
+    message_channel_id: `>>>message:channel:id`,
+    message_guild_id: `>>>message:guild:id`
 }
 
 for (let i in predefinedVariables) {
@@ -232,7 +241,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let module in packages[package]) {
             if (module == "information") continue;
             let toAdd = [];
-            let category = `${package}: ${module}`;
+            let category = prettify(`${package}: ${module}`);
 
             for (let action in packages[package][module]) {
                 if (action == "information") continue;
@@ -286,7 +295,8 @@ document.addEventListener("DOMContentLoaded", () => {
             actualToolbox.contents.push({
                 kind: "category",
                 name: category,
-                contents: toAdd
+                contents: toAdd,
+                colour: 65
             });
         }
     }

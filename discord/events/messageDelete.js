@@ -19,7 +19,7 @@ module.exports.init = (client, id) => {
     }
 
     client.on("messageDelete", async message => {
-        if (botData.events["messageDelete"]) {
+        if (botData.events["messageDelete"] && false) {
             let event = botData.events["messageDelete"];
 
             for (let i in event.actions) {

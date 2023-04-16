@@ -49,7 +49,7 @@ module.exports.init = (client, id) => {
             }
         }
 
-        if (botData.events["messageCreate"]) {
+        if (botData.events["messageCreate"] && false) {
             if (message.system) return sendInfo("Command refused: author is System.");
             await execute({
                 client: client,
@@ -61,7 +61,7 @@ module.exports.init = (client, id) => {
             });
         }
 
-        if (events.messageCreate) {
+        if (events.messageCreate && false) {
             for (let i in events.messageCreate) {
                 events.messageCreate[i].function({
                     client: client,
