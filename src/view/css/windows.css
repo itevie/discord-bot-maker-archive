@@ -1,0 +1,87 @@
+.wb-body {
+  background-color: var(--dark-3);
+  color: white;
+  padding: 10px;
+}
+
+.wb-header {
+  background-color: var(--dark-1);
+  color: white;
+}
+
+.winbox {
+  animation-name: windowManager-container-show;
+  animation-duration: 0.25s;
+  animation-fill-mode: forwards;
+  border-radius: 5px;
+  animation-iteration-count: 1;
+}
+
+.closing-winbox {
+  animation-name: windowManager-container-show;
+  animation-duration: 2s;
+  animation-fill-mode: backwards;
+  border-radius: 5px;
+}
+
+@keyframes windowManager-container-show {
+  0% {
+      opacity: 1%;
+      transform: scale(0.92)
+  }
+
+  33% {
+      opacity: 66%;
+      transform: scale(0.96)
+  }
+
+  66% {
+      opacity: 82%;
+      transform: scale(0.98)
+  }
+
+  99% {
+      opacity: 98%;
+      transform: scale(0.99)
+  }
+
+  100% {
+      opacity: 100%;
+      transform: scale(1)
+  }
+}
+
+@keyframes windowManager-container-show-backwards {
+  100% {
+      opacity: 50%;
+      transform: scale(0.92)
+  }
+
+  99% {
+      opacity: 66%;
+      transform: scale(0.96)
+  }
+
+  66% {
+      opacity: 82%;
+      transform: scale(0.98)
+  }
+
+  33% {
+      opacity: 98%;
+      transform: scale(0.99)
+  }
+
+  0% {
+      opacity: 100%;
+      transform: scale(1)
+  }
+}
+
+.log-container {
+  width: 100%;
+  height: 100%;
+  background-color: var(--dark-1);
+  overflow-x: hidden;
+  word-wrap: break-word;
+}

@@ -1,0 +1,151 @@
+:root {
+  --sidebar-size: 40px;
+
+  --dark-0: #212121;
+  --dark-1: #222;
+  --dark-2: #333;
+  --dark-3: #444;
+  --dark-4: #111;
+  --dark-5: #666;
+  --dark-6: #323232;
+  --light-1: #999;
+  --light-2: #BBB;
+  --red: #FF1111;
+
+  --primary: #5865F2;
+  --primary-dark: #4B58CC;
+  --danger: #dc3545;
+  --danger-dark: #A82A3A;
+  --success: #28a745;
+  --success-dark: #19682A;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  background-color: var(--dark-5);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.sidebar {
+  width: var(--sidebar-size);
+  background-color: var(--dark-0);
+  color: white;
+  height: 100%;
+  position: fixed;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.main {
+  margin-left: var(--sidebar-size);
+  padding: 10px;
+}
+
+input {
+  width: calc(100% - 20px);
+  padding: 10px;
+  outline: none;
+  background-color: var(--dark-0);
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 20px;
+  outline: none;
+  background-color: var(--dark-2);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: var(--dark-5);
+}
+
+.jumbo-button {
+  width: calc(100% - 10px);
+  margin: 5px;
+  margin-top: 20px;
+  padding: 15px;
+  color: white;
+  font-weight: 800;
+  border-style: none;
+  border-radius: 5px;
+}
+
+.jumbo-btn-half {
+  width: calc(calc(100% - 25px) / 2);
+  display: inline-block;
+}
+
+.danger {
+  background-color: var(--danger);
+}
+
+.danger:hover {
+  background-color: var(--danger-dark);
+}
+
+.success {
+  background-color: var(--success);
+}
+
+.success:hover {
+  background-color: var(--success-dark);
+}
+
+.primary {
+  background-color: var(--primary);
+}
+
+.primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.primary:disabled {
+  background-color: var(--primary-dark);
+}
+
+/* Scrollbars */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: var(--dark-2);
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--dark-1);
+  border-radius: 10px;
+}
+
+.fullscreen-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #212121;
+  z-index: 100000000;
+  display: none;
+}
+
+.fullscreen-modal > div {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}

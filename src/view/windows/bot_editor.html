@@ -1,0 +1,8 @@
+<h1>%bot_name%</h1>
+<p>This bot is 
+  <label data-visibleWhenBotStarted="%bot_name%" style="color: var(--success);" data-disp-type="inline-block">running</label>
+  <label data-visibleWhenBotNotStarted="%bot_name%" style="color: var(--danger);" data-disp-type="inline-block">not running</label>
+</p>
+<button class="jumbo-button primary jumbo-btn-half" onclick="botSettings.showSettings('%bot_name%')">Settings</button> 
+<button class="jumbo-button success jumbo-btn-half" onclick="commandManager.initNewCommand('%bot_name%')">New Command</button>
+<div id="bot_editor-command_list-%bot_name%"></div>

@@ -1,0 +1,23 @@
+{
+  "extends": "./node_modules/gts/tsconfig-google.json",
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "rootDir": ".",
+    "outDir": "./build",
+    "target": "ES2022",         
+    "module": "commonjs",    
+    "strict": true,          
+    "esModuleInterop": true,
+    "lib": [
+      "esnext",
+      "dom",
+    ],
+    "types": [
+      "node"
+    ]
+  },
+  "include": [
+    "src/**/*",
+    "test/**/*.ts"
+  ]
+}

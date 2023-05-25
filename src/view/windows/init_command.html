@@ -1,0 +1,6 @@
+<!-- icid = init command ID -->
+<p>First of all, name your command (used in the maker):</p>
+<input id="init_command-%bot_name%-%icid%-internal_name" placeholder="Example command">
+<p>Now, the piece of text that will run this: (dont't include prefix)</p>
+<input id="init_command-%bot_name%-%icid%-command_name" placeholder="!example">
+<button class="jumbo-button primary" onclick="commandManager.createCommand('%bot_name%', '%icid%')">Create</button>

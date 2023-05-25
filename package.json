@@ -1,0 +1,35 @@
+{
+  "main": "build/index.js",
+  "devDependencies": {
+    "@types/cli-color": "^2.0.2",
+    "@types/nedb": "^1.8.13",
+    "@types/node": "^14.18.47",
+    "gts": "^3.1.1",
+    "typescript": "~4.7.0"
+  },
+  "scripts": {
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "build2": "webpack --mode production",
+    "compile": "tsc && xcopy \"src\\view\\*\" \"build\\src\\view\\*\" /S /E /Y && copy src\\icon.ico build\\src\\icon.ico",
+    "start": "npm run compile && electron build\\src\\index.js",
+    "nobuild": "electron build/src/index.js",
+    "fix": "gts fix",
+    "prepare": "npm.cmd run compile",
+    "pretest": "npm.cmd run compile",
+    "posttest": "npm.cmd run lint"
+  },
+  "dependencies": {
+    "@types/winbox": "^0.2.1",
+    "cli-color": "^2.0.3",
+    "discord.js": "^14.11.0",
+    "electron": "^24.3.1",
+    "nedb": "^1.8.0",
+    "tingodb": "^0.6.1",
+    "ts-loader": "^9.4.3",
+    "webpack": "^5.83.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.15.0",
+    "winbox": "^0.2.6"
+  }
+}
