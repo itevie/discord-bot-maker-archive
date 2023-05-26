@@ -1,5 +1,6 @@
 {
   "main": "build/index.js",
+  "version": "1.5.1",
   "devDependencies": {
     "@types/cli-color": "^2.0.2",
     "@types/nedb": "^1.8.13",
@@ -12,10 +13,9 @@
     "clean": "gts clean",
     "build2": "webpack --mode production",
     "compile": "tsc && xcopy \"src\\view\\*\" \"build\\src\\view\\*\" /S /E /Y && copy src\\icon.ico build\\src\\icon.ico",
-    "start": "npm run compile && electron build\\src\\index.js",
+    "start": "run.bat",
     "nobuild": "electron build/src/index.js",
     "fix": "gts fix",
-    "prepare": "npm.cmd run compile",
     "pretest": "npm.cmd run compile",
     "posttest": "npm.cmd run lint"
   },

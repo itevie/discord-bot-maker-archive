@@ -52,49 +52,49 @@ export function startBot(botName: string): Promise<void> {
             }
 
             // Validate the token
-            validateDiscordToken(bot.token)
-              .then(() => {
-                // Create the client
-                const client = new Discord.Client({
-                  intents: [
-                    Discord.GatewayIntentBits.MessageContent,
-                    Discord.GatewayIntentBits.Guilds,
-                    Discord.GatewayIntentBits.GuildMessages,
-                  ],
-                });
+            //validateDiscordToken(bot.token)
+            //  .then(() => {
+            // Create the client
+            const client = new Discord.Client({
+              intents: [
+                Discord.GatewayIntentBits.MessageContent,
+                Discord.GatewayIntentBits.Guilds,
+                Discord.GatewayIntentBits.GuildMessages,
+              ],
+            });
 
-                // Register main events
-                client.on('ready', () => {
-                  logger.log(`Bot ${botName} has successfully started!`);
+            // Register main events
+            client.on('ready', () => {
+              logger.log(`Bot ${botName} has successfully started!`);
 
-                  // Add bot to startedBots
-                  startedBots[bot.name] = client;
+              // Add bot to startedBots
+              startedBots[bot.name] = client;
 
-                  // Load events
-                  Object.keys(events).forEach(event => {
-                    events[event as keyof typeof events].init(client, bot);
-                    logger.log(`Loaded event: ${event} for bot ${bot.name}`);
-                  });
-
-                  mainWindow.webContents.send('updateBotLists');
-                  startingBots.splice(startingBots.indexOf(botName), 1);
-                });
-
-                // Login
-                client.login(bot.token).catch((err: Error) => {
-                  startingBots.splice(startingBots.indexOf(botName), 1);
-                  reject(err);
-                });
-              })
-              .catch((err: Error) => {
-                startingBots.splice(startingBots.indexOf(botName), 1);
-                reject(err);
+              // Load events
+              Object.keys(events).forEach(event => {
+                events[event as keyof typeof events].init(client, bot);
+                logger.log(`Loaded event: ${event} for bot ${bot.name}`);
               });
+
+              mainWindow.webContents.send('updateBotLists');
+              startingBots.splice(startingBots.indexOf(botName), 1);
+            });
+
+            // Login
+            client.login(bot.token).catch((err: Error) => {
+              startingBots.splice(startingBots.indexOf(botName), 1);
+              reject(err);
+            });
           })
           .catch((err: Error) => {
             startingBots.splice(startingBots.indexOf(botName), 1);
             reject(err);
           });
+        /*})
+          .catch((err: Error) => {
+            startingBots.splice(startingBots.indexOf(botName), 1);
+            reject(err);
+          });*/
       })
       .catch((err: Error) => {
         startingBots.splice(startingBots.indexOf(botName), 1);
